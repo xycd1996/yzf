@@ -7,9 +7,7 @@
       "@components/*": ["./src/components/*"],
       "@views/*": ["./src/views/*"],
       "@api/*": ["./src/api/*"]
-    },
-    "target": "es6",
-    "allowSyntheticDefaultImports": true
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
