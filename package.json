@@ -9,6 +9,7 @@
     "start": "vue-cli-service serve"
   },
   "dependencies": {
+    "@kiter/axios": "^1.0.12",
     "axios": "^0.21.1",
     "core-js": "^3.10.1",
     "fastclick": "^1.0.6",
