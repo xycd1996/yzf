@@ -68,7 +68,7 @@ export default {
     'van-icon': Icon,
     'van-checkbox-group': CheckboxGroup,
     'van-tag': Tag,
-    'van-stepper': Stepper,
+    'van-stepper': Stepper
   },
   data() {
     return {
@@ -78,19 +78,19 @@ export default {
       pullLoading: false,
       checkedGroup: [],
       cartCount: 0,
-      settlementPrice: 0,
+      settlementPrice: 0
     }
   },
   methods: {
     async stepOnChange(val, detail) {
       const goods = detail.name
-      await CartApi.update(goods.id, val)
+      await CartApi.update({ id: goods.id, num: val })
       goods.product_num = val
     },
     async handleSubmit() {
       if (!this.checkedGroup.length) {
         Toast({
-          message: '您还没有选择宝贝哦',
+          message: '您还没有选择宝贝哦'
         })
         return
       }
@@ -101,11 +101,11 @@ export default {
       this.$router.push({ path: `/settlement/${goodsIds.join(',')}`, query: { fromCart: true } })
     },
     async _queryCarts() {
-      const res = await CartApi.get()
+      const { data } = await CartApi.get()
       this.loading = false
       this.pullLoading = false
-      this.cartList = res
-      res.forEach((el) => {
+      this.cartList = data
+      data.forEach((el) => {
         this.cartCount += el.records.length
       })
     },
@@ -121,7 +121,7 @@ export default {
           })
         })
       }
-    },
+    }
   },
   mounted() {
     this._queryCarts()
@@ -139,9 +139,9 @@ export default {
         this.checkedGroup.forEach((el) => {
           this.settlementPrice += parseFloat(el.price) * 100 * el.product_num
         })
-      },
-    },
-  },
+      }
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

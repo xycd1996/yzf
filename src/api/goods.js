@@ -1,19 +1,6 @@
-import axios from '@axios'
-import { transferFormData } from '@assets/js/help'
+import Axios from '@kiter/axios'
 
-class GoodsApi {
-  async getDetail(id) {
-    const formData = new FormData()
-    formData.append('id', id)
-    const res = await axios.post('/ts_shop/material/detail', formData)
-    return Promise.resolve(res.data)
-  }
-
-  async getAll({ keyword = '', page = 1, shop_id = '', sortType = 0, pagesize = 10 }) {
-    const formData = transferFormData({ keyword, page, shop_id, sortType, pagesize })
-    const res = await axios.post('/ts_shop/material/list', formData)
-    return Promise.resolve(res.data)
-  }
+export default {
+  getDetail: Axios.post('/ts_shop/material/detail'),
+  getAll: Axios.post('/ts_shop/material/list')
 }
-
-export default new GoodsApi()

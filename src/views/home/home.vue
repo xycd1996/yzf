@@ -31,7 +31,7 @@ export default {
     'van-image': Image,
     'van-loading': Loading,
     'van-pull-refresh': PullRefresh,
-    'cate-product-list': CateProductList,
+    'cate-product-list': CateProductList
   },
   data() {
     return {
@@ -49,14 +49,12 @@ export default {
       this._queryProductList()
     },
     async _queryBanner() {
-      const res = await HomeApi.getBanner()
-      this.bannerList = res
-      return Promise.resolve(res)
+      const { data } = await HomeApi.getBanner()
+      this.bannerList = data
     },
     async _queryProductList() {
-      const res = await HomeApi.getProduct()
-      this.cateProductData = res
-      return Promise.resolve(res)
+      const { data } = await HomeApi.getProduct()
+      this.cateProductData = data
     },
     async _onPullRefresh() {
       await this._queryBanner()

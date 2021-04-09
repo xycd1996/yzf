@@ -7,11 +7,11 @@
       </div>
       <div class="info">
         <div v-if="Object.keys(address).length" class="top">
-          <span class="name">{{address.ConsigneeName}}</span>
-          <span class="mobile">{{address.ConsigneePhone}}</span>
+          <span class="name">{{ address.ConsigneeName }}</span>
+          <span class="mobile">{{ address.ConsigneePhone }}</span>
         </div>
         <div v-if="Object.keys(address).length" class="bottom">
-          <span class="address">{{address.DetailCity + address.DetailAddr}}</span>
+          <span class="address">{{ address.DetailCity + address.DetailAddr }}</span>
         </div>
         <div v-if="!Object.keys(address).length" class="add">点击添加新地址</div>
       </div>
@@ -22,7 +22,7 @@
         <li v-for="shop in orderDetail.list" :key="shop.shop_id" class="shop-item">
           <div class="shop-name">
             <van-tag mark type="danger">店铺</van-tag>
-            <span style="margin-left: 10px;">{{shop.shop_name}}</span>
+            <span style="margin-left: 10px;">{{ shop.shop_name }}</span>
           </div>
           <div v-for="goods in shop.goods" :key="goods.product_id" class="goods">
             <van-card
@@ -41,7 +41,7 @@
             <span class="piece">共1件</span>
             <span class="subtotal">
               小计:
-              <span class="price-unit">{{shop.count.total_product_money}}</span>
+              <span class="price-unit">{{ shop.count.total_product_money }}</span>
             </span>
           </div>
         </li>
@@ -99,21 +99,19 @@ export default {
       const goodsId = this.$route.params.id
       const fromCart = this.$route.query.fromCart
       if (fromCart) {
-        const res = await OrderApi.multipleDetail(goodsId)
-        this.orderDetail = res
+        const { data } = await OrderApi.multipleDetail({ goods_cart_ids: goodsId })
+        this.orderDetail = data
         return
       }
       const num = this.$route.query.num
       const specification_combine_id = this.$route.query.specification_combine_id
-      const res = await OrderApi.singleDetail(goodsId, num, specification_combine_id)
-      this.orderDetail = res
+      const { data } = await OrderApi.singleDetail({ id: goodsId, num, specification_combine_id })
+      this.orderDetail = data
     },
-    async handleSubmit() {
-
-    },
+    async handleSubmit() {},
     async _queryDefaultAddress() {
-      const res = await UserApi.address()
-      res && (this.address = res)
+      const { data } = await UserApi.address()
+      data && (this.address = data)
     },
     handleDelivery() {
       this.$router.push('/address')
@@ -124,10 +122,9 @@ export default {
     this._queryDefaultAddress()
   }
 }
-
 </script>
 <style lang="scss" scoped>
-@import "@assets/scss/theme.scss";
+@import '@assets/scss/theme.scss';
 
 .order-settlement {
   margin: 1rem;

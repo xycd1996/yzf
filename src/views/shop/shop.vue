@@ -25,30 +25,19 @@
           </van-image>
         </div>
         <div class="title">
-          <span>{{shopInfo.title}}</span>
+          <span>{{ shopInfo.title }}</span>
           <div v-if="shopInfo.type" class="tag">
-            <van-tag type="primary">{{shopInfo.type}}</van-tag>
+            <van-tag type="primary">{{ shopInfo.type }}</van-tag>
           </div>
         </div>
       </div>
-      <div v-if="shopInfo.content" class="description">{{shopInfo.content}}</div>
+      <div v-if="shopInfo.content" class="description">{{ shopInfo.content }}</div>
     </div>
     <div class="goods-list">
-      <van-list
-        v-if="goodsList.length"
-        finished-text="没有更多了"
-        :finished="finished"
-        v-model="loading"
-        @load="onLoad"
-        :immediate-check="false"
-      >
+      <van-list v-if="goodsList.length" finished-text="没有更多了" :finished="finished" v-model="loading" @load="onLoad" :immediate-check="false">
         <goods-card v-for="goods in goodsList" class="goods" :goodsInfo="goods" :key="goods.id" />
       </van-list>
-      <van-empty
-        :image="require('@assets/img/goods_none.svg')"
-        v-if="!goodsList.length"
-        description="暂无任何商品"
-      />
+      <van-empty :image="require('@assets/img/goods_none.svg')" v-if="!goodsList.length" description="暂无任何商品" />
     </div>
   </div>
 </template>
@@ -89,35 +78,34 @@ export default {
     },
     async _queryShopInfo() {
       const id = this.$route.params.id
-      const res = await ShopApi.get(id)
-      this.shopInfo = res
+      const { data } = await ShopApi.get({ id })
+      this.shopInfo = data
     },
     async _queryGoodsList() {
-      const res = await GoodsApi.getAll({ page: this.page, shop_id: this.$route.params.id })
+      const { data } = await GoodsApi.getAll({ page: this.page, shop_id: this.$route.params.id, pageSize: 10 })
       this.loading = false
-      if (!res.length) {
+      if (!data.length) {
         this.finished = true
         return
       }
       this.page++
-      this.goodsList.push(...res)
+      this.goodsList.push(...data)
     },
     onLoad() {
       this._queryGoodsList()
     }
   }
 }
-
 </script>
 <style lang="scss" scoped>
-@import "@assets/scss/theme.scss";
+@import '@assets/scss/theme.scss';
 
 .shop {
   .header {
     .bk {
       height: 14rem;
       background: #fff
-        url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1586372007733&di=25f50ad1c17b2bf1b0e01b173b7cbc42&imgtype=0&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D1447425589%2C2489704120%26fm%3D214%26gp%3D0.jpg")
+        url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1586372007733&di=25f50ad1c17b2bf1b0e01b173b7cbc42&imgtype=0&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D1447425589%2C2489704120%26fm%3D214%26gp%3D0.jpg')
         no-repeat;
       background-size: cover;
       .search {

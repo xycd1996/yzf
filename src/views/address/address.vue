@@ -19,19 +19,19 @@ import AddressApi from '@api/address'
 
 export default {
   components: {
-    'van-address-list': AddressList,
+    'van-address-list': AddressList
   },
   data() {
     return {
       chosenAddressId: '',
-      list: [],
+      list: []
     }
   },
   methods: {
     async _initAddress() {
-      const res = await AddressApi.get()
-      res.length && (this.chosenAddressId = res[0].id)
-      this.list = res.map((item) => {
+      const { data } = await AddressApi.get()
+      data.length && (this.chosenAddressId = data[0].id)
+      this.list = data.map((item) => {
         const newItem = this.serializationAddress(item)
         return newItem
       })
@@ -42,7 +42,7 @@ export default {
         name: address.ConsigneeName,
         tel: address.ConsigneePhone,
         address: address.DetailCity + address.DetailAddr,
-        isDefault: address.IsDefault === 1 ? true : false,
+        isDefault: address.IsDefault === 1 ? true : false
       }
       return newAddress
     },
@@ -53,11 +53,11 @@ export default {
     handleSelect(item) {
       console.log(item)
       this.$router.back()
-    },
+    }
   },
   mounted() {
     this._initAddress()
-  },
+  }
 }
 </script>
 <style lang="scss" scoped></style>

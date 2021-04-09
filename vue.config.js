@@ -7,6 +7,9 @@ module.exports = {
   publicPath: './',
   productionSourceMap: false,
   lintOnSave: true,
+  devServer: {
+    open: true
+  },
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@', resolve('src'))
@@ -15,5 +18,5 @@ module.exports = {
       .set('@api', resolve('src/api'))
       .set('@views', resolve('src/views'))
       .set('@axios', resolve('src/plugins/axios'))
-  },
+  }
 }

@@ -12,25 +12,12 @@
           :immediate-check="false"
           @load="onLoad"
         >
-          <van-panel
-            class="panel"
-            icon="shop"
-            v-for="order in orderList"
-            :key="order.order_id"
-            :title="order.title"
-            :status="_normalizeStatus(order.status)"
-          >
+          <van-panel class="panel" icon="shop" v-for="order in orderList" :key="order.order_id" :title="order.title" :status="_normalizeStatus(order.status)">
             <div class="container">
               <ul class="shop-order">
                 <li v-for="item in order.lists" :key="item.id" class="items">
                   <div class="img">
-                    <van-image
-                      height="8rem"
-                      width="100%"
-                      fit="cover"
-                      lazy-load
-                      :src="item.product_photo"
-                    >
+                    <van-image height="8rem" width="100%" fit="cover" lazy-load :src="item.product_photo">
                       <template v-slot:loading>
                         <van-loading type="spinner" vertical size="20">加载中...</van-loading>
                       </template>
@@ -39,12 +26,12 @@
                   </div>
                   <div class="info">
                     <div class="header">
-                      <span class="title van-multi-ellipsis--l2">{{item.product_title}}</span>
-                      <span class="price price-unit">{{item.product_price}}</span>
+                      <span class="title van-multi-ellipsis--l2">{{ item.product_title }}</span>
+                      <span class="price price-unit">{{ item.product_price }}</span>
                     </div>
                     <div class="footer">
-                      <span class="sku">{{item.product_specification_combine_value}}</span>
-                      <span class="num">×{{item.product_num}}</span>
+                      <span class="sku">{{ item.product_specification_combine_value }}</span>
+                      <span class="num">×{{ item.product_num }}</span>
                     </div>
                   </div>
                 </li>
@@ -53,10 +40,10 @@
             <template #footer>
               <div class="footer">
                 <div class="price">
-                  <div class="freight">运费：￥{{order.express_price_total}}</div>
+                  <div class="freight">运费：￥{{ order.express_price_total }}</div>
                   <div class="total">
-                    <span class="num">共计{{order.lists.length}}件商品</span>
-                    <span>合计：￥{{order.order_price}}</span>
+                    <span class="num">共计{{ order.lists.length }}件商品</span>
+                    <span>合计：￥{{ order.order_price }}</span>
                     <span v-if="parseInt(order.integral_total)">
                       <!-- +{{order.integral_total}}积分 -->
                     </span>
@@ -86,7 +73,7 @@
 import { Tabs, Tab, List, Empty, Panel, Image, Loading, Button } from 'vant'
 import OrderApi from '@api/order'
 
-const Page_Size = 10
+const PAGE_SIZE = 10
 
 export default {
   components: {
@@ -127,7 +114,7 @@ export default {
         },
         {
           value: 5,
-          title: '退款/售后',
+          title: '退款/售后'
         }
       ],
       orderList: [],
@@ -143,10 +130,10 @@ export default {
       return arr[status]
     },
     async _queryOrder() {
-      const res = await OrderApi.get(this.tabsActive, this.page, Page_Size)
-      this.orderList.push(...res)
+      const { data } = await OrderApi.get({ order_status: this.tabsActive, page: this.page, pageSize: PAGE_SIZE, product_type: 0 })
+      this.orderList.push(...data)
       this.loading = false
-      if (!res.length || res.length < Page_Size) {
+      if (!data.length || data.length < PAGE_SIZE) {
         this.finished = true
       }
     },
@@ -159,13 +146,12 @@ export default {
       this.orderList = []
       this.finished = false
       this._queryOrder()
-    },
-  },
+    }
+  }
 }
-
 </script>
 <style lang="scss" scoped>
-@import "@assets/scss/theme.scss";
+@import '@assets/scss/theme.scss';
 
 .order {
   .list {

@@ -3,41 +3,19 @@
   <div class="all">
     <van-sticky>
       <div class="search">
-        <van-search
-          show-action
-          placeholder="请输入商品名称"
-          @click="handleGoSearch"
-          readonly
-          input-align="center"
-        >
+        <van-search show-action placeholder="请输入商品名称" @click="handleGoSearch" readonly input-align="center">
           <template #action>
             <div class="action">
-              <van-icon
-                size="2.2rem"
-                @click="showMode = !showMode"
-                :name="showMode ? require('@assets/img/list.svg') : require('@assets/img/card.svg')"
-              />
+              <van-icon size="2.2rem" @click="showMode = !showMode" :name="showMode ? require('@assets/img/list.svg') : require('@assets/img/card.svg')" />
             </div>
           </template>
         </van-search>
       </div>
     </van-sticky>
     <transition name="van-fade">
-      <van-list
-        v-if="goodsList.length"
-        v-model="loading"
-        :immediate-check="false"
-        finished-text="没有更多了"
-        :finished="finished"
-        @load="onLoad"
-      >
+      <van-list v-if="goodsList.length" v-model="loading" :immediate-check="false" finished-text="没有更多了" :finished="finished" @load="onLoad">
         <div class="product-list">
-          <goods-card
-            :showMode="showMode"
-            v-for="goods in goodsList"
-            :key="goods.id"
-            :goodsInfo="goods"
-          />
+          <goods-card :showMode="showMode" v-for="goods in goodsList" :key="goods.id" :goodsInfo="goods" />
         </div>
       </van-list>
     </transition>
@@ -73,13 +51,13 @@ export default {
       this._queryAllGoods()
     },
     async _queryAllGoods() {
-      const res = await GoodsApi.getAll({ page: this.page, keyword: '' })
+      const { data } = await GoodsApi.getAll({ page: this.page, keyword: '', pageSize: 10 })
       this.loading = false
-      if (!res.length) {
+      if (!data.length) {
         this.finished = true
         return
       }
-      this.goodsList.push(...res)
+      this.goodsList.push(...data)
     },
     onLoad() {
       this.page++
@@ -93,7 +71,6 @@ export default {
     this._initialization()
   }
 }
-
 </script>
 <style lang="scss" scoped>
 .all {

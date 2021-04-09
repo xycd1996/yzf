@@ -14,27 +14,28 @@
             </van-image>
           </van-swipe-item>
           <template #indicator>
-            <div class="custom-indicator">{{ current + 1 }}/{{swipersLength}}</div>
+            <div class="custom-indicator">{{ current + 1 }}/{{ swipersLength }}</div>
           </template>
         </van-swipe>
       </div>
       <div class="info">
-        <div class="title van-multi-ellipsis--l2">{{goodsDetail.title}}</div>
-        <div class="desc">{{goodsDetail.sub_title}}</div>
+        <div class="title van-multi-ellipsis--l2">{{ goodsDetail.title }}</div>
+        <div class="desc">{{ goodsDetail.sub_title }}</div>
         <div class="price">
           <div class="integral">
             积分:
-            <span>{{goodsDetail.integralPrice}}</span>
+            <span>{{ goodsDetail.integralPrice }}</span>
           </div>
           <div class="money">
             (￥
-            <span>{{goodsDetail.price}}</span>)
+            <span>{{ goodsDetail.price }}</span
+            >)
           </div>
         </div>
       </div>
       <div class="stock">
-        <span class="sales">销量:{{goodsDetail.sales_num}}</span>
-        <span class="surplus">剩余:{{goodsDetail.num - goodsDetail.sales_num}}</span>
+        <span class="sales">销量:{{ goodsDetail.sales_num }}</span>
+        <span class="surplus">剩余:{{ goodsDetail.num - goodsDetail.sales_num }}</span>
       </div>
       <div class="specs">
         <van-cell @click="handleSelectSku" title="选择" value="规格" is-link></van-cell>
@@ -50,7 +51,7 @@
         <van-sku
           :close-on-click-overlay="true"
           :goods-id="goodsDetail.id"
-          :goods="{picture:goodsDetail.img_prefix+goodsDetail.index_photo}"
+          :goods="{ picture: goodsDetail.img_prefix + goodsDetail.index_photo }"
           :sku="goodsDetail.sku"
           :quota="goodsDetail.one_limit === 9999999 ? 0 : goodsDetail.one_limit"
           v-model="skuShow"
@@ -60,11 +61,12 @@
           <template #sku-header-price="props">
             <div class="van-sku__goods-price">
               <span class="van-sku__price-symbol">￥</span>
-              <span class="van-sku__price-num">{{props.price}}</span>
+              <span class="van-sku__price-num">{{ props.price }}</span>
               <span
                 v-if="props.original_price"
                 style="text-decoration: line-through;color: #878787;padding-left: 5px;line-height: normal;vertical-align: middle"
-              >原价:￥{{props.original_price}}</span>
+                >原价:￥{{ props.original_price }}</span
+              >
             </div>
           </template>
         </van-sku>
@@ -83,21 +85,7 @@
 </template>
 
 <script>
-import {
-  Image,
-  Swipe,
-  SwipeItem,
-  Loading,
-  Cell,
-  GoodsAction,
-  GoodsActionIcon,
-  GoodsActionButton,
-  Empty,
-  Notify,
-  Sku,
-  Divider,
-  Toast
-} from 'vant'
+import { Image, Swipe, SwipeItem, Loading, Cell, GoodsAction, GoodsActionIcon, GoodsActionButton, Empty, Notify, Sku, Divider, Toast } from 'vant'
 import GoodsApi from '@api/goods'
 import OrderApi from '@api/order'
 import CartApi from '@api/cart'
@@ -121,7 +109,7 @@ export default {
       goodsDetail: {},
       current: 0,
       swipersLength: 0,
-      skuShow: false,
+      skuShow: false
     }
   },
   methods: {
@@ -130,13 +118,13 @@ export default {
     },
     async _queryGoodsDetail() {
       const id = this.$route.params.id
-      const res = await GoodsApi.getDetail(id)
-      this._normalizePrice(res.sku.list)
-      this.goodsDetail = res
-      this.swipersLength = res.swipers.length
+      const { data } = await GoodsApi.getDetail({ id })
+      this._normalizePrice(data.sku.list)
+      this.goodsDetail = data
+      this.swipersLength = data.swipers.length
     },
     _normalizePrice(list) {
-      list.forEach(el => {
+      list.forEach((el) => {
         if (el.price) {
           console.log(parseFloat(el.price))
           el.price = parseFloat(el.price) * 100
@@ -157,7 +145,7 @@ export default {
       this.skuShow = true
     },
     async handleBuy(data) {
-      await OrderApi.buy(data.goodsId, data.selectedNum, data.selectedSkuComb.id)
+      await OrderApi.buy({ id: data.goodsId, num: data.selectedNum, specification_combine_id: data.selectedSkuComb.id })
       this.$router.push({
         path: `/settlement/${data.goodsId}`,
         query: {
@@ -167,7 +155,11 @@ export default {
       })
     },
     async handleAddCard(data) {
-      const res = await CartApi.add(data.goodsId, data.selectedNum, data.selectedSkuComb.id)
+      const { data: res } = await CartApi.add({
+        id: data.goodsId,
+        num: data.selectedNum,
+        specification_combine_id: data.selectedSkuComb.id
+      })
       this.skuShow = false
       Toast.success({
         message: res.msg,
@@ -179,10 +171,9 @@ export default {
     this._initialization()
   }
 }
-
 </script>
 <style lang="scss" scoped>
-@import "@assets/scss/theme";
+@import '@assets/scss/theme';
 
 .goods-detail {
   position: relative;

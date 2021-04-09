@@ -1,10 +1,5 @@
-import axios from '@axios'
+import Axios from '@kiter/axios'
 
-class AddressApi {
-  async get() {
-    const res = await axios.post('/ts_shop/user/myaddresslist')
-    return Promise.resolve(res.data)
-  }
+export default {
+  get: Axios.post('/ts_shop/user/myaddresslist')
 }
-
-export default new AddressApi()
