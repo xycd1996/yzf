@@ -1,16 +1,18 @@
 <template>
   <div class="home">
+    <van-nav-bar @click-right="onClickSearch" placeholder border fixed title="商城首页">
+      <template #left>
+        <van-icon name="cross" size="1.6rem" color="black"></van-icon>
+      </template>
+      <template #right>
+        <van-icon name="search" size="1.6rem" color="black" />
+      </template>
+    </van-nav-bar>
     <van-pull-refresh success-text="刷新成功" v-model="pullRefresh" @refresh="_onPullRefresh">
-      <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-        <van-swipe-item :key="index" v-for="(banner, index) in bannerList">
-          <van-image height="16rem" style="color: #333" width="100%" fit="contain" lazy-load :src="banner.photo">
-            <template v-slot:loading>
-              <van-loading type="spinner" vertical size="20">加载中...</van-loading>
-            </template>
-            <template v-slot:error>加载失败</template>
-          </van-image>
-        </van-swipe-item>
-      </van-swipe>
+      <my-banner :bannerList="bannerList" />
+      <van-grid :column-num="5" :border="false" center clickable>
+        <van-grid-item :to="menu.url" :icon="menu.icon" v-for="(menu, index) in menus" :text="menu.name" :key="index"></van-grid-item>
+      </van-grid>
       <transition name="van-fade">
         <cate-product-list v-if="cateProductData.length" :cateProductData="cateProductData" />
       </transition>
@@ -20,33 +22,41 @@
 </template>
 
 <script>
-import { Swipe, SwipeItem, Image, Loading, PullRefresh } from 'vant'
+import { Loading, PullRefresh, Grid, GridItem, NavBar, Icon } from 'vant'
 import HomeApi from '@api/home'
 import CateProductList from '@components/cate-product-list/cate-product-list'
+import Banner from '@components/banner/banner'
 
 export default {
   components: {
-    'van-swipe': Swipe,
-    'van-swipe-item': SwipeItem,
-    'van-image': Image,
     'van-loading': Loading,
     'van-pull-refresh': PullRefresh,
-    'cate-product-list': CateProductList
+    'van-grid': Grid,
+    'van-grid-item': GridItem,
+    'cate-product-list': CateProductList,
+    'my-banner': Banner,
+    'van-nav-bar': NavBar,
+    'van-icon': Icon
   },
   data() {
     return {
       pullRefresh: false,
       bannerList: [],
-      cateProductData: []
+      cateProductData: [],
+      menus: []
     }
   },
   mounted() {
     this._initialization()
   },
   methods: {
+    onClickSearch() {
+      this.$router.push('/all')
+    },
     _initialization() {
       this._queryBanner()
       this._queryProductList()
+      this._queryMenus()
     },
     async _queryBanner() {
       const { data } = await HomeApi.getBanner()
@@ -56,9 +66,14 @@ export default {
       const { data } = await HomeApi.getProduct()
       this.cateProductData = data
     },
+    async _queryMenus() {
+      const { data } = await HomeApi.getMenus()
+      this.menus = data
+    },
     async _onPullRefresh() {
       await this._queryBanner()
       await this._queryProductList()
+      await this._queryMenus()
       this.pullRefresh = false
     }
   }
@@ -67,10 +82,6 @@ export default {
 
 <style lang="scss" scoped>
 .home {
-  .my-swipe {
-    height: 16rem;
-    background-color: rgba(220, 220, 220, 0.8);
-  }
   .loading {
     display: flex;
     justify-content: center;

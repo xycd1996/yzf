@@ -17,31 +17,66 @@
             <div class="custom-indicator">{{ current + 1 }}/{{ swipersLength }}</div>
           </template>
         </van-swipe>
-      </div>
-      <div class="info">
-        <div class="title van-multi-ellipsis--l2">{{ goodsDetail.title }}</div>
-        <div class="desc">{{ goodsDetail.sub_title }}</div>
-        <div class="price">
-          <div class="integral">
-            积分:
-            <span>{{ goodsDetail.integralPrice }}</span>
-          </div>
-          <div class="money">
-            (￥
-            <span>{{ goodsDetail.price }}</span
-            >)
-          </div>
+        <div @click="onClickBack" class="back">
+          <van-icon color="#fff" name="arrow-left" size="1.6rem" />
         </div>
       </div>
-      <div class="stock">
-        <span class="sales">销量:{{ goodsDetail.sales_num }}</span>
-        <span class="surplus">剩余:{{ goodsDetail.num - goodsDetail.sales_num }}</span>
+      <div class="price">
+        <div class="integral">
+          积分:
+          <span>{{ goodsDetail.integralPrice }}</span>
+        </div>
+        <div class="money">
+          <span class="price-unit">{{ goodsDetail.price }}</span>
+        </div>
+      </div>
+      <div class="info">
+        <div class="text">
+          <div class="title van-multi-ellipsis--l2">{{ goodsDetail.title }}</div>
+          <div class="desc van-multi-ellipsis--l2">{{ goodsDetail.sub_title }}</div>
+        </div>
+        <div @click="handleCollect" class="collect">
+          <van-icon :name="collect ? 'star' : 'star-o'" size="2rem" :color="collect ? 'gold' : 'black'" />
+          <span>好物收藏</span>
+        </div>
       </div>
       <div class="specs">
-        <van-cell @click="handleSelectSku" title="选择" value="规格" is-link></van-cell>
+        <van-cell-group>
+          <van-cell clickable @click="handleSelectSku" title="选择" value="规格" is-link />
+          <van-cell>
+            <template #title>
+              <div class="express">
+                <span>送至 铜仁</span>
+                <span class="line"></span>
+                <span class="express-fee">快递：15元</span>
+              </div>
+            </template>
+            <template #default>
+              <span class="sales">销量:{{ goodsDetail.sales_num }}</span>
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </div>
+      <div class="merchant">
+        <div class="avatar">
+          <img :src="require('@assets/img/avatar_error.png')" />
+        </div>
+        <div class="merchant-info">
+          <div class="name">{{ goodsDetail.shop_name }}</div>
+          <ul class="tags">
+            <li class="item">
+              <span><van-icon name="passed" color="red" size="1rem"/></span>
+              <span>企业认证</span>
+            </li>
+            <li class="item">
+              <span><van-icon name="passed" color="red" size="1rem"/></span>
+              <span>店铺保障</span>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="title">
-        <van-divider>商品详情</van-divider>
+        <van-divider :hairline="false">货品详情</van-divider>
       </div>
       <div class="detail">
         <div v-if="goodsDetail.ticket_detail" class="content" v-html="goodsDetail.ticket_detail"></div>
@@ -85,7 +120,23 @@
 </template>
 
 <script>
-import { Image, Swipe, SwipeItem, Loading, Cell, GoodsAction, GoodsActionIcon, GoodsActionButton, Empty, Notify, Sku, Divider, Toast } from 'vant'
+import {
+  Image,
+  Swipe,
+  SwipeItem,
+  Loading,
+  Cell,
+  GoodsAction,
+  GoodsActionIcon,
+  GoodsActionButton,
+  Empty,
+  Notify,
+  Sku,
+  Divider,
+  Toast,
+  Icon,
+  CellGroup
+} from 'vant'
 import GoodsApi from '@api/goods'
 import OrderApi from '@api/order'
 import CartApi from '@api/cart'
@@ -102,14 +153,17 @@ export default {
     'van-goods-action-button': GoodsActionButton,
     'van-empty': Empty,
     'van-sku': Sku,
-    'van-divider': Divider
+    'van-divider': Divider,
+    'van-icon': Icon,
+    'van-cell-group': CellGroup
   },
   data() {
     return {
       goodsDetail: {},
       current: 0,
       swipersLength: 0,
-      skuShow: false
+      skuShow: false,
+      collect: false
     }
   },
   methods: {
@@ -130,6 +184,12 @@ export default {
           el.price = parseFloat(el.price) * 100
         }
       })
+    },
+    handleCollect() {
+      this.collect = !this.collect
+    },
+    onClickBack() {
+      this.$router.back()
     },
     swipeChange(index) {
       this.current = index
@@ -190,7 +250,21 @@ export default {
   }
   .container {
     .swipe {
+      position: relative;
       background-color: #fff;
+      .back {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        width: 3.2rem;
+        height: 3.2rem;
+        background: #000;
+        opacity: 0.5;
+        border-radius: 50%;
+      }
       .custom-indicator {
         position: absolute;
         right: 10px;
@@ -201,35 +275,47 @@ export default {
         color: #fff;
       }
     }
-    .info {
-      padding: 8px 16px;
-      background-color: #fff;
-      .title {
-        font-weight: 600;
+    .price {
+      padding: 0 1.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 50px;
+      background: crimson;
+      color: #fff;
+      .integral {
         font-size: $large-font-size;
-        color: $title-color;
       }
-      .desc {
-        line-height: 1.6;
-        font-size: $less-font-size;
-        color: $desc-color;
+      .money {
+        font-size: $large-font-size;
       }
-      .price {
+    }
+    .info {
+      display: flex;
+      padding: 0.8rem 1.6rem;
+      background-color: #fff;
+      .text {
+        flex: 1 1 auto;
+        .title {
+          font-weight: 600;
+          font-size: $large-font-size;
+          color: $title-color;
+        }
+        .desc {
+          line-height: 1.6;
+          font-size: $less-font-size;
+          color: $desc-color;
+        }
+      }
+      .collect {
+        flex: 0 0 4.8rem;
         display: flex;
         flex-direction: column;
-        .integral {
-          font-size: $less-font-size;
-          span {
-            font-size: $large-font-size;
-            color: $theme-color;
-          }
-        }
-        .money {
-          font-size: $less-font-size;
-          color: $theme-color;
-          span {
-            font-size: $large-font-size;
-          }
+        justify-content: center;
+        align-items: center;
+        color: $title-color;
+        span {
+          margin-top: 0.3rem;
         }
       }
     }
@@ -245,6 +331,60 @@ export default {
     }
     .specs {
       margin: 10px 0;
+      .express {
+        display: flex;
+        .line {
+          margin: 0 1rem;
+          width: 1px;
+          background: #ddd;
+        }
+      }
+    }
+    .merchant {
+      padding: 1rem 1.6rem;
+      display: flex;
+      align-items: center;
+      background: #fff;
+      .avatar {
+        width: 4.2rem;
+        height: 4.2rem;
+        overflow: hidden;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        img {
+          width: 4.2rem;
+          height: 4.2rem;
+        }
+      }
+      .merchant-info {
+        margin-left: 1.6rem;
+        display: flex;
+        flex-direction: column;
+        .name {
+          font-size: $more-font-size;
+          color: $title-color;
+          font-weight: 500;
+        }
+        .tags {
+          margin-top: 0.36rem;
+          display: flex;
+          .item {
+            margin-right: 0.8rem;
+            display: flex;
+            align-items: center;
+            font-size: $small-font-size;
+            color: $desc-color;
+            span {
+              display: flex
+            }
+          }
+        }
+      }
+    }
+    .title {
+      ::v-deep .van-divider {
+        font-size: $more-font-size;
+      }
     }
     .detail {
       background-color: #fff;

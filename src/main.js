@@ -6,6 +6,7 @@ import 'vant/lib/index.css'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+
 // import VConsole from 'vconsole'
 
 // new VConsole()

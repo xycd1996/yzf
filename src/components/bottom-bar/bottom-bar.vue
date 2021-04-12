@@ -7,7 +7,7 @@
           <van-icon size="2rem" :name="props.active ? 'shop' : 'shop-o'" />
         </template>
       </van-tabbar-item>
-      <van-tabbar-item to="/all">
+      <van-tabbar-item to="/category">
         <span>全部</span>
         <template #icon="props">
           <van-icon size="2rem" :name="props.active ? 'point-gift' : 'point-gift-o'" />
@@ -41,6 +41,6 @@ export default {
     return {
       active: 0
     }
-  },
+  }
 }
 </script>

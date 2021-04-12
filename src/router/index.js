@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 const PageView = () => import('@views/index')
 const Home = () => import('@views/home/home')
+const Category = () => import('@views/category/category')
 const All = () => import('@views/all/all')
 const Order = () => import('@views/order/order')
 const Cart = () => import('@views/cart/cart')
@@ -24,44 +25,50 @@ const routes = [
       {
         path: '/',
         name: 'Home',
-        component: Home,
+        component: Home
       },
       {
-        path: '/all',
-        name: 'All',
-        component: All,
+        path: '/category',
+        name: 'Category',
+        component: Category
       },
+
       {
         path: '/order',
         name: 'Order',
-        component: Order,
+        component: Order
       },
       {
         path: '/cart',
         name: 'Cart',
-        component: Cart,
-      },
-    ],
+        component: Cart
+      }
+    ]
+  },
+  {
+    path: '/all',
+    name: 'All',
+    component: All
   },
   {
     path: '/goods/:id',
     name: 'GoodsDetail',
-    component: GoodsDetail,
+    component: GoodsDetail
   },
   {
     path: '/shop/:id',
     name: 'Shop',
-    component: Shop,
+    component: Shop
   },
   {
     path: '/search',
     name: 'Search',
-    component: Search,
+    component: Search
   },
   {
     path: '/settlement/:id',
     name: 'Settlement',
-    component: Settlement,
+    component: Settlement
   },
   {
     path: '/address',
@@ -71,10 +78,10 @@ const routes = [
       {
         path: 'edit',
         name: 'AddressEdit',
-        component: AddressEdit,
-      },
-    ],
-  },
+        component: AddressEdit
+      }
+    ]
+  }
 ]
 
 const router = new VueRouter({
@@ -84,7 +91,7 @@ const router = new VueRouter({
       return savedPosition
     }
     return { x: 0, y: 0 }
-  },
+  }
 })
 
 export default router

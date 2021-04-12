@@ -6,15 +6,15 @@
         <van-cell>
           <van-card lazy-load :thumb="goodsInfo.index_photo" :tag="goodsInfo.cate_name">
             <template #title>
-              <div class="title van-multi-ellipsis--l1">{{goodsInfo.title}}</div>
+              <div class="title van-multi-ellipsis--l1">{{ goodsInfo.title }}</div>
             </template>
             <template #desc>
-              <div class="desc van-multi-ellipsis--l2">{{goodsInfo.sub_title}}</div>
+              <div class="desc van-multi-ellipsis--l2">{{ goodsInfo.sub_title }}</div>
             </template>
             <template #price>
-              <div class="price price-unit">{{goodsInfo.price}}</div>
+              <div class="price price-unit">{{ goodsInfo.price }}</div>
             </template>
-            <template #num>已售{{goodsInfo.sales_num}}</template>
+            <template #num>已售{{ goodsInfo.sales_num }}</template>
           </van-card>
         </van-cell>
       </div>
@@ -29,14 +29,14 @@
         </div>
         <div class="goods-info">
           <div class="top">
-            <div class="title van-multi-ellipsis--l2">{{goodsInfo.title}}</div>
+            <div class="title van-multi-ellipsis--l2">{{ goodsInfo.title }}</div>
           </div>
           <div class="bottom">
             <div class="price price-unit">
-              <span>{{goodsInfo.price}}</span>
+              <span>{{ goodsInfo.price }}</span>
             </div>
             <div class="sales">
-              <span>已售{{goodsInfo.sales_num}}</span>
+              <span>已售{{ goodsInfo.sales_num }}</span>
             </div>
           </div>
         </div>
@@ -53,13 +53,13 @@ export default {
     'van-image': Image,
     'van-loading': Loading,
     'van-cell': Cell,
-    'van-card': Card,
+    'van-card': Card
   },
   props: {
     goodsInfo: {
       type: Object,
       required: true,
-      default: () => { }
+      default: () => {}
     },
     showMode: {
       type: Boolean,
@@ -76,10 +76,9 @@ export default {
     }
   }
 }
-
 </script>
 <style lang="scss" scoped>
-@import "@assets/scss/theme";
+@import '@assets/scss/theme';
 
 .goods-list {
   .list-container {

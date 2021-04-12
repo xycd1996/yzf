@@ -4,13 +4,22 @@
     <div class="header">
       <div class="bk">
         <div class="search">
-          <van-search shape="round" background="rgba(0,0,0,0)" placeholder="请输入商品名称" readonly>
+          <van-search shape="round" placeholder="请输入商品名称" readonly>
             <template #left>
               <div @click="$router.back()" class="back">
-                <van-icon color="#fff" size="1.6rem" name="arrow-left" />
+                <van-icon color="#000" size="1.6rem" name="arrow-left" />
               </div>
             </template>
           </van-search>
+        </div>
+        <div v-if="shopInfo.videos && shopInfo.videos.length" class="bk-video">
+          <van-swipe @change="onChangeSwipe" indicator-color="white">
+            <van-swipe-item height="206" v-for="item in shopInfo.videos" :key="item.id">
+              <video ref="video" preload width="100%" height="206" controls :src="shopInfo.imgHost + item.url">
+                暂不支持视频播放
+              </video>
+            </van-swipe-item>
+          </van-swipe>
         </div>
       </div>
       <div class="info">
@@ -29,8 +38,13 @@
           <div v-if="shopInfo.type" class="tag">
             <van-tag type="primary">{{ shopInfo.type }}</van-tag>
           </div>
+          <div class="rate">
+            <van-rate size="1.26rem" count="5" :value="parseInt(shopInfo.consume_score)" readonly />
+            <span>{{ parseInt(shopInfo.consume_score) }}分</span>
+          </div>
         </div>
       </div>
+      <div class="address">店铺地址：{{ shopInfo.address }}</div>
       <div v-if="shopInfo.content" class="description">{{ shopInfo.content }}</div>
     </div>
     <div class="goods-list">
@@ -46,7 +60,7 @@
 import ShopApi from '@api/shop'
 import GoodsCard from '@components/goods-card/goods-card'
 import GoodsApi from '@api/goods'
-import { Search, Icon, Image, Loading, Tag, List, Empty } from 'vant'
+import { Search, Icon, Image, Loading, Tag, List, Empty, Rate, Swipe, SwipeItem } from 'vant'
 
 export default {
   components: {
@@ -57,7 +71,10 @@ export default {
     'van-tag': Tag,
     'goods-card': GoodsCard,
     'van-list': List,
-    'van-empty': Empty
+    'van-empty': Empty,
+    'van-rate': Rate,
+    'van-swipe': Swipe,
+    'van-swipe-item': SwipeItem
   },
   data() {
     return {
@@ -78,7 +95,7 @@ export default {
     },
     async _queryShopInfo() {
       const id = this.$route.params.id
-      const { data } = await ShopApi.get({ id })
+      const { data } = await ShopApi.get({ shop_id: id })
       this.shopInfo = data
     },
     async _queryGoodsList() {
@@ -93,6 +110,13 @@ export default {
     },
     onLoad() {
       this._queryGoodsList()
+    },
+    onChangeSwipe() {
+      this.$refs.video &&
+        this.$refs.video.forEach((e) => {
+          e.pause()
+          e.currentTime = 0
+        })
     }
   }
 }
@@ -103,10 +127,8 @@ export default {
 .shop {
   .header {
     .bk {
-      height: 14rem;
-      background: #fff
-        url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1586372007733&di=25f50ad1c17b2bf1b0e01b173b7cbc42&imgtype=0&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D1447425589%2C2489704120%26fm%3D214%26gp%3D0.jpg')
-        no-repeat;
+      height: 260px;
+      background: #000 url('../../assets/img/bk.jpeg') no-repeat;
       background-size: cover;
       .search {
         .back {
@@ -115,6 +137,9 @@ export default {
           align-items: center;
           padding-right: 10px;
         }
+      }
+      .bk-video {
+        background: #fff;
       }
     }
     .info {
@@ -139,7 +164,23 @@ export default {
         font-size: $more-font-size;
         font-weight: 600;
         color: $title-color;
+        .rate {
+          display: flex;
+          align-items: center;
+          font-size: $medium-font-size;
+          font-weight: 400;
+          color: $desc-color;
+          span {
+            margin-left: 1rem;
+          }
+        }
       }
+    }
+    .address {
+      padding: 0 2.4rem 0.8rem;
+      background: #fff;
+      font-size: $medium-font-size;
+      color: $desc-color;
     }
     .description {
       margin-top: 1px;
