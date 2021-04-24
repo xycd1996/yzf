@@ -6,6 +6,7 @@ const Home = () => import('@views/home/home')
 const Category = () => import('@views/category/category')
 const All = () => import('@views/all/all')
 const Order = () => import('@views/order/order')
+const OrderDetail = () => import('@views/order-detail/order-detail')
 const Cart = () => import('@views/cart/cart')
 const GoodsDetail = () => import('@views/goods-detail/goods-detail')
 const Shop = () => import('@views/shop/shop')
@@ -46,7 +47,12 @@ const routes = [
     ]
   },
   {
-    path: '/all',
+    path: '/orderDetail/:id',
+    name: 'OrderDetail',
+    component: OrderDetail
+  },
+  {
+    path: '/all/:type?',
     name: 'All',
     component: All
   },

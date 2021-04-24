@@ -12,7 +12,15 @@
           :immediate-check="false"
           @load="onLoad"
         >
-          <van-panel class="panel" icon="shop" v-for="order in orderList" :key="order.order_id" :title="order.title" :status="_normalizeStatus(order.status)">
+          <van-panel
+            class="panel"
+            icon="shop"
+            v-for="order in orderList"
+            :key="order.order_id"
+            :title="order.title"
+            @click="_onClickOrder(order.order_id)"
+            :status="_normalizeStatus(order.status)"
+          >
             <div class="container">
               <ul class="shop-order">
                 <li v-for="item in order.lists" :key="item.id" class="items">
@@ -129,8 +137,22 @@ export default {
       const arr = ['待付款', '待发货', '交易完成', '退款成功', '已发货', '交易关闭', '交易超时']
       return arr[status]
     },
+    _onClickOrder(id) {
+      console.log('id: ', id)
+      this.$router.push({
+        name: 'OrderDetail',
+        params: {
+          id
+        }
+      })
+    },
     async _queryOrder() {
-      const { data } = await OrderApi.get({ order_status: this.tabsActive, page: this.page, pageSize: PAGE_SIZE, product_type: 0 })
+      const { data } = await OrderApi.get({
+        order_status: this.tabsActive,
+        page: this.page,
+        pageSize: PAGE_SIZE,
+        product_type: 0
+      })
       this.orderList.push(...data)
       this.loading = false
       if (!data.length || data.length < PAGE_SIZE) {

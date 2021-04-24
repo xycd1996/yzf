@@ -41,6 +41,7 @@ html {
 }
 
 .price-unit {
+  color: #fe0200;
   &::before {
     content: '￥';
     font-size: $small-font-size;

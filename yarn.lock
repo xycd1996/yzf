@@ -929,10 +929,10 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@kiter/axios@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.npmjs.org/@kiter/axios/-/axios-1.1.4.tgz#c1472217a46f691a7022b96f8b94b776f3db1564"
-  integrity sha512-V5QO6sulqhb81Hh4PboYTY39GFxN9otNo1q0gOp6G8S1gqB4Wv38UQrUrDDhEdKNt11KzVbUIjc/lhzVTXJnog==
+"@kiter/axios@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.npmjs.org/@kiter/axios/-/axios-1.1.6.tgz#236e1dbeac6b20b06154007a1db93eba96300c8f"
+  integrity sha512-Ua6rDJppfaQMx5QtlqJFeV2EizXsiiw3TZswqDciTccVwp3fNgTdd1FW2XjAd0rCkZ7gHSeM93MI2nyMMSuVAA==
   dependencies:
     axios "0.21.1"
     lodash "^4.17.21"

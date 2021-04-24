@@ -17,14 +17,16 @@
         <van-icon @click="handleClear" size="1.6rem" name="delete" />
       </div>
       <van-tag
-        v-for="(item,index) in history"
+        v-for="(item, index) in history"
         :key="index"
+        @click="onClickHistory(item)"
         class="tag"
         size="large"
         round
         color="#f0f0f0"
         text-color="#333"
-      >{{item}}</van-tag>
+        >{{ item }}</van-tag
+      >
     </div>
   </div>
 </template>
@@ -51,23 +53,38 @@ export default {
       }
       this.history.push(this.value)
       sessionStorage.setItem('historySearch', JSON.stringify(this.history))
+      this.$router.push({
+        name: 'All',
+        query: {
+          keyword: this.value
+        }
+      })
     },
     handleClear() {
       this.history = []
       sessionStorage.clear()
     },
     handleCancel() {
-      this.$router.back()
+      this.$router.push({
+        name: 'Home'
+      })
+    },
+    onClickHistory(keyword) {
+      this.$router.push({
+        name: 'All',
+        query: {
+          keyword
+        }
+      })
     }
   },
   mounted() {
     sessionStorage.getItem('historySearch') && (this.history = JSON.parse(sessionStorage.getItem('historySearch')))
   }
 }
-
 </script>
 <style lang="scss" scoped>
-@import "@assets/scss/theme.scss";
+@import '@assets/scss/theme.scss';
 
 .search-view {
   .history {

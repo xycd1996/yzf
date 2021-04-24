@@ -11,7 +11,13 @@
     <van-pull-refresh success-text="刷新成功" v-model="pullRefresh" @refresh="_onPullRefresh">
       <my-banner :bannerList="bannerList" />
       <van-grid :column-num="5" :border="false" center clickable>
-        <van-grid-item :to="menu.url" :icon="menu.icon" v-for="(menu, index) in menus" :text="menu.name" :key="index"></van-grid-item>
+        <van-grid-item
+          :to="menu.url"
+          :icon="menu.icon"
+          v-for="(menu, index) in menus"
+          :text="menu.name"
+          :key="index"
+        ></van-grid-item>
       </van-grid>
       <transition name="van-fade">
         <cate-product-list v-if="cateProductData.length" :cateProductData="cateProductData" />
@@ -51,7 +57,9 @@ export default {
   },
   methods: {
     onClickSearch() {
-      this.$router.push('/all')
+      this.$router.push({
+        name: 'Search'
+      })
     },
     _initialization() {
       this._queryBanner()

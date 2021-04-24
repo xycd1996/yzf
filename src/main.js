@@ -12,11 +12,13 @@ import router from './router'
 // new VConsole()
 
 localStorage.setItem('uid', '183721')
-localStorage.setItem('token', '658d7b5a745a137308cbe6269a378e5d')
+localStorage.setItem('token', '85d16807c4c08cadc964a9379db94cc6')
 
 configure({
   beforeRequest: (data) => {
     data['merch_id'] = 192
+    data['uid'] = localStorage.getItem('uid')
+    data['token'] = localStorage.getItem('token')
     data['bodyType'] = 'formData'
   },
   onError: (err) => {

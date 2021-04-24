@@ -1,36 +1,48 @@
 <template>
   <div class="goods-list">
     <transition name="van-fade">
-      <van-list v-if="goodsList.length" v-model="loading" :immediate-check="false" finished-text="没有更多了" :finished="finished" @load="onLoad">
+      <van-list
+        v-if="goodsList.length"
+        v-model="loading"
+        :immediate-check="false"
+        finished-text="没有更多了"
+        :finished="finished"
+        @load="onLoad"
+      >
         <div class="product-list">
           <goods-card :showMode="showMode" v-for="goods in goodsList" :key="goods.id" :goodsInfo="goods" />
         </div>
       </van-list>
     </transition>
-    <van-loading v-if="!goodsList.length" class="loading" color="#fe0200" />
+    <van-loading v-if="!goodsList.length && !finished" class="loading" color="#fe0200" />
+    <van-empty v-if="!goodsList.length && finished" image="search" description="没有结果" />
   </div>
 </template>
 
 <script>
-import { List, Loading } from 'vant'
+import { Empty, List, Loading } from 'vant'
 import GoodsGard from '@components/goods-card/goods-card'
 import GoodsApi from '@api/goods'
 
 export default {
   props: {
-    showMode: Boolean
+    showMode: Boolean,
+    sales: Number,
+    price: Number
   },
   data() {
     return {
       page: 1,
       goodsList: [],
       finished: false,
-      loading: false
+      loading: false,
+      pageSize: 10
     }
   },
   components: {
     'van-list': List,
     'van-loading': Loading,
+    'van-empty': Empty,
     'goods-card': GoodsGard
   },
   methods: {
@@ -38,7 +50,12 @@ export default {
       this._queryAllGoods()
     },
     async _queryAllGoods(sortType) {
-      const { data } = await GoodsApi.getAll({ page: this.page, keyword: '', pageSize: 10, sortType })
+      const { data } = await GoodsApi.getAll({
+        page: this.page,
+        keyword: this.$route.query.keyword,
+        pageSize: this.pageSize,
+        sortType
+      })
       this.loading = false
       if (!data.length) {
         this.finished = true
@@ -46,9 +63,17 @@ export default {
       }
       this.goodsList.push(...data)
     },
+    _reset() {
+      this.page = 1
+      this.goodsList = []
+    },
     onLoad() {
       this.page++
       this._queryAllGoods()
+    },
+    changeSortType(sortType) {
+      this._reset()
+      this._queryAllGoods(sortType)
     }
   },
   mounted() {
