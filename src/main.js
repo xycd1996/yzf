@@ -11,8 +11,8 @@ import router from './router'
 
 // new VConsole()
 
-localStorage.setItem('uid', '183721')
-localStorage.setItem('token', '85d16807c4c08cadc964a9379db94cc6')
+localStorage.setItem('uid', '183701')
+localStorage.setItem('token', '244557dfcdc0f9059c531f48906bd33c')
 
 configure({
   beforeRequest: (data) => {

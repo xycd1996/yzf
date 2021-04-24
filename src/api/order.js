@@ -5,5 +5,6 @@ export default {
   buy: Axios.post('/ts_shop/order/buy/material/check'),
   singleDetail: Axios.post('/ts_shop/order/buy/material'),
   multipleDetail: Axios.post('/ts_shop/cart/material/settle/detail'),
-  detail: Axios.post('/ts_shop/order/merch/detail')
+  detail: Axios.post('/ts_shop/order/merch/detail'),
+  cancelOrder: Axios.post('/ts_shop/order/cancel/ticket')
 }

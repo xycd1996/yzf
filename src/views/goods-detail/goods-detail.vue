@@ -288,6 +288,9 @@ export default {
       }
       .money {
         font-size: $large-font-size;
+        .price-unit {
+          color: #fff;
+        }
       }
     }
     .info {
@@ -375,7 +378,7 @@ export default {
             font-size: $small-font-size;
             color: $desc-color;
             span {
-              display: flex
+              display: flex;
             }
           }
         }
