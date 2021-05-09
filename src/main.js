@@ -1,8 +1,7 @@
-import '@assets/scss/layout.scss'
+import '@assets/less/layout.less'
 import { configure, instance } from '@kiter/axios'
 import FastClick from 'fastclick'
 import { Lazyload, Notify } from 'vant'
-import 'vant/lib/index.css'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -12,7 +11,7 @@ import router from './router'
 // new VConsole()
 
 localStorage.setItem('uid', '183701')
-localStorage.setItem('token', '244557dfcdc0f9059c531f48906bd33c')
+localStorage.setItem('token', 'eda34add71685a6c090fe7538ac9f4f8')
 
 configure({
   beforeRequest: (data) => {

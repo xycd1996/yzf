@@ -46,7 +46,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .content {
   width: 100%;
   box-sizing: border-box;

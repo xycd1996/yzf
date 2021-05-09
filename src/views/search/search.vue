@@ -83,8 +83,8 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '@assets/scss/theme.scss';
+<style lang="less" scoped>
+@import '~@assets/less/theme.less';
 
 .search-view {
   .history {
@@ -95,8 +95,8 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: $medium-font-size;
-      color: $title-color;
+      font-size: @medium-font-size;
+      color: @title-color;
     }
     .tag {
       margin-right: 0.8rem;

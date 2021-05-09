@@ -82,7 +82,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .goods-list {
   .product-list {
     background-color: #fff;

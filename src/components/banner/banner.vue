@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .my-swipe {
   height: 16rem;
   background-color: rgba(220, 220, 220, 0.8);

@@ -28,8 +28,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '@assets/scss/theme.scss';
+<style lang="less" scoped>
+@import '~@assets/less/theme.less';
 
 .address {
   height: 68px;
@@ -42,13 +42,13 @@ export default {
   }
   .info {
     flex: 1 1 auto;
-    font-size: $medium-font-size;
+    font-size: @medium-font-size;
     .top {
       display: flex;
       justify-content: space-between;
     }
     .bottom {
-      font-size: $less-font-size;
+      font-size: @less-font-size;
       color: #888;
     }
   }

@@ -24,7 +24,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .page-loading {
   display: flex;
   justify-content: center;
@@ -33,6 +33,6 @@ export default {
   width: 100vw;
   height: 100vh;
   background: #fff;
-  z-index: 9999;
+  z-index: 99;
 }
 </style>

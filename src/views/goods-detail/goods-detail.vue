@@ -109,7 +109,7 @@
       <div class="bottom-action">
         <van-goods-action>
           <van-goods-action-icon color="#fe0200" icon="shop-o" @click="handleGoShop" text="店铺" />
-          <van-goods-action-icon icon="chat-o" text="客服" />
+          <van-goods-action-icon @click="onCustomerChat" icon="chat-o" text="客服" />
           <van-goods-action-icon icon="star-o" text="收藏" />
           <van-goods-action-button @click="handleSelectSku" type="warning" text="加入购物车" />
           <van-goods-action-button @click="handleSelectSku" type="danger" text="立即购买" />
@@ -185,6 +185,17 @@ export default {
         }
       })
     },
+    onCustomerChat() {
+      this.$router.push({
+        name: 'CustomerChat',
+        params: {
+          id: this.goodsDetail?.shop_id
+        },
+        query: {
+          shopName: this.goodsDetail?.shop_name ?? '未知店铺'
+        }
+      })
+    },
     handleCollect() {
       this.collect = !this.collect
     },
@@ -215,14 +226,14 @@ export default {
       })
     },
     async handleAddCard(data) {
-      const { data: res } = await CartApi.add({
+      const { msg } = await CartApi.add({
         id: data.goodsId,
         num: data.selectedNum,
         specification_combine_id: data.selectedSkuComb.id
       })
       this.skuShow = false
       Toast.success({
-        message: res.msg,
+        message: msg,
         forbidClick: true
       })
     }
@@ -232,8 +243,8 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '@assets/scss/theme';
+<style lang="less" scoped>
+@import '~@assets/less/theme';
 
 .goods-detail {
   position: relative;
@@ -270,7 +281,7 @@ export default {
         right: 10px;
         bottom: 10px;
         padding: 4px 8px;
-        font-size: $small-font-size;
+        font-size: @small-font-size;
         background: rgba(0, 0, 0, 0.4);
         color: #fff;
       }
@@ -284,10 +295,10 @@ export default {
       background: crimson;
       color: #fff;
       .integral {
-        font-size: $large-font-size;
+        font-size: @large-font-size;
       }
       .money {
-        font-size: $large-font-size;
+        font-size: @large-font-size;
         .price-unit {
           color: #fff;
         }
@@ -301,13 +312,13 @@ export default {
         flex: 1 1 auto;
         .title {
           font-weight: 600;
-          font-size: $large-font-size;
-          color: $title-color;
+          font-size: @large-font-size;
+          color: @title-color;
         }
         .desc {
           line-height: 1.6;
-          font-size: $less-font-size;
-          color: $desc-color;
+          font-size: @less-font-size;
+          color: @desc-color;
         }
       }
       .collect {
@@ -316,7 +327,7 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color: $title-color;
+        color: @title-color;
         span {
           margin-top: 0.3rem;
         }
@@ -328,8 +339,8 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: $less-font-size;
-      color: $title-color;
+      font-size: @less-font-size;
+      color: @title-color;
       background-color: #fff;
     }
     .specs {
@@ -364,8 +375,8 @@ export default {
         display: flex;
         flex-direction: column;
         .name {
-          font-size: $more-font-size;
-          color: $title-color;
+          font-size: @more-font-size;
+          color: @title-color;
           font-weight: 500;
         }
         .tags {
@@ -375,8 +386,8 @@ export default {
             margin-right: 0.8rem;
             display: flex;
             align-items: center;
-            font-size: $small-font-size;
-            color: $desc-color;
+            font-size: @small-font-size;
+            color: @desc-color;
             span {
               display: flex;
             }
@@ -386,7 +397,7 @@ export default {
     }
     .title {
       ::v-deep .van-divider {
-        font-size: $more-font-size;
+        font-size: @more-font-size;
       }
     }
     .detail {

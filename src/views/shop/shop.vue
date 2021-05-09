@@ -15,7 +15,15 @@
         <div v-if="shopInfo.videos && shopInfo.videos.length" class="bk-video">
           <van-swipe @change="onChangeSwipe" indicator-color="white">
             <van-swipe-item height="206" v-for="item in shopInfo.videos" :key="item.id">
-              <video ref="video" preload width="100%" height="206" controls :src="shopInfo.imgHost + item.url">
+              <video
+                @play="onPlayVideo(item.id)"
+                ref="video"
+                preload
+                width="100%"
+                height="206"
+                controls
+                :src="shopInfo.imgHost + item.url"
+              >
                 暂不支持视频播放
               </video>
             </van-swipe-item>
@@ -48,7 +56,14 @@
       <div v-if="shopInfo.content" class="description">{{ shopInfo.content }}</div>
     </div>
     <div class="goods-list">
-      <van-list v-if="goodsList.length" finished-text="没有更多了" :finished="finished" v-model="loading" @load="onLoad" :immediate-check="false">
+      <van-list
+        v-if="goodsList.length"
+        finished-text="没有更多了"
+        :finished="finished"
+        v-model="loading"
+        @load="onLoad"
+        :immediate-check="false"
+      >
         <goods-card v-for="goods in goodsList" class="goods" :goodsInfo="goods" :key="goods.id" />
       </van-list>
       <van-empty :image="require('@assets/img/goods_none.svg')" v-if="!goodsList.length" description="暂无任何商品" />
@@ -60,7 +75,7 @@
 import ShopApi from '@api/shop'
 import GoodsCard from '@components/goods-card/goods-card'
 import GoodsApi from '@api/goods'
-import { Search, Icon, Image, Loading, Tag, List, Empty, Rate, Swipe, SwipeItem } from 'vant'
+import { Search, Icon, Image, Loading, Tag, List, Empty, Rate, Swipe, SwipeItem, Toast } from 'vant'
 
 export default {
   components: {
@@ -97,6 +112,7 @@ export default {
       const id = this.$route.params.id
       const { data } = await ShopApi.get({ shop_id: id })
       this.shopInfo = data
+      this.handleVisitShop()
     },
     async _queryGoodsList() {
       const { data } = await GoodsApi.getAll({ page: this.page, shop_id: this.$route.params.id, pageSize: 10 })
@@ -112,17 +128,56 @@ export default {
       this._queryGoodsList()
     },
     onChangeSwipe() {
+      this.videoTimer && clearTimeout(this.videoTimer)
       this.$refs.video &&
         this.$refs.video.forEach((e) => {
           e.pause()
           e.currentTime = 0
         })
+    },
+    onPlayVideo(id) {
+      if (this.videoTimer) {
+        clearTimeout(this.videoTimer)
+      }
+      // 播放多久进行加积分
+      const taskTime = this.shopInfo.rewardConf.time
+      const taskUrl = this.shopInfo.rewardConf.url
+      if (!taskTime) {
+        return
+      }
+      this.videoTimer = setTimeout(() => {
+        this.handleIncreasePoints(taskUrl, id)
+      }, taskTime * 1000)
+    },
+    // 观看视频获得积分
+    async handleIncreasePoints(url, videoId) {
+      const { msg } = await ShopApi.increasePoints(url)({ id_video: videoId })
+      Toast({
+        message: msg,
+        position: 'bottom'
+      })
+    },
+    // 访问店铺获得积分
+    handleVisitShop() {
+      const rewardTime = this.shopInfo.rewardTime * 1000
+      const id = this.$route.params.id
+      this.visitTimer = setTimeout(async () => {
+        const { msg } = await ShopApi.visitShop({ from_shop_id: id })
+        Toast({
+          message: msg,
+          position: 'bottom'
+        })
+      }, rewardTime)
     }
+  },
+  destroyed() {
+    clearTimeout(this.videoTimer)
+    clearTimeout(this.visitTimer)
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '@assets/scss/theme.scss';
+<style lang="less" scoped>
+@import '~@assets/less/theme.less';
 
 .shop {
   .header {
@@ -161,15 +216,15 @@ export default {
         display: flex;
         flex-direction: column;
         margin-left: 1.6rem;
-        font-size: $more-font-size;
+        font-size: @more-font-size;
         font-weight: 600;
-        color: $title-color;
+        color: @title-color;
         .rate {
           display: flex;
           align-items: center;
-          font-size: $medium-font-size;
+          font-size: @medium-font-size;
           font-weight: 400;
-          color: $desc-color;
+          color: @desc-color;
           span {
             margin-left: 1rem;
           }
@@ -179,14 +234,14 @@ export default {
     .address {
       padding: 0 2.4rem 0.8rem;
       background: #fff;
-      font-size: $medium-font-size;
-      color: $desc-color;
+      font-size: @medium-font-size;
+      color: @desc-color;
     }
     .description {
       margin-top: 1px;
       padding: 0.4rem 2.4rem 1rem;
-      font-size: $small-font-size;
-      color: $desc-color;
+      font-size: @small-font-size;
+      color: @desc-color;
       background-color: #fff;
     }
   }

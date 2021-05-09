@@ -2,7 +2,7 @@
 <template>
   <div class="cart">
     <div v-if="!loading" class="list">
-      <div class="container">
+      <div v-if="cartList.length" class="container">
         <van-pull-refresh class="pull-refresh" success-text="刷新成功" @refresh="onPullRefresh" v-model="pullLoading">
           <ul>
             <li v-for="(shop, index) in cartList" :key="index" class="shop-item">
@@ -21,12 +21,24 @@
                     </template>
                     <div class="goods">
                       <van-checkbox class="goods-checkbox" :name="goods" />
-                      <van-card class="goods-card" :price="goods.price" :title="goods.product_title" :thumb="goods.product_photo">
+                      <van-card
+                        class="goods-card"
+                        :price="goods.price"
+                        :title="goods.product_title"
+                        :thumb="goods.product_photo"
+                      >
                         <template #tags>
                           <van-tag size="mini">{{ goods.product_specification_combine_value }}</van-tag>
                         </template>
                         <template #num>
-                          <van-stepper async-change :name="goods" @change="stepOnChange" input-width="20px" button-size="20px" :value="goods.product_num" />
+                          <van-stepper
+                            async-change
+                            :name="goods"
+                            @change="stepOnChange"
+                            input-width="20px"
+                            button-size="20px"
+                            :value="goods.product_num"
+                          />
                         </template>
                       </van-card>
                     </div>
@@ -45,13 +57,28 @@
       <van-loading color="#fe0200" />
     </div>
     <van-submit-bar @submit="handleSubmit" class="footer" :price="settlementPrice" button-text="结算">
-      <van-checkbox @click="handleAllCheckbox" v-model="checked">全选</van-checkbox>
+      <van-checkbox v-show="cartList.length" @click="handleAllCheckbox" v-model="checked">全选</van-checkbox>
     </van-submit-bar>
   </div>
 </template>
 
 <script>
-import { SubmitBar, Checkbox, Empty, Loading, PullRefresh, Panel, SwipeCell, Card, Button, Icon, CheckboxGroup, Tag, Stepper, Toast } from 'vant'
+import {
+  SubmitBar,
+  Checkbox,
+  Empty,
+  Loading,
+  PullRefresh,
+  Panel,
+  SwipeCell,
+  Card,
+  Button,
+  Icon,
+  CheckboxGroup,
+  Tag,
+  Stepper,
+  Toast
+} from 'vant'
 import CartApi from '@api/cart'
 
 export default {
@@ -144,9 +171,15 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '@assets/scss/theme';
+<style lang="less" scoped>
+@import '~@assets/less/theme';
 .cart {
+  .none {
+    height: 80vh;
+    .van-empty {
+      height: 100%;
+    }
+  }
   .container {
     margin-bottom: 50px;
     .pull-refresh {
@@ -161,7 +194,7 @@ export default {
           padding: 10px;
           margin-bottom: 1px;
           align-items: center;
-          font-size: $medium-font-size;
+          font-size: @medium-font-size;
           span {
             margin: 0 4px;
           }

@@ -14,6 +14,7 @@ const Search = () => import('@views/search/search')
 const Settlement = () => import('@views/order-settlement/order-settlement')
 const Address = () => import('@views/address/address')
 const AddressEdit = () => import('@views/address/address-edit')
+const CustomerChat = () => import('@views/customer-chat/customer-chat')
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,11 @@ const routes = [
         component: Cart
       }
     ]
+  },
+  {
+    path: '/chat/:id',
+    name: 'CustomerChat',
+    component: CustomerChat
   },
   {
     path: '/orderDetail/:id',

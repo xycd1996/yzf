@@ -24,7 +24,7 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .cate-product-list {
   .container {
     background-color: #f7f8fa;

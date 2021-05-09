@@ -2,10 +2,10 @@
   <div class="home">
     <van-nav-bar @click-right="onClickSearch" placeholder border fixed title="商城首页">
       <template #left>
-        <van-icon name="cross" size="1.6rem" color="black"></van-icon>
+        <van-icon name="cross" size="1.6rem" />
       </template>
       <template #right>
-        <van-icon name="search" size="1.6rem" color="black" />
+        <van-icon name="search" size="1.6rem" />
       </template>
     </van-nav-bar>
     <van-pull-refresh success-text="刷新成功" v-model="pullRefresh" @refresh="_onPullRefresh">
@@ -88,7 +88,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .home {
   .loading {
     display: flex;

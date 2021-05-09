@@ -93,8 +93,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '@assets/scss/theme.scss';
+<style lang="less" scoped>
+@import '~@assets/less/theme.less';
 
 .shop-list {
   .list {
@@ -127,13 +127,13 @@ export default {
           flex-direction: column;
           justify-content: space-around;
           .title {
-            font-size: $medium-font-size;
+            font-size: @medium-font-size;
           }
           .score {
             display: flex;
             align-items: center;
-            font-size: $less-font-size;
-            color: $desc-color;
+            font-size: @less-font-size;
+            color: @desc-color;
             span:last-child {
               margin-left: 1rem;
             }
@@ -147,8 +147,8 @@ export default {
       }
       .bottom {
         margin-top: 1rem;
-        font-size: $less-font-size;
-        color: $desc-color;
+        font-size: @less-font-size;
+        color: @desc-color;
       }
     }
   }

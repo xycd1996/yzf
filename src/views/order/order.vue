@@ -131,7 +131,7 @@ export default {
     }
   },
   mounted() {
-    this._init()
+    this.init()
   },
   methods: {
     handleWechatPay() {},
@@ -152,7 +152,7 @@ export default {
         title: '提示',
         message: '确认取消订单？'
       }).then(() => {
-        this._cancelOrder(orderId)
+        this.cancelOrder(orderId)
       })
     },
     normalizeStatus(status) {
@@ -168,23 +168,23 @@ export default {
     },
     onLoad() {
       this.page++
-      this._queryOrder()
+      this.queryOrder()
     },
     tabOnChange() {
       this.page = 1
       this.orderList = []
       this.finished = false
-      this._queryOrder()
+      this.queryOrder()
     },
-    async _init() {
+    async init() {
       this.page = 1
       this.finished = false
       this.loading = true
       this.orderList = []
-      await this._queryOrder()
+      await this.queryOrder()
       this.pageLoading = false
     },
-    async _queryOrder() {
+    async queryOrder() {
       const { data } = await OrderApi.get({
         order_status: this.tabsActive,
         page: this.page,
@@ -197,18 +197,18 @@ export default {
         this.finished = true
       }
     },
-    async _cancelOrder(orderId) {
+    async cancelOrder(orderId) {
       await OrderApi.cancelOrder({
         order_id: orderId
       })
       Toast.success('取消成功')
-      this._init()
+      this.init()
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '@assets/scss/theme.scss';
+<style lang="less" scoped>
+@import '~@assets/less/theme.less';
 
 .order {
   .list {
@@ -234,13 +234,13 @@ export default {
                 justify-content: space-between;
                 .title {
                   flex: 1 1 auto;
-                  font-size: $medium-font-size;
+                  font-size: @medium-font-size;
                   font-weight: 500;
-                  color: $title-color;
+                  color: @title-color;
                 }
                 .price {
                   flex: 0 0 4rem;
-                  font-size: $medium-font-size;
+                  font-size: @medium-font-size;
                   text-align: right;
                 }
               }
@@ -248,12 +248,12 @@ export default {
                 display: flex;
                 justify-content: space-between;
                 .sku {
-                  font-size: $small-font-size;
-                  color: $desc-color;
+                  font-size: @small-font-size;
+                  color: @desc-color;
                 }
                 .num {
-                  font-size: $small-font-size;
-                  color: $desc-color;
+                  font-size: @small-font-size;
+                  color: @desc-color;
                 }
               }
             }
@@ -261,21 +261,21 @@ export default {
         }
       }
       .footer {
-        font-size: $medium-font-size;
+        font-size: @medium-font-size;
         text-align: right;
         .price {
           margin-bottom: 0.6rem;
           .freight {
-            font-size: $medium-font-size;
-            color: $desc-color;
+            font-size: @medium-font-size;
+            color: @desc-color;
           }
           .total {
             margin: 0.4rem 0;
-            font-size: $medium-font-size;
+            font-size: @medium-font-size;
             .num {
               margin-right: 0.6rem;
-              font-size: $less-font-size;
-              color: $desc-color;
+              font-size: @less-font-size;
+              color: @desc-color;
             }
           }
         }

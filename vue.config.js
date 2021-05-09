@@ -10,6 +10,16 @@ module.exports = {
   devServer: {
     open: true
   },
+  css: {
+    loaderOptions: {
+      less: {
+        modifyVars: {
+          hack: `true; @import "~@assets/less/vant.less";`
+        },
+        javascriptEnabled: true
+      }
+    }
+  },
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@', resolve('src'))

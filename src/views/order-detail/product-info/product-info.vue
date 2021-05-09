@@ -116,8 +116,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '@assets/scss/theme.scss';
+<style lang="less" scoped>
+@import '~@assets/less/theme.less';
 
 .panel {
   margin: 1rem;
@@ -141,13 +141,13 @@ export default {
             justify-content: space-between;
             .title {
               flex: 1 1 auto;
-              font-size: $medium-font-size;
+              font-size: @medium-font-size;
               font-weight: 500;
-              color: $title-color;
+              color: @title-color;
             }
             .price {
               flex: 0 0 4rem;
-              font-size: $medium-font-size;
+              font-size: @medium-font-size;
               text-align: right;
             }
           }
@@ -155,12 +155,12 @@ export default {
             display: flex;
             justify-content: space-between;
             .sku {
-              font-size: $small-font-size;
-              color: $desc-color;
+              font-size: @small-font-size;
+              color: @desc-color;
             }
             .num {
-              font-size: $small-font-size;
-              color: $desc-color;
+              font-size: @small-font-size;
+              color: @desc-color;
             }
           }
         }
@@ -168,21 +168,21 @@ export default {
     }
   }
   .footer {
-    font-size: $medium-font-size;
+    font-size: @medium-font-size;
     text-align: right;
     .price {
       margin-bottom: 0.6rem;
       .freight {
-        font-size: $medium-font-size;
-        color: $desc-color;
+        font-size: @medium-font-size;
+        color: @desc-color;
       }
       .total {
         margin: 0.4rem 0;
-        font-size: $medium-font-size;
+        font-size: @medium-font-size;
         .num {
           margin-right: 0.6rem;
-          font-size: $less-font-size;
-          color: $desc-color;
+          font-size: @less-font-size;
+          color: @desc-color;
         }
       }
     }

@@ -123,8 +123,8 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '@assets/scss/theme.scss';
+<style lang="less" scoped>
+@import '~@assets/less/theme.less';
 
 .order-settlement {
   margin: 1rem;
@@ -147,15 +147,15 @@ export default {
         display: flex;
         .name {
           margin-right: 0.6rem;
-          font-size: $medium-font-size;
+          font-size: @medium-font-size;
         }
         .mobile {
-          font-size: $less-font-size;
-          color: $desc-color;
+          font-size: @less-font-size;
+          color: @desc-color;
         }
       }
       .bottom {
-        font-size: $small-font-size;
+        font-size: @small-font-size;
       }
     }
     .arrow {
@@ -174,15 +174,15 @@ export default {
           margin-bottom: 1.4rem;
           display: flex;
           align-items: center;
-          font-size: $medium-font-size;
+          font-size: @medium-font-size;
         }
         .delivery-method {
           padding: 1rem 0;
           display: flex;
           justify-content: space-between;
-          font-size: $less-font-size;
+          font-size: @less-font-size;
           span:last-child {
-            color: $desc-color;
+            color: @desc-color;
           }
         }
         .count {
@@ -191,13 +191,13 @@ export default {
           align-items: flex-end;
           .piece {
             margin-right: 0.5rem;
-            font-size: $small-font-size;
-            color: $desc-color;
+            font-size: @small-font-size;
+            color: @desc-color;
           }
           .subtotal {
-            font-size: $less-font-size;
+            font-size: @less-font-size;
             span {
-              color: $theme-color;
+              color: @theme-color;
             }
           }
         }

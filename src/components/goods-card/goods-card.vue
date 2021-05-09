@@ -77,24 +77,24 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '@assets/scss/theme';
+<style lang="less" scoped>
+@import '~@assets/less/theme';
 
 .goods-list {
   .list-container {
     .title {
-      font-size: $more-font-size;
+      font-size: @more-font-size;
       font-weight: 600;
-      color: $title-color;
+      color: @title-color;
     }
     .desc {
       line-height: 1.6;
-      font-size: $small-font-size;
-      color: $desc-color;
+      font-size: @small-font-size;
+      color: @desc-color;
     }
     .price {
-      font-size: $more-font-size;
-      color: $theme-color;
+      font-size: @more-font-size;
+      color: @theme-color;
     }
   }
 }
@@ -107,7 +107,7 @@ export default {
   .card-container {
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0px 0px 4px $desc-color;
+    box-shadow: 0px 0px 4px @desc-color;
     background-color: #fff;
     .card-mode {
       .img {
@@ -118,21 +118,21 @@ export default {
         padding: 10px;
         .top {
           height: 4rem;
-          font-size: $medium-font-size;
+          font-size: @medium-font-size;
           font-weight: 600;
         }
         .bottom {
           display: flex;
           justify-content: space-between;
           .price {
-            font-size: $large-font-size;
-            color: $theme-color;
+            font-size: @large-font-size;
+            color: @theme-color;
           }
           .sales {
             display: flex;
             align-items: center;
-            font-size: $small-font-size;
-            color: $desc-color;
+            font-size: @small-font-size;
+            color: @desc-color;
           }
         }
       }
