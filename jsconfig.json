@@ -6,7 +6,9 @@
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@views/*": ["./src/views/*"],
-      "@api/*": ["./src/api/*"]
+      "@api/*": ["./src/api/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@constants": ["./src/constants"]
     }
   },
   "include": ["src/**/*"],

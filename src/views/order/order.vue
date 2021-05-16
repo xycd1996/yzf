@@ -93,7 +93,7 @@
 <script>
 import { Tabs, Tab, List, Empty, Panel, Image, Loading, Button, Popup, Dialog, CellGroup, Cell, Toast } from 'vant'
 import OrderApi from '@api/order'
-import { ORDER_STATUS } from '@assets/constants/order'
+import { ORDER_STATUS } from '@constants'
 import { TABS } from './constants'
 import PageLoading from '@components/page-loading/page-loading'
 

@@ -67,7 +67,7 @@
 
 <script>
 import { Button, Panel, Image, Loading, Dialog } from 'vant'
-import { ORDER_STATUS } from '@assets/constants/order'
+import { ORDER_STATUS } from '@constants'
 
 export default {
   props: {

@@ -1,23 +1,19 @@
 <!-- Editor:xuyuchen -->
 <template>
   <div class="cate-product-list">
-    <van-cell-group class="container" v-for="cate in cateProductData" :key="cate.cate_id" :title="`${cate.name} - ${cate.description}`">
-      <goods-card v-for="goods in cate.lists" :key="goods.id" :goodsInfo="goods" />
-    </van-cell-group>
+    <goods-card v-for="goods in goodsList" :key="goods.id" :goodsInfo="goods" />
   </div>
 </template>
 
 <script>
-import { CellGroup } from 'vant'
 import GoodsCard from '../goods-card/goods-card'
 
 export default {
   components: {
-    'van-cell-group': CellGroup,
     'goods-card': GoodsCard
   },
   props: {
-    cateProductData: {
+    goodsList: {
       type: Array,
       default: () => []
     }

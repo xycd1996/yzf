@@ -47,6 +47,7 @@
 
 <script>
 import { Image, Loading, Notify, Cell, Card } from 'vant'
+import { GOODS_TYPE } from '@/constants'
 
 export default {
   components: {
@@ -69,10 +70,13 @@ export default {
   methods: {
     handleClick() {
       if (!this.goodsInfo.id) {
-        Notify({ message: '商品不存在' })
-        return
+        return Notify({ message: '商品不存在' })
       }
-      this.$router.push({ path: `/goods/${this.goodsInfo.id}` })
+      const type = this.goodsInfo?.product_type
+      if (!type) {
+        return Notify({ message: '商品类型错误' })
+      }
+      this.$router.push({ path: `${GOODS_TYPE[type].url}/${this.goodsInfo.id}` })
     }
   }
 }

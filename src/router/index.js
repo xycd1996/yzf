@@ -9,6 +9,10 @@ const Order = () => import('@views/order/order')
 const OrderDetail = () => import('@views/order-detail/order-detail')
 const Cart = () => import('@views/cart/cart')
 const GoodsDetail = () => import('@views/goods-detail/goods-detail')
+const GeneralMerchandise = () => import('@views/goods-detail/general-merchandise/general-merchandise')
+const SecondhandGoods = () => import('@views/goods-detail/secondhand-goods/secondhand-goods')
+const Bidding = () => import('@views/goods-detail/bidding/bidding')
+const OfflineGoods = () => import('@views/goods-detail/offline-goods/offline-goods')
 const Shop = () => import('@views/shop/shop')
 const Search = () => import('@views/search/search')
 const Settlement = () => import('@views/order-settlement/order-settlement')
@@ -63,9 +67,31 @@ const routes = [
     component: All
   },
   {
-    path: '/goods/:id',
+    path: '/goods',
     name: 'GoodsDetail',
-    component: GoodsDetail
+    component: GoodsDetail,
+    children: [
+      {
+        path: 'general/:id',
+        name: 'GeneralMerchandise',
+        component: GeneralMerchandise
+      },
+      {
+        path: 'secondhand/:id',
+        name: 'SecondhandGoods',
+        component: SecondhandGoods
+      },
+      {
+        path: 'bidding/:id',
+        name: 'Bidding',
+        component: Bidding
+      },
+      {
+        path: 'offline/:id',
+        name: 'OfflineGoods',
+        component: OfflineGoods
+      }
+    ]
   },
   {
     path: '/shop/:id',

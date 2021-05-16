@@ -11,27 +11,31 @@
     <van-pull-refresh success-text="刷新成功" v-model="pullRefresh" @refresh="_onPullRefresh">
       <my-banner :bannerList="bannerList" />
       <van-grid :column-num="5" :border="false" center clickable>
-        <van-grid-item
-          :to="menu.url"
-          :icon="menu.icon"
-          v-for="(menu, index) in menus"
-          :text="menu.name"
-          :key="index"
-        ></van-grid-item>
+        <van-grid-item :to="menu.url" :icon="menu.icon" v-for="(menu, index) in menus" :text="menu.name" :key="index" />
       </van-grid>
       <transition name="van-fade">
-        <cate-product-list v-if="cateProductData.length" :cateProductData="cateProductData" />
+        <van-list
+          @load="onLoad"
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          :immediate-check="false"
+        >
+          <cate-product-list v-if="goodsList.length" :goodsList="goodsList" />
+        </van-list>
       </transition>
-      <van-loading v-if="!cateProductData.length" class="loading" color="#fe0200" />
+      <van-loading v-if="!goodsList.length" class="loading" color="#fe0200" />
     </van-pull-refresh>
   </div>
 </template>
 
 <script>
-import { Loading, PullRefresh, Grid, GridItem, NavBar, Icon } from 'vant'
+import { Loading, PullRefresh, Grid, GridItem, NavBar, Icon, List } from 'vant'
 import HomeApi from '@api/home'
 import CateProductList from '@components/cate-product-list/cate-product-list'
 import Banner from '@components/banner/banner'
+
+const PAGE_SIZE = 20
 
 export default {
   components: {
@@ -42,13 +46,17 @@ export default {
     'cate-product-list': CateProductList,
     'my-banner': Banner,
     'van-nav-bar': NavBar,
-    'van-icon': Icon
+    'van-icon': Icon,
+    'van-list': List
   },
   data() {
     return {
+      page: 1,
       pullRefresh: false,
+      loading: false,
+      finished: false,
       bannerList: [],
-      cateProductData: [],
+      goodsList: [],
       menus: []
     }
   },
@@ -56,6 +64,9 @@ export default {
     this._initialization()
   },
   methods: {
+    onLoad() {
+      this._queryProductList()
+    },
     onClickSearch() {
       this.$router.push({
         name: 'Search'
@@ -71,8 +82,16 @@ export default {
       this.bannerList = data
     },
     async _queryProductList() {
-      const { data } = await HomeApi.getProduct()
-      this.cateProductData = data
+      const { data } = await HomeApi.getProduct({
+        page: this.page,
+        pagesize: PAGE_SIZE
+      })
+      this.page++
+      this.loading = false
+      if (data.items.length < PAGE_SIZE) {
+        this.finished = true
+      }
+      this.goodsList = this.goodsList.concat(...(data?.items ?? []))
     },
     async _queryMenus() {
       const { data } = await HomeApi.getMenus()
