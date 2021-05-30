@@ -23,6 +23,10 @@ configure({
   }
 })
 
+WebViewJavascriptBridge.callHandler('set_topbar', {
+  show: false
+})
+
 instance.defaults.baseURL = 'http://58.42.4.33:20004'
 
 FastClick.attach(document.body)

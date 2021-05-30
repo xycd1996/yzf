@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <van-nav-bar @click-right="onClickSearch" placeholder border fixed title="商城首页">
+    <van-nav-bar @click-left="onClose" @click-right="onClickSearch" placeholder border fixed title="商城首页">
       <template #left>
         <van-icon name="cross" size="1.6rem" />
       </template>
@@ -64,6 +64,9 @@ export default {
     this._initialization()
   },
   methods: {
+    onClose() {
+      WebViewJavascriptBridge.callHandler('close_webview')
+    },
     onLoad() {
       this._queryProductList()
     },
