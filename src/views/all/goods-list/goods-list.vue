@@ -54,6 +54,7 @@ export default {
       const { data } = await GoodsApi.getAll({
         page: this.page,
         keyword: this.$route.query.keyword,
+        cate_id: this.$route.query.cateId,
         pagesize: PAGE_SIZE,
         sortType
       })

@@ -7,7 +7,12 @@
       <li v-for="item in cate" :key="item.id" class="cate-item">
         <div class="title">{{ item.name }}</div>
         <van-grid :border="false" :column-num="3" clickable>
-          <van-grid-item to="/all" v-for="child in item.childs" :key="child.id" :text="item.name"></van-grid-item>
+          <van-grid-item
+            :to="`/all?cateId=${child.id}`"
+            v-for="child in item.childs"
+            :key="child.id"
+            :text="item.name"
+          ></van-grid-item>
         </van-grid>
       </li>
     </ul>
