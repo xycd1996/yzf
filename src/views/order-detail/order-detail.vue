@@ -47,7 +47,8 @@ import PaymentInfo from './payment-info/payment-info'
 import ProductInfo from './product-info/product-info'
 import { PAYMENT_METHOD } from './constants'
 import PageLoading from '@components/page-loading/page-loading'
-import { Cell, CellGroup, Dialog, Popup, Toast } from 'vant'
+import { Cell, CellGroup, Popup, Toast } from 'vant'
+import wxPay from '@/assets/js/wxPay'
 
 export default {
   name: 'OrderDetail',
@@ -77,6 +78,20 @@ export default {
     this._queryOrderDetail()
   },
   methods: {
+    async handleWechatPay() {
+      const id = this.detailInfo.order_id
+      Toast.loading({
+        message: '正在支付...',
+        mask: true,
+        duration: 0
+      })
+      const { data } = await OrderApi.pendingOrderPay({
+        pay_type: 'money',
+        order_id: id,
+        pay_channel: 'wx'
+      })
+      wxPay(data)
+    },
     async _queryOrderDetail() {
       const orderId = this.$route.params.id
       const { data } = await OrderApi.detail({ order_id: orderId })
@@ -84,19 +99,7 @@ export default {
       this.loading = false
     },
     handlePayment() {
-      const type = this.detailInfo.pay_type
-      const integral = this.detailInfo.integral_total
-      const id = this.detailInfo.order_id
-      if (type === 'money') {
-        this.payMethodSelet = true
-        return
-      }
-      Dialog.confirm({
-        title: '积分支付确认',
-        message: `确认是否支付${integral}积分？`
-      }).then(() => {
-        console.log('确认支付')
-      })
+      this.payMethodSelet = true
     },
     async cancelOrder() {
       const orderId = this.$route.params.id

@@ -110,6 +110,7 @@
         <van-goods-action>
           <van-goods-action-icon color="#fe0200" icon="shop-o" @click="handleGoShop" text="店铺" />
           <van-goods-action-icon @click="onCustomerChat" icon="chat-o" text="客服" />
+          <van-goods-action-icon @click="$router.push({ name: 'Cart' })" icon="shopping-cart-o" text="购物车" />
           <van-goods-action-button @click="handleSelectSku" type="warning" text="加入购物车" />
           <van-goods-action-button @click="handleSelectSku" type="danger" text="立即购买" />
         </van-goods-action>

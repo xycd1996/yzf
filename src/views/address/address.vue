@@ -5,10 +5,10 @@
       @add="handleAdd"
       @edit="handleEdit"
       default-tag-text="默认"
-      v-model="chosenAddressId"
+      :value="chosenAddressId"
       :list="list"
       @select="handleSelect"
-    ></van-address-list>
+    />
     <router-view />
   </div>
 </template>
@@ -16,6 +16,7 @@
 <script>
 import { AddressList } from 'vant'
 import AddressApi from '@api/address'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -27,10 +28,21 @@ export default {
       list: []
     }
   },
+  beforeRouteUpdate(to, from, next) {
+    // 从编辑页回来的时候重新请求接口
+    if (from.name === 'AddressEdit') {
+      this._initAddress()
+    }
+    next()
+  },
+  computed: {
+    ...mapGetters(['addressInfo'])
+  },
   methods: {
+    ...mapActions(['setAddressInfo']),
     async _initAddress() {
-      const { data } = await AddressApi.get()
-      data.length && (this.chosenAddressId = data[0].id)
+      const { data } = await AddressApi.getList()
+      this.chosenAddressId = this.addressInfo?.id
       this.list = data.map((item) => {
         const newItem = this.serializationAddress(item)
         return newItem
@@ -46,12 +58,27 @@ export default {
       }
       return newAddress
     },
-    handleAdd() {},
-    handleEdit() {
-      this.$router.push('/address/edit')
+    handleAdd() {
+      this.$router.push({
+        name: 'AddressEdit'
+      })
+    },
+    handleEdit(item) {
+      this.$router.push({
+        name: 'AddressEdit',
+        params: {
+          id: item.id
+        }
+      })
     },
     handleSelect(item) {
-      console.log(item)
+      console.log('item: ', item)
+      this.setAddressInfo({
+        id: item.id,
+        ConsigneeName: item.name,
+        ConsigneePhone: item.tel,
+        DetailAddr: item.address
+      })
       this.$router.back()
     }
   },

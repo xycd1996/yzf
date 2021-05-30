@@ -20,7 +20,7 @@
                       <van-button square text="删除" type="danger" class="delete-button" />
                     </template>
                     <div class="goods">
-                      <van-checkbox class="goods-checkbox" :name="goods" />
+                      <van-checkbox class="goods-checkbox" :name="goods.id" />
                       <van-card
                         class="goods-card"
                         :price="goods.price"
@@ -33,7 +33,7 @@
                         <template #num>
                           <van-stepper
                             async-change
-                            :name="goods"
+                            :name="goods.id"
                             @change="stepOnChange"
                             input-width="20px"
                             button-size="20px"

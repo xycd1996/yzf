@@ -1,15 +1,9 @@
 <template>
   <div class="product-info">
-    <van-panel
-      class="panel"
-      icon="shop"
-      :title="title"
-      @click="_onClickOrder()"
-      :status="_normalizeStatus(orderStatus)"
-    >
+    <van-panel class="panel" icon="shop" :title="title" :status="_normalizeStatus(orderStatus)">
       <div class="container">
         <ul class="shop-order">
-          <li v-for="item in orderList" :key="item.id" class="items">
+          <li @click="_onClickOrder(item.product_id)" v-for="item in orderList" :key="item.id" class="items">
             <div class="img">
               <van-image height="8rem" width="100%" fit="cover" lazy-load :src="item.product_photo">
                 <template v-slot:loading>
@@ -101,11 +95,11 @@ export default {
         this.handleCancelOrder()
       })
     },
-    _onClickOrder() {
+    _onClickOrder(id) {
       this.$router.push({
-        name: 'GoodsDetail',
+        name: 'GeneralMerchandise',
         params: {
-          id: this.productId
+          id
         }
       })
     },

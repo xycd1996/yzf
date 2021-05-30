@@ -96,6 +96,7 @@ import OrderApi from '@api/order'
 import { ORDER_STATUS } from '@constants'
 import { TABS } from './constants'
 import PageLoading from '@components/page-loading/page-loading'
+import wxPay from '@assets/js/wxPay'
 
 const PAGE_SIZE = 10
 
@@ -122,7 +123,8 @@ export default {
       orderList: [],
       page: 1,
       pageLoading: true,
-      payMethodSelet: false
+      payMethodSelet: false,
+      readyPayOrederId: ''
     }
   },
   computed: {
@@ -134,10 +136,26 @@ export default {
     this.init()
   },
   methods: {
-    handleWechatPay() {},
+    async handleWechatPay() {
+      if (!this.readyPayOrederId) {
+        return
+      }
+      Toast.loading({
+        mask: true,
+        duration: 0,
+        message: '正在支付...'
+      })
+      const { data } = await OrderApi.pendingOrderPay({
+        order_id: this.readyPayOrederId,
+        pay_type: 'money',
+        pay_channel: 'wx'
+      })
+      wxPay(data)
+    },
     handlePayment(type, integral, id) {
       if (type === 'money') {
         this.payMethodSelet = true
+        this.readyPayOrederId = id
         return
       }
       Dialog.confirm({

@@ -24,6 +24,8 @@ import { Empty, List, Loading } from 'vant'
 import GoodsGard from '@components/goods-card/goods-card'
 import GoodsApi from '@api/goods'
 
+const PAGE_SIZE = 20
+
 export default {
   props: {
     showMode: Boolean,
@@ -35,8 +37,7 @@ export default {
       page: 1,
       goodsList: [],
       finished: false,
-      loading: false,
-      pageSize: 10
+      loading: false
     }
   },
   components: {
@@ -53,15 +54,16 @@ export default {
       const { data } = await GoodsApi.getAll({
         page: this.page,
         keyword: this.$route.query.keyword,
-        pageSize: this.pageSize,
+        pagesize: PAGE_SIZE,
         sortType
       })
       this.loading = false
-      if (!data.length) {
+      if (!data.items.length) {
         this.finished = true
         return
       }
-      this.goodsList.push(...data)
+      console.log(data)
+      this.goodsList.push(...data.items)
     },
     _reset() {
       this.page = 1

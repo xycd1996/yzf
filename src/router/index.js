@@ -17,7 +17,7 @@ const Shop = () => import('@views/shop/shop')
 const Search = () => import('@views/search/search')
 const Settlement = () => import('@views/order-settlement/order-settlement')
 const Address = () => import('@views/address/address')
-const AddressEdit = () => import('@views/address/address-edit')
+const AddressEdit = () => import('@views/address/address-edit/address-edit')
 const CustomerChat = () => import('@views/customer-chat/customer-chat')
 
 Vue.use(VueRouter)
@@ -114,7 +114,7 @@ const routes = [
     component: Address,
     children: [
       {
-        path: 'edit',
+        path: 'edit/:id?',
         name: 'AddressEdit',
         component: AddressEdit
       }

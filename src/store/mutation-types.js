@@ -1,0 +1,1 @@
+export const SET_ADDRESS_INFO = 'SET_ADDRESS_INFO'

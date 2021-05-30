@@ -77,6 +77,8 @@ import GoodsCard from '@components/goods-card/goods-card'
 import GoodsApi from '@api/goods'
 import { Search, Icon, Image, Loading, Tag, List, Empty, Rate, Swipe, SwipeItem, Toast } from 'vant'
 
+const PAGE_SIZE = 20
+
 export default {
   components: {
     'van-search': Search,
@@ -115,14 +117,14 @@ export default {
       this.handleVisitShop()
     },
     async _queryGoodsList() {
-      const { data } = await GoodsApi.getAll({ page: this.page, shop_id: this.$route.params.id, pageSize: 10 })
+      const { data } = await GoodsApi.getAll({ page: this.page, shop_id: this.$route.params.id, pagesize: PAGE_SIZE })
       this.loading = false
-      if (!data.length) {
+      if (!data.items.length) {
         this.finished = true
         return
       }
       this.page++
-      this.goodsList.push(...data)
+      this.goodsList.push(...data.items)
     },
     onLoad() {
       this._queryGoodsList()
