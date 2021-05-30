@@ -65,10 +65,7 @@ export default {
   },
   methods: {
     onClose() {
-      // WebViewJavascriptBridge.callHandler('close_webview')
-      WebViewJavascriptBridge.callHandler('set_topbar', {
-        show: false
-      })
+      WebViewJavascriptBridge.callHandler('close_webview')
     },
     onLoad() {
       this._queryProductList()
