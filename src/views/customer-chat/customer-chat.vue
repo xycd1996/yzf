@@ -22,7 +22,6 @@ export default {
       this.$refs.myList && this.$refs.myList.onRefresh()
     },
     onSendMessage(content) {
-      console.log('content: ', content)
       this.$refs.myList && this.$refs.myList.sendMessage(content)
     }
   }

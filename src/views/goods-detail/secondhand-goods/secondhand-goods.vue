@@ -159,7 +159,19 @@ export default {
     swipeChange(index) {
       this.current = index
     },
-    handleBuy() {},
+    handleBuy() {
+      this.$router.push({
+        name: 'CustomerChat',
+        params: {
+          id: this.goodsDetail?.shop_id
+        },
+        query: {
+          shopName: this.goodsDetail?.shop_name ?? '未知店铺',
+          safeWarning: 1,
+          goodsId: this.$route.params.id
+        }
+      })
+    },
     async handleAddCard(data) {
       const { msg } = await CartApi.add({
         id: data.goodsId,

@@ -1,4 +1,4 @@
-;(function() {
+function jsBride() {
   if (window.WebViewJavascriptBridge) {
     return
   }
@@ -164,17 +164,7 @@
   readyEvent.initEvent('WebViewJavascriptBridgeReady')
   readyEvent.bridge = WebViewJavascriptBridge
   doc.dispatchEvent(readyEvent)
-  window.WebViewJavascriptBridge.init(function(message, responseCallback) {})
-})()
-
-function onBackForwarEvent(callback) {
-  window.WebViewJavascriptBridge.callHandler('backforward', { '': '' }, function(response) {})
-
-  WebViewJavascriptBridge.registerHandler('backforward', function(command, responseCallback) {
-    if (callback(command)) {
-      responseCallback('yes')
-    } else {
-      responseCallback('no')
-    }
-  })
+  window.WebViewJavascriptBridge.init(function() {})
 }
+
+jsBride()

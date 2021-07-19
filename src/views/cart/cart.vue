@@ -20,7 +20,7 @@
                       <van-button square text="删除" type="danger" class="delete-button" />
                     </template>
                     <div class="goods">
-                      <van-checkbox class="goods-checkbox" :name="goods.id" />
+                      <van-checkbox class="goods-checkbox" :name="goods" />
                       <van-card
                         class="goods-card"
                         :price="goods.price"
@@ -82,6 +82,7 @@ import {
 import CartApi from '@api/cart'
 
 export default {
+  name: 'Cart',
   components: {
     'van-submit-bar': SubmitBar,
     'van-checkbox': Checkbox,

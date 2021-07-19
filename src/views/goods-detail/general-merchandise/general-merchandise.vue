@@ -191,7 +191,8 @@ export default {
           id: this.goodsDetail?.shop_id
         },
         query: {
-          shopName: this.goodsDetail?.shop_name ?? '未知店铺'
+          shopName: this.goodsDetail?.shop_name ?? '未知店铺',
+          goodsId: this.$route.params.id
         }
       })
     },
