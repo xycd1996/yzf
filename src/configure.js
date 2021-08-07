@@ -11,7 +11,9 @@ configure({
     data['debug'] = true
     data['bodyType'] = 'formData'
     if (!data['uid'] || !data['token']) {
-      WebViewJavascriptBridge.callHandler('intent_class', { className: 'com.yishi.yszf.ui.login.LoginActivity' })
+      WebViewJavascriptBridge.callHandler('intent_class', {
+        className: 'com.yishi.yszf.ui.login.LoginActivity'
+      })
     }
   },
   onError: (err) => {
@@ -23,13 +25,13 @@ configure({
   }
 })
 
-WebViewJavascriptBridge.callHandler('set_topbar', {
-  show: false
-})
+// WebViewJavascriptBridge.callHandler('set_topbar', {
+//   show: false
+// })
 
 instance.defaults.baseURL = 'http://58.42.4.33:20004'
 
-FastClick.attach(document.body)
+// FastClick.attach(document.body)
 Vue.config.productionTip = false
 
 Vue.use(Lazyload, {

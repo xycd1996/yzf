@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import adminRoutes from './administrator'
 
 const PageView = () => import('@views/index')
 const Home = () => import('@views/home/home')
@@ -9,7 +10,8 @@ const Order = () => import('@views/order/order')
 const OrderDetail = () => import('@views/order-detail/order-detail')
 const Cart = () => import('@views/cart/cart')
 const GoodsDetail = () => import('@views/goods-detail/goods-detail')
-const GeneralMerchandise = () => import('@views/goods-detail/general-merchandise/general-merchandise')
+const GeneralMerchandise = () =>
+  import('@views/goods-detail/general-merchandise/general-merchandise')
 const SecondhandGoods = () => import('@views/goods-detail/secondhand-goods/secondhand-goods')
 const Bidding = () => import('@views/goods-detail/bidding/bidding')
 const OfflineGoods = () => import('@views/goods-detail/offline-goods/offline-goods')
@@ -119,7 +121,8 @@ const routes = [
         component: AddressEdit
       }
     ]
-  }
+  },
+  ...adminRoutes
 ]
 
 const router = new VueRouter({
