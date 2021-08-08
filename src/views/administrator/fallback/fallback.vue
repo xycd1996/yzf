@@ -1,25 +1,60 @@
 <template>
   <div class="fallback">
     <img src="https://qnm.hunliji.com/o_1fcgjl0a713in1n4dorhqfh1tvr9.jpg" alt="" class="avatar" />
-    <div class="shop-name">店铺名称</div>
-    <div class="price">￥10.00</div>
-    <div class="goods-name">订单名称</div>
-    <div class="coupon-code">券码：12312342245</div>
-    <div class="create-time">下单时间：2021-08-12 18:12:21</div>
+    <div class="price">￥{{ ticket.product_price }}</div>
+    <div class="goods-name">{{ ticket.product_title }}</div>
+    <div class="coupon-code">券码：{{ ticket.discount_no }}</div>
+    <div class="create-time">下单时间：{{ ticket.order_pay_time }}</div>
     <div class="action">
-      <van-button class="cancel">取消</van-button>
-      <van-button type="danger" class="ok">确认核销</van-button>
+      <van-button class="cancel" @click="handleCancel">取消</van-button>
+      <van-button :disabled="ticket.type != 1" type="danger" class="ok" @click="handleOk">{{
+        ticket.type_msg
+      }}</van-button>
     </div>
   </div>
 </template>
 
 <script>
-import { Button } from 'vant'
+import { Button, Toast } from 'vant'
+import AdminApi from '@api/administrator'
 
 export default {
   name: 'AdminFallback',
   components: {
     'van-button': Button
+  },
+  data() {
+    return {
+      ticket: {}
+    }
+  },
+  mounted() {
+    this.getDetail()
+  },
+  methods: {
+    async getDetail() {
+      const { data } = await AdminApi.checkDetail({
+        discount_no: this.$route.params.code
+      })
+      this.ticket = data.ticket
+    },
+    handleCancel() {
+      this.$router.push({ name: 'AdminShopList' })
+    },
+    async handleOk() {
+      Toast.loading({
+        message: '正在核销中...',
+        forbidClick: true
+      })
+      await AdminApi.checkCode({
+        discount_no: this.$route.params.code
+      })
+      Toast.success({
+        message: '核销成功',
+        forbidClick: true,
+        onClose: () => this.$router.push({ name: 'AdminShopList' })
+      })
+    }
   }
 }
 </script>

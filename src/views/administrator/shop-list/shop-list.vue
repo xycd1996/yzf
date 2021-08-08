@@ -5,17 +5,12 @@
       <li
         v-for="shopItem in shopList"
         :key="shopItem.shop_id"
-        @click="handleClickShop(shopItem.shop_id)"
+        @click="handleClickShop(shopItem.shop_id, shopItem.shop_name)"
         class="shop-item"
       >
         <img class="avatar" :src="shopItem.logo" />
         <div class="name">
           {{ shopItem.shop_name }}
-        </div>
-        <div class="entry">
-          <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" size="mini">
-            进入
-          </van-button>
         </div>
       </li>
     </ul>
@@ -23,18 +18,18 @@
 </template>
 
 <script>
-import { Button, NavBar } from 'vant'
+import { NavBar } from 'vant'
 import AdminApi from '@api/administrator'
 
 export default {
   name: 'AdminShopList',
   components: {
-    'van-nav-bar': NavBar,
-    'van-button': Button
+    'van-nav-bar': NavBar
   },
   data() {
     return {
-      shopList: []
+      shopList: [],
+      checkerInfo: {}
     }
   },
   mounted() {
@@ -44,13 +39,18 @@ export default {
     async queryShopList() {
       const { data } = await AdminApi.shopList()
       this.shopList = data.shops
+      this.checkerInfo = data.checker
     },
-    handleClickShop(shopId) {
-      console.log('shopId: ', shopId)
+    handleClickShop(shopId, shopName) {
       this.$router.push({
         name: 'AdminCheckOff',
         params: {
           shopId: shopId
+        },
+        query: {
+          shopName: shopName,
+          avatar: this.checkerInfo.headimg,
+          nickname: this.checkerInfo.nickname
         }
       })
     }
@@ -77,11 +77,6 @@ export default {
       .name {
         margin-left: 8px;
         font-size: 16px;
-      }
-      .entry {
-        position: absolute;
-        right: 12px;
-        bottom: 12px;
       }
     }
   }

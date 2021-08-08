@@ -1,12 +1,12 @@
 <template>
   <div class="check-off">
-    <van-nav-bar left-text="返回" title="店铺核销" @click-left="onClickLeft" />
+    <van-nav-bar left-text="返回" :title="$route.query.shopName" @click-left="onClickLeft" />
     <div class="user-info">
       <div class="avatar">
-        <img src="https://qnm.hunliji.com/o_1fcgjl0a713in1n4dorhqfh1tvr9.jpg" />
+        <img :src="$route.query.avatar" />
       </div>
       <div class="username">
-        用户名
+        {{ $route.query.nickname }}
       </div>
     </div>
     <div class="check-action">
@@ -27,7 +27,7 @@
         <van-icon size="38px" name="scan" />
         <span>扫码验证</span>
       </div>
-      <div class="record">
+      <div @click="onRecord" class="record">
         <van-icon size="38px" name="records" />
         <span>核销记录</span>
       </div>
@@ -38,6 +38,7 @@
 
 <script>
 import { Dialog, Field, Icon, NavBar, Toast } from 'vant'
+import AdminApi from '@api/administrator'
 
 export default {
   name: 'AdminCheckOff',
@@ -55,7 +56,9 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.back()
+      this.$router.push({
+        name: 'AdminShopList'
+      })
     },
     onInputCheck() {
       this.checkInputShow = true
@@ -66,11 +69,27 @@ export default {
     openCheckInput() {
       this.checkInputValue = ''
     },
-    onCheckInputConfirm() {
-      console.log(this.checkInputValue)
+    async onCheckInputConfirm() {
       if (!this.checkInputValue) {
         return Toast.fail('无效核销码')
       }
+      await AdminApi.checkDetail({
+        discount_no: this.checkInputValue
+      })
+      this.$router.push({
+        name: 'AdminFallback',
+        params: {
+          code: this.checkInputValue
+        }
+      })
+    },
+    async checkQRCode(code) {
+      this.$router.push({
+        name: 'AdminFallback',
+        params: {
+          code: code
+        }
+      })
     },
     onQRCode() {
       WebViewJavascriptBridge.callHandler(
@@ -79,9 +98,17 @@ export default {
           format: 'source'
         },
         (callback) => {
-          console.log(callback)
+          this.checkQRCode(callback)
         }
       )
+    },
+    onRecord() {
+      this.$router.push({
+        name: 'AdminCheckRecord',
+        params: {
+          shopId: this.$route.params.shopId
+        }
+      })
     }
   }
 }

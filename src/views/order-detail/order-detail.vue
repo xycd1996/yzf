@@ -8,11 +8,13 @@
       </van-popup>
       <order-header />
       <order-address
+        v-if="productTypeName !== '票务'"
         :name="detailInfo.appoint_name"
         :address="detailInfo.address_all"
         :phone="detailInfo.appoint_phone"
       />
       <product-info
+        :orderInfo="detailInfo"
         :orderList="detailInfo.lists"
         :title="detailInfo.shop_name"
         :orderStatus="detailInfo.status"
@@ -23,6 +25,7 @@
         :handleCancelOrder="cancelOrder"
         :handlePayment="handlePayment"
       />
+      <qrcode-info v-if="productTypeName === '票务'" :qrcodeList="detailInfo.tickes" />
       <payment-info
         :shopName="detailInfo.shop_name"
         :no="detailInfo.order_no"
@@ -44,11 +47,13 @@ import OrderApi from '@api/order'
 import Address from './address/address'
 import Header from './header/header'
 import PaymentInfo from './payment-info/payment-info'
+import QRCodeInfo from './qrcode-info/qrcode-info'
 import ProductInfo from './product-info/product-info'
 import { PAYMENT_METHOD } from './constants'
 import PageLoading from '@components/page-loading/page-loading'
 import { Cell, CellGroup, Popup, Toast } from 'vant'
 import wxPay from '@/assets/js/wxPay'
+import { GOODS_TYPE } from '@constants'
 
 export default {
   name: 'OrderDetail',
@@ -60,7 +65,8 @@ export default {
     'order-header': Header,
     'payment-info': PaymentInfo,
     'product-info': ProductInfo,
-    'page-loading': PageLoading
+    'page-loading': PageLoading,
+    'qrcode-info': QRCodeInfo
   },
   data() {
     return {
@@ -72,6 +78,9 @@ export default {
   computed: {
     payMethod() {
       return PAYMENT_METHOD[this.detailInfo.pay_channel]
+    },
+    productTypeName() {
+      return GOODS_TYPE[this.detailInfo.product_type]?.name
     }
   },
   mounted() {

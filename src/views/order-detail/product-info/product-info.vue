@@ -3,26 +3,66 @@
     <van-panel class="panel" icon="shop" :title="title" :status="_normalizeStatus(orderStatus)">
       <div class="container">
         <ul class="shop-order">
-          <li @click="_onClickOrder(item.product_id)" v-for="item in orderList" :key="item.id" class="items">
-            <div class="img">
-              <van-image height="8rem" width="100%" fit="cover" lazy-load :src="item.product_photo">
-                <template v-slot:loading>
-                  <van-loading type="spinner" vertical size="20">加载中...</van-loading>
-                </template>
-                <template v-slot:error>加载失败</template>
-              </van-image>
-            </div>
-            <div class="info">
-              <div class="header">
-                <span class="title van-multi-ellipsis--l2">{{ item.product_title }}</span>
-                <span class="price price-unit">{{ item.product_price }}</span>
+          <div v-if="productTypeName === '普通商品'" class="general-goods">
+            <li
+              @click="_onClickOrder(item.product_id)"
+              v-for="item in orderList"
+              :key="item.id"
+              class="items"
+            >
+              <div class="img">
+                <van-image
+                  height="8rem"
+                  width="100%"
+                  fit="cover"
+                  lazy-load
+                  :src="item.product_photo"
+                >
+                  <template v-slot:loading>
+                    <van-loading type="spinner" vertical size="20">加载中...</van-loading>
+                  </template>
+                  <template v-slot:error>加载失败</template>
+                </van-image>
               </div>
-              <div class="footer">
-                <span class="sku">{{ item.product_specification_combine_value }}</span>
-                <span class="num">×{{ item.product_num }}</span>
+              <div class="info">
+                <div class="header">
+                  <span class="title van-multi-ellipsis--l2">{{ item.product_title }}</span>
+                  <span class="price price-unit">{{ item.product_price }}</span>
+                </div>
+                <div class="footer">
+                  <span class="sku">{{ item.product_specification_combine_value }}</span>
+                  <span class="num">×{{ item.product_num }}</span>
+                </div>
               </div>
-            </div>
-          </li>
+            </li>
+          </div>
+          <div class="offline-goods" v-if="productTypeName === '票务'">
+            <li @click="_onClickOrder(orderInfo.product_id)" class="items">
+              <div class="img">
+                <van-image
+                  height="8rem"
+                  width="100%"
+                  fit="cover"
+                  lazy-load
+                  :src="orderInfo.goods_photo"
+                >
+                  <template v-slot:loading>
+                    <van-loading type="spinner" vertical size="20">加载中...</van-loading>
+                  </template>
+                  <template v-slot:error>加载失败</template>
+                </van-image>
+              </div>
+              <div class="info">
+                <div class="header">
+                  <span class="title van-multi-ellipsis--l2">{{ orderInfo.goods_name }}</span>
+                  <span class="price price-unit">{{ orderInfo.goods_price }}</span>
+                </div>
+                <div class="footer">
+                  <span class="num">×{{ orderInfo.goods_num }}</span>
+                </div>
+              </div>
+            </li>
+          </div>
         </ul>
       </div>
       <template #footer>
@@ -61,7 +101,7 @@
 
 <script>
 import { Button, Panel, Image, Loading, Dialog } from 'vant'
-import { ORDER_STATUS } from '@constants'
+import { ORDER_STATUS, GOODS_TYPE } from '@constants'
 
 export default {
   props: {
@@ -73,7 +113,8 @@ export default {
     totalIntegral: String,
     productId: String,
     handleCancelOrder: Function,
-    handlePayment: Function
+    handlePayment: Function,
+    orderInfo: Object
   },
   components: {
     'van-panel': Panel,
@@ -84,6 +125,9 @@ export default {
   computed: {
     total() {
       return this.orderList?.length ?? 0
+    },
+    productTypeName() {
+      return GOODS_TYPE[this.orderInfo.product_type]?.name
     }
   },
   methods: {
@@ -96,11 +140,9 @@ export default {
       })
     },
     _onClickOrder(id) {
+      const productTypePath = GOODS_TYPE[this.orderInfo.product_type]?.url
       this.$router.push({
-        name: 'GeneralMerchandise',
-        params: {
-          id
-        }
+        path: `${productTypePath}/${id}`
       })
     },
     _normalizeStatus(status) {

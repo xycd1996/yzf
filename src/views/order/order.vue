@@ -31,7 +31,13 @@
                 <ul class="shop-order">
                   <li v-for="item in order.lists" :key="item.id" class="items">
                     <div class="img">
-                      <van-image height="8rem" width="100%" fit="cover" lazy-load :src="item.product_photo">
+                      <van-image
+                        height="8rem"
+                        width="100%"
+                        fit="cover"
+                        lazy-load
+                        :src="item.product_photo"
+                      >
                         <template v-slot:loading>
                           <van-loading type="spinner" vertical size="20">加载中...</van-loading>
                         </template>
@@ -64,21 +70,29 @@
                     </div>
                   </div>
                   <div class="payment" v-if="!order.status">
-                    <van-button @click.stop="handleCancel(order.order_id)" text="取消" size="small" />
                     <van-button
-                      @click.stop="handlePayment(order.pay_type, order.integral_total, order.order_id)"
+                      @click.stop="handleCancel(order.order_id)"
+                      text="取消"
+                      size="small"
+                    />
+                    <van-button
+                      @click.stop="
+                        handlePayment(order.pay_type, order.integral_total, order.order_id)
+                      "
                       style="margin-left: 5px;"
                       type="danger"
                       text="付款"
                       size="small"
                     />
                   </div>
-                  <div v-if="order.status === 1" class="send">
-                    <van-button text="提醒发货" size="small" />
-                  </div>
-                  <div v-if="order.status === 4" class="receiving">
-                    <van-button text="确认收货" type="danger" size="small" />
-                  </div>
+                  <template v-if="productTypeName(order.product_type) !== '票务'">
+                    <div v-if="order.status === 1" class="send">
+                      <van-button text="提醒发货" size="small" />
+                    </div>
+                    <div v-if="order.status === 4" class="receiving">
+                      <van-button text="确认收货" type="danger" size="small" />
+                    </div>
+                  </template>
                 </div>
               </template>
             </van-panel>
@@ -91,9 +105,23 @@
 </template>
 
 <script>
-import { Tabs, Tab, List, Empty, Panel, Image, Loading, Button, Popup, Dialog, CellGroup, Cell, Toast } from 'vant'
+import {
+  Tabs,
+  Tab,
+  List,
+  Empty,
+  Panel,
+  Image,
+  Loading,
+  Button,
+  Popup,
+  Dialog,
+  CellGroup,
+  Cell,
+  Toast
+} from 'vant'
 import OrderApi from '@api/order'
-import { ORDER_STATUS } from '@constants'
+import { GOODS_TYPE, ORDER_STATUS } from '@constants'
 import { TABS } from './constants'
 import PageLoading from '@components/page-loading/page-loading'
 import wxPay from '@assets/js/wxPay'
@@ -136,6 +164,9 @@ export default {
     this.init()
   },
   methods: {
+    productTypeName(type) {
+      return GOODS_TYPE[type]?.name
+    },
     async handleWechatPay() {
       if (!this.readyPayOrederId) {
         return

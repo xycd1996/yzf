@@ -25,7 +25,7 @@ const administratorRoutes = [
         component: () => import('@views/administrator/check-record/check-record')
       },
       {
-        path: 'fallback',
+        path: 'fallback/:code',
         name: 'AdminFallback',
         component: () => import('@views/administrator/fallback/fallback')
       }
