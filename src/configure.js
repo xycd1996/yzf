@@ -1,7 +1,10 @@
 import { configure, instance } from '@kiter/axios'
 import FastClick from 'fastclick'
 import { Lazyload, Notify, Toast } from 'vant'
+import VConsole from 'vconsole'
 import Vue from 'vue'
+
+new VConsole()
 
 configure({
   beforeRequest: (data) => {
@@ -25,13 +28,13 @@ configure({
   }
 })
 
-// WebViewJavascriptBridge.callHandler('set_topbar', {
-//   show: false
-// })
+WebViewJavascriptBridge.callHandler('set_topbar', {
+  show: false
+})
 
 instance.defaults.baseURL = 'http://58.42.4.33:20004'
 
-// FastClick.attach(document.body)
+FastClick.attach(document.body)
 Vue.config.productionTip = false
 
 Vue.use(Lazyload, {

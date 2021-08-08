@@ -23,7 +23,7 @@
       >
         <van-field v-model="checkInputValue" ref="inputRef" placeholder="请输入用户核销码" />
       </van-dialog>
-      <div class="qrcode">
+      <div @click="onQRCode" class="qrcode">
         <van-icon size="38px" name="scan" />
         <span>扫码验证</span>
       </div>
@@ -71,6 +71,17 @@ export default {
       if (!this.checkInputValue) {
         return Toast.fail('无效核销码')
       }
+    },
+    onQRCode() {
+      WebViewJavascriptBridge.callHandler(
+        'scan_and_result',
+        {
+          format: 'source'
+        },
+        (callback) => {
+          console.log(callback)
+        }
+      )
     }
   }
 }
