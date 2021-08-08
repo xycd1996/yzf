@@ -1,9 +1,16 @@
 import { configure, instance } from '@kiter/axios'
 import FastClick from 'fastclick'
+import debounce from 'lodash/debounce'
 import { Lazyload, Notify, Toast } from 'vant'
 import Vue from 'vue'
 
 // new VConsole()
+
+const debounceLogin = debounce(() => {
+  WebViewJavascriptBridge.callHandler('intent_class', {
+    className: 'com.yishi.yszf.ui.login.LoginActivity'
+  })
+}, 100)
 
 configure({
   beforeRequest: (data) => {
@@ -13,9 +20,7 @@ configure({
     data['debug'] = true
     data['bodyType'] = 'formData'
     if (!data['uid'] || !data['token']) {
-      WebViewJavascriptBridge.callHandler('intent_class', {
-        className: 'com.yishi.yszf.ui.login.LoginActivity'
-      })
+      debounceLogin()
     }
   },
   onError: (err) => {
