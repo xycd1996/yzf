@@ -122,6 +122,10 @@ const routes = [
       }
     ]
   },
+  {
+    path: '*',
+    redirect: '/'
+  },
   ...adminRoutes
 ]
 
