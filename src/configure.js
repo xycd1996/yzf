@@ -10,7 +10,7 @@ const debounceLogin = debounce(() => {
   WebViewJavascriptBridge.callHandler('intent_class', {
     className: 'com.yishi.yszf.ui.login.LoginActivity'
   })
-}, 100)
+}, 500)
 
 configure({
   beforeRequest: (data) => {
