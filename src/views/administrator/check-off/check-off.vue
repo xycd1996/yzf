@@ -1,6 +1,7 @@
 <template>
   <div class="check-off">
     <van-nav-bar
+      placeholder
       safe-area-inset-top
       left-text="返回"
       :title="$route.query.shopName"

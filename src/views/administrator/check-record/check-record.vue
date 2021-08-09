@@ -1,6 +1,12 @@
 <template>
   <div class="check-record">
-    <van-nav-bar safe-area-inset-top title="核销记录" left-text="返回" @click-left="onClickLeft" />
+    <van-nav-bar
+      placeholder
+      safe-area-inset-top
+      title="核销记录"
+      left-text="返回"
+      @click-left="onClickLeft"
+    />
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-list
         v-model="loading"

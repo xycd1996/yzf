@@ -1,6 +1,6 @@
 <template>
   <div class="shop-list">
-    <van-nav-bar safe-area-inset-top title="可核销店铺" />
+    <van-nav-bar placeholder safe-area-inset-top title="可核销店铺" />
     <ul class="list">
       <li
         v-for="shopItem in shopList"
