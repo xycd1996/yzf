@@ -1,6 +1,14 @@
 <template>
   <div class="home">
-    <van-nav-bar @click-left="onClose" @click-right="onClickSearch" placeholder border fixed title="商城首页">
+    <van-nav-bar
+      safe-area-inset-top
+      @click-left="onClose"
+      @click-right="onClickSearch"
+      placeholder
+      border
+      fixed
+      title="商城首页"
+    >
       <template #left>
         <van-icon name="cross" size="1.6rem" />
       </template>
@@ -11,7 +19,13 @@
     <van-pull-refresh success-text="刷新成功" v-model="pullRefresh" @refresh="_onPullRefresh">
       <my-banner :bannerList="bannerList" />
       <van-grid :column-num="5" :border="false" center clickable>
-        <van-grid-item :to="menu.url" :icon="menu.icon" v-for="(menu, index) in menus" :text="menu.name" :key="index" />
+        <van-grid-item
+          :to="menu.url"
+          :icon="menu.icon"
+          v-for="(menu, index) in menus"
+          :text="menu.name"
+          :key="index"
+        />
       </van-grid>
       <transition name="van-fade">
         <van-list

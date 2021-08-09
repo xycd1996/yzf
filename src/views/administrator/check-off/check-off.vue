@@ -1,6 +1,11 @@
 <template>
   <div class="check-off">
-    <van-nav-bar left-text="返回" :title="$route.query.shopName" @click-left="onClickLeft" />
+    <van-nav-bar
+      safe-area-inset-top
+      left-text="返回"
+      :title="$route.query.shopName"
+      @click-left="onClickLeft"
+    />
     <div class="user-info">
       <div class="avatar">
         <img :src="$route.query.avatar" />
