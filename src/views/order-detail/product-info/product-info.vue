@@ -146,7 +146,7 @@ export default {
       })
     },
     _normalizeStatus(status) {
-      return ORDER_STATUS[status]
+      return ORDER_STATUS(this.orderInfo.product_type)[status]
     }
   }
 }

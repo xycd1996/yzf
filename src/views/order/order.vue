@@ -25,7 +25,7 @@
               :key="order.order_id"
               :title="order.title"
               @click="onClickOrder(order.order_id)"
-              :status="normalizeStatus(order.status)"
+              :status="normalizeStatus(order.product_type, order.status)"
             >
               <div class="container">
                 <ul class="shop-order">
@@ -204,8 +204,8 @@ export default {
         this.cancelOrder(orderId)
       })
     },
-    normalizeStatus(status) {
-      return ORDER_STATUS[status]
+    normalizeStatus(type, status) {
+      return ORDER_STATUS(type)[status]
     },
     onClickOrder(id) {
       this.$router.push({
