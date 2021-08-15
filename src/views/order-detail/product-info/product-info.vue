@@ -37,7 +37,12 @@
             </li>
           </div>
           <div class="offline-goods" v-if="productTypeName === '票务'">
-            <li @click="_onClickOrder(orderInfo.product_id)" class="items">
+            <li
+              @click="_onClickOrder(orderInfo.product_id)"
+              v-for="item in orderInfo.tickes"
+              :key="item.id"
+              class="items"
+            >
               <div class="img">
                 <van-image
                   height="8rem"
@@ -70,7 +75,7 @@
           <div class="price">
             <div class="freight">运费：￥{{ expressPrice }}</div>
             <div class="total">
-              <span class="num">共计{{ total }}件商品</span>
+              <span class="num">共计{{ orderInfo.product_count }}件商品</span>
               <span>合计：￥{{ totalPrice }}</span>
               <span v-if="parseInt(totalIntegral)">
                 <!-- +{{order.integral_total}}积分 -->

@@ -36,7 +36,11 @@
           <div class="desc van-multi-ellipsis--l2">{{ goodsDetail.sub_title }}</div>
         </div>
         <div @click="handleCollect" class="collect">
-          <van-icon :name="collect ? 'star' : 'star-o'" size="2rem" :color="collect ? 'gold' : 'black'" />
+          <van-icon
+            :name="collect ? 'star' : 'star-o'"
+            size="2rem"
+            :color="collect ? 'gold' : 'black'"
+          />
           <span>好物收藏</span>
         </div>
       </div>
@@ -46,9 +50,9 @@
           <van-cell>
             <template #title>
               <div class="express">
-                <span>送至 铜仁</span>
-                <span class="line"></span>
-                <span class="express-fee">快递：15元</span>
+                <span>免邮费</span>
+                <!-- <span class="line"></span>
+                <span class="express-fee">快递：15元</span> -->
               </div>
             </template>
             <template #default>
@@ -79,7 +83,11 @@
         <van-divider :hairline="false">货品详情</van-divider>
       </div>
       <div class="detail">
-        <div v-if="goodsDetail.ticket_detail" class="content" v-html="goodsDetail.ticket_detail"></div>
+        <div
+          v-if="goodsDetail.ticket_detail"
+          class="content"
+          v-html="goodsDetail.ticket_detail"
+        ></div>
         <van-empty v-if="!goodsDetail.ticket_detail" class="none" description="暂无商品详情" />
       </div>
       <div class="sku">
@@ -110,7 +118,7 @@
         <van-goods-action>
           <van-goods-action-icon color="#fe0200" icon="shop-o" @click="handleGoShop" text="店铺" />
           <van-goods-action-icon @click="onCustomerChat" icon="chat-o" text="客服" />
-          <van-goods-action-icon @click="$router.push({ name: 'Cart' })" icon="shopping-cart-o" text="购物车" />
+          <!-- <van-goods-action-icon @click="$router.push({ name: 'Cart' })" icon="shopping-cart-o" text="购物车" /> -->
           <van-goods-action-button @click="handleSelectSku" type="warning" text="加入购物车" />
           <van-goods-action-button @click="handleSelectSku" type="danger" text="立即购买" />
         </van-goods-action>
@@ -217,7 +225,11 @@ export default {
       this.skuShow = true
     },
     async handleBuy(data) {
-      await OrderApi.buy({ id: data.goodsId, num: data.selectedNum, specification_combine_id: data.selectedSkuComb.id })
+      await OrderApi.buy({
+        id: data.goodsId,
+        num: data.selectedNum,
+        specification_combine_id: data.selectedSkuComb.id
+      })
       this.$router.push({
         path: `/settlement/${data.goodsId}`,
         query: {
