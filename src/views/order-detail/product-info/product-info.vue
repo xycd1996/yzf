@@ -87,12 +87,14 @@
               size="small"
             />
           </div>
-          <div v-if="orderStatus === 1" class="send">
-            <van-button text="提醒发货" size="small" />
-          </div>
-          <div v-if="orderStatus === 4" class="receiving">
-            <van-button text="确认收货" type="danger" size="small" />
-          </div>
+          <template v-if="productTypeName !== '票务'">
+            <div v-if="orderStatus === 1" class="send">
+              <van-button text="提醒发货" size="small" />
+            </div>
+            <div v-if="orderStatus === 4" class="receiving">
+              <van-button text="确认收货" type="danger" size="small" />
+            </div>
+          </template>
         </div>
       </template>
     </van-panel>
