@@ -12,7 +12,9 @@
       <ul class="chat-content">
         <li class="safe-warning" v-if="$route.query.safeWarning && !messageList.length">
           <div class="title">安全交易提醒</div>
-          <div class="desc">为了确保您的积分及资金安全，请遵守易视智富二手物品交易规范，一定要在平台内完成支付。</div>
+          <div class="desc">
+            为了确保您的积分及资金安全，请遵守易视智富二手物品交易规范，一定要在平台内完成支付。
+          </div>
           <div class="more">了解易视智富二手物品交易规范条例</div>
         </li>
         <li v-for="item in messageList" :key="item.id" class="chat-item">
@@ -148,6 +150,7 @@ export default {
       }
       .user {
         display: flex;
+        flex-direction: row-reverse;
         align-items: center;
         .content {
           position: relative;
@@ -163,7 +166,6 @@ export default {
       }
       .service {
         display: flex;
-        flex-direction: row-reverse;
         align-items: center;
         .content {
           position: relative;
