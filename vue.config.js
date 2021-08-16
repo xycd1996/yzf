@@ -21,6 +21,10 @@ module.exports = {
     }
   },
   chainWebpack: (config) => {
+    config.plugin('html').tap((args) => {
+      args[0].title = '易视智富商城'
+      return args
+    })
     config.resolve.alias
       .set('@', resolve('src'))
       .set('@assets', resolve('src/assets'))
