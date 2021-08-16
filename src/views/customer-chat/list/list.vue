@@ -148,9 +148,8 @@ export default {
           background: #fff;
         }
       }
-      .user {
+      .service {
         display: flex;
-        flex-direction: row-reverse;
         align-items: center;
         .content {
           position: relative;
@@ -164,8 +163,9 @@ export default {
           background: transparent;
         }
       }
-      .service {
+      .user {
         display: flex;
+        flex-direction: row-reverse;
         align-items: center;
         .content {
           position: relative;
