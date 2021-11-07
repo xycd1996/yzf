@@ -11,4 +11,6 @@ export default {
   getTabs: axios.post('/tsShop/addons.short_video_school/articleCates'),
   // 文章列表
   getList: axios.post('/tsShop/addons.short_video_school/articleLists'),
+  // 热门话题
+  getHotTopic: axios.post('/tsShop/addons.short_video_topic/hotTopicLists'),
 }

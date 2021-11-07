@@ -32,28 +32,7 @@ export default {
       bannerList: [],
       searchVal: '',
       category: [],
-      topics: [
-        {
-          title: '梵净山',
-          coverPath: 'https://qnm.hunliji.com/o_1fjss3fe0p4riapg7dfsenlrd.webp',
-        },
-        {
-          title: '好物推荐',
-          coverPath: 'https://qnm.hunliji.com/o_1fjss3fe01jg41q1s1dn2rce155gb.jpg',
-        },
-        {
-          title: '扶贫心声',
-          coverPath: 'https://qnm.hunliji.com/o_1fjss3fe01jb0tm41bk5bsr14nrc.webp',
-        },
-        {
-          title: '名族风情',
-          coverPath: 'https://qnm.hunliji.com/o_1fjss3fe0p4riapg7dfsenlrd.webp',
-        },
-        {
-          title: '说天说地',
-          coverPath: 'https://qnm.hunliji.com/o_1fjss3fe01jg41q1s1dn2rce155gb.jpg',
-        },
-      ],
+      topics: [],
       tabList: [],
     }
   },
@@ -62,6 +41,7 @@ export default {
     this.getCollegeList()
     this.getBanner()
     this.getTabs()
+    this.getHotTopic()
   },
   methods: {
     async getCategory() {
@@ -79,6 +59,10 @@ export default {
     async getTabs() {
       const { data } = await Api.getTabs()
       this.tabList = data
+    },
+    async getHotTopic() {
+      const { data } = await Api.getHotTopic()
+      this.topics = data
     },
   },
 }

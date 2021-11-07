@@ -6,7 +6,12 @@
     </div>
     <div class="list">
       <van-grid :icon-size="44" :border="false" clickable :column-num="5">
-        <van-grid-item v-for="(topic, index) in topics" :text="topic.title" :key="index" :icon="topic.coverPath" />
+        <van-grid-item
+          v-for="(topic, index) in topics"
+          :text="topic.title"
+          :key="index"
+          :icon="topic.background_image"
+        />
       </van-grid>
     </div>
   </div>
