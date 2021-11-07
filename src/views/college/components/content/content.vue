@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <van-tabs v-model="active" scrollspy :ellipsis="false">
+    <van-tabs v-model="active" :ellipsis="false">
       <van-tab :name="index" v-for="(tab, index) in tabList" :key="index" :title="tab.title" />
     </van-tabs>
     <van-list finished-text="没有更多了" v-model="loading" :finished="finished" @load="onLoad">
