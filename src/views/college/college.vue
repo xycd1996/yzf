@@ -6,7 +6,7 @@
     </div>
     <my-category :category="category" />
     <my-hot-topic :topics="topics" />
-    <my-content :tabList="tabList" />
+    <my-content v-if="tabList.length" :tabList="tabList" />
   </div>
 </template>
 
@@ -29,15 +29,7 @@ export default {
   },
   data() {
     return {
-      bannerList: [
-        { photo: 'https://qnm.hunliji.com/o_1fjsrhlfhtpe7itbgjko43lj.jpg' },
-        {
-          photo: 'https://qnm.hunliji.com/o_1fjsrgiat1n4v15f82ehhg11gkd9.jpg',
-        },
-        {
-          photo: 'https://qnm.hunliji.com/o_1fjsrjdbh1u5417ib9ll1lq41au3o.jpg',
-        },
-      ],
+      bannerList: [],
       searchVal: '',
       category: [],
       topics: [
@@ -62,18 +54,14 @@ export default {
           coverPath: 'https://qnm.hunliji.com/o_1fjss3fe01jg41q1s1dn2rce155gb.jpg',
         },
       ],
-      tabList: [
-        { title: '优秀创作者' },
-        { title: '优秀视频' },
-        { title: '推荐教程' },
-        { title: '平台入门' },
-        { title: '平台政策' },
-      ],
+      tabList: [],
     }
   },
   mounted() {
     this.getCategory()
     this.getCollegeList()
+    this.getBanner()
+    this.getTabs()
   },
   methods: {
     async getCategory() {
@@ -83,6 +71,14 @@ export default {
     async getCollegeList() {
       const { data } = await Api.getCollege()
       console.log(data)
+    },
+    async getBanner() {
+      const { data } = await Api.getBanner()
+      this.bannerList = data
+    },
+    async getTabs() {
+      const { data } = await Api.getTabs()
+      this.tabList = data
     },
   },
 }
