@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import adminRoutes from './administrator'
 
+// 商城页面
 const PageView = () => import('@views/index')
 const Home = () => import('@views/home/home')
 const Category = () => import('@views/category/category')
@@ -10,17 +11,21 @@ const Order = () => import('@views/order/order')
 const OrderDetail = () => import('@views/order-detail/order-detail')
 const Cart = () => import('@views/cart/cart')
 const GoodsDetail = () => import('@views/goods-detail/goods-detail')
-const GeneralMerchandise = () =>
-  import('@views/goods-detail/general-merchandise/general-merchandise')
+const GeneralMerchandise = () => import('@views/goods-detail/general-merchandise/general-merchandise')
 const SecondhandGoods = () => import('@views/goods-detail/secondhand-goods/secondhand-goods')
 const Bidding = () => import('@views/goods-detail/bidding/bidding')
 const OfflineGoods = () => import('@views/goods-detail/offline-goods/offline-goods')
 const Shop = () => import('@views/shop/shop')
 const Search = () => import('@views/search/search')
 const Settlement = () => import('@views/order-settlement/order-settlement')
+const CustomerChat = () => import('@views/customer-chat/customer-chat')
+
+// 核销管理后台页面
 const Address = () => import('@views/address/address')
 const AddressEdit = () => import('@views/address/address-edit/address-edit')
-const CustomerChat = () => import('@views/customer-chat/customer-chat')
+
+// 学院页面
+const College = () => import('@views/college/college')
 
 Vue.use(VueRouter)
 
@@ -33,40 +38,40 @@ const routes = [
       {
         path: '/',
         name: 'Home',
-        component: Home
+        component: Home,
       },
       {
         path: '/category',
         name: 'Category',
-        component: Category
+        component: Category,
       },
 
       {
         path: '/order',
         name: 'Order',
-        component: Order
+        component: Order,
       },
       {
         path: '/cart',
         name: 'Cart',
-        component: Cart
-      }
-    ]
+        component: Cart,
+      },
+    ],
   },
   {
     path: '/chat/:id',
     name: 'CustomerChat',
-    component: CustomerChat
+    component: CustomerChat,
   },
   {
     path: '/orderDetail/:id',
     name: 'OrderDetail',
-    component: OrderDetail
+    component: OrderDetail,
   },
   {
     path: '/all/:type?',
     name: 'All',
-    component: All
+    component: All,
   },
   {
     path: '/goods',
@@ -76,39 +81,39 @@ const routes = [
       {
         path: 'general/:id',
         name: 'GeneralMerchandise',
-        component: GeneralMerchandise
+        component: GeneralMerchandise,
       },
       {
         path: 'secondhand/:id',
         name: 'SecondhandGoods',
-        component: SecondhandGoods
+        component: SecondhandGoods,
       },
       {
         path: 'bidding/:id',
         name: 'Bidding',
-        component: Bidding
+        component: Bidding,
       },
       {
         path: 'offline/:id',
         name: 'OfflineGoods',
-        component: OfflineGoods
-      }
-    ]
+        component: OfflineGoods,
+      },
+    ],
   },
   {
     path: '/shop/:id',
     name: 'Shop',
-    component: Shop
+    component: Shop,
   },
   {
     path: '/search',
     name: 'Search',
-    component: Search
+    component: Search,
   },
   {
     path: '/settlement/:id',
     name: 'Settlement',
-    component: Settlement
+    component: Settlement,
   },
   {
     path: '/address',
@@ -118,15 +123,20 @@ const routes = [
       {
         path: 'edit/:id?',
         name: 'AddressEdit',
-        component: AddressEdit
-      }
-    ]
+        component: AddressEdit,
+      },
+    ],
+  },
+  {
+    path: '/college',
+    name: 'College',
+    component: College,
   },
   {
     path: '*',
-    redirect: '/'
+    redirect: '/',
   },
-  ...adminRoutes
+  ...adminRoutes,
 ]
 
 const router = new VueRouter({
@@ -136,7 +146,7 @@ const router = new VueRouter({
       return savedPosition
     }
     return { x: 0, y: 0 }
-  }
+  },
 })
 
 router.beforeEach((to, from, next) => {

@@ -1,7 +1,7 @@
 <template>
   <van-swipe class="my-swipe" :style="`height: ${height}`" :autoplay="3000" indicator-color="white">
     <van-swipe-item :key="index" v-for="(banner, index) in bannerList">
-      <van-image :height="height" style="color: #333" width="100%" fit="contain" lazy-load :src="banner.photo">
+      <van-image :height="height" style="color: #333" width="100%" :fit="objectFit" lazy-load :src="banner.photo">
         <template #loading>
           <van-loading type="spinner" vertical size="20">加载中...</van-loading>
         </template>
@@ -18,19 +18,23 @@ export default {
   props: {
     bannerList: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     height: {
       type: String,
-      default: '16rem'
-    }
+      default: '16rem',
+    },
+    objectFit: {
+      type: String,
+      default: 'contain',
+    },
   },
   components: {
     'van-swipe': Swipe,
     'van-swipe-item': SwipeItem,
     'van-loading': Loading,
-    'van-image': Image
-  }
+    'van-image': Image,
+  },
 }
 </script>
 

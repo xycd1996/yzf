@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import { Icon } from 'vant'
+import { Icon } from "vant";
 
 export default {
   components: {
-    'van-icon': Icon
-  }
-}
+    "van-icon": Icon,
+  },
+};
 </script>
 
 <style lang="less" scoped>

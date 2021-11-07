@@ -1198,12 +1198,12 @@
     anymatch "^3.0.0"
     source-map "^0.6.0"
 
-"@vant/icons@^1.5.3":
-  version "1.7.0"
-  resolved "https://registry.nlark.com/@vant/icons/download/@vant/icons-1.7.0.tgz#02d427532a8142c35db159da9c364fe6890c3ac9"
-  integrity sha1-AtQnUyqBQsNdsVnanDZP5okMOsk=
+"@vant/icons@^1.7.1":
+  version "1.7.1"
+  resolved "https://registry.nlark.com/@vant/icons/download/@vant/icons-1.7.1.tgz?cache=0&sync_timestamp=1631954457671&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40vant%2Ficons%2Fdownload%2F%40vant%2Ficons-1.7.1.tgz#49ae420302b5581e54e6894891e5a05bc76e9f87"
+  integrity sha1-Sa5CAwK1WB5U5olIkeWgW8dun4c=
 
-"@vant/popperjs@^1.0.0":
+"@vant/popperjs@^1.1.0":
   version "1.1.0"
   resolved "https://registry.nlark.com/@vant/popperjs/download/@vant/popperjs-1.1.0.tgz#b4edee5bbfa6fb18705986e313d4fd5f17942a0f"
   integrity sha1-tO3uW7+m+xhwWYbjE9T9XxeUKg8=
@@ -8335,14 +8335,14 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vant@2.12.25:
-  version "2.12.25"
-  resolved "https://registry.nlark.com/vant/download/vant-2.12.25.tgz?cache=0&sync_timestamp=1628991959087&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvant%2Fdownload%2Fvant-2.12.25.tgz#90c2d4a5654b85dbb0252995de14e66fa3f63528"
-  integrity sha1-kMLUpWVLhduwJSmV3hTmb6P2NSg=
+vant@^2.12.25:
+  version "2.12.31"
+  resolved "https://registry.npmmirror.com/vant/download/vant-2.12.31.tgz#a531cafc84c255ef12461397d19ce9a012a4c115"
+  integrity sha1-pTHK/ITCVe8SRhOX0ZzpoBKkwRU=
   dependencies:
     "@babel/runtime" "7.x"
-    "@vant/icons" "^1.5.3"
-    "@vant/popperjs" "^1.0.0"
+    "@vant/icons" "^1.7.1"
+    "@vant/popperjs" "^1.1.0"
     "@vue/babel-helper-vue-jsx-merge-props" "^1.0.0"
     vue-lazyload "1.2.3"
 

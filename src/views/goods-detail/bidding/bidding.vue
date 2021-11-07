@@ -22,9 +22,7 @@
         </div>
       </div>
       <div class="biddingInfo">
-        <div class="text">
-          正在竞拍
-        </div>
+        <div class="text">正在竞拍</div>
         <div class="countdown">
           <span>距截拍：</span>
           <van-count-down :time="12319339" format="DD 天 HH 时 mm 分 ss 秒" />
@@ -49,7 +47,11 @@
           </div>
         </div>
         <div @click="handleCollect" class="collect">
-          <van-icon :name="collect ? 'star' : 'star-o'" size="2rem" :color="collect ? 'gold' : 'black'" />
+          <van-icon
+            :name="collect ? 'star' : 'star-o'"
+            size="2rem"
+            :color="collect ? 'gold' : 'black'"
+          />
           <span>收藏</span>
         </div>
       </div>
@@ -63,11 +65,15 @@
           <div class="name">{{ goodsDetail.shop_name }}</div>
           <ul class="tags">
             <li class="item">
-              <span><van-icon name="passed" color="red" size="1rem"/></span>
+              <span>
+                <van-icon name="passed" color="red" size="1rem" />
+              </span>
               <span>企业认证</span>
             </li>
             <li class="item">
-              <span><van-icon name="passed" color="red" size="1rem"/></span>
+              <span>
+                <van-icon name="passed" color="red" size="1rem" />
+              </span>
               <span>店铺保障</span>
             </li>
           </ul>
@@ -107,82 +113,82 @@ import {
   Icon,
   CountDown,
   Tag,
-  Button
-} from 'vant'
-import GoodsApi from '@api/goods'
-import Process from './components/process/process'
-import BiddingList from './components/bidding-list/bidding-list'
+  Button,
+} from "vant";
+import GoodsApi from "@api/goods";
+import Process from "./components/process/process";
+import BiddingList from "./components/bidding-list/bidding-list";
 
 export default {
   components: {
-    'van-image': Image,
-    'van-swipe': Swipe,
-    'van-swipe-item': SwipeItem,
-    'van-loading': Loading,
-    'van-goods-action': GoodsAction,
-    'van-goods-action-icon': GoodsActionIcon,
-    'van-goods-action-button': GoodsActionButton,
-    'van-empty': Empty,
-    'van-divider': Divider,
-    'van-icon': Icon,
-    'van-tag': Tag,
-    'van-count-down': CountDown,
-    'van-button': Button,
-    'm-process': Process,
-    'm-bidding-list': BiddingList
+    "van-image": Image,
+    "van-swipe": Swipe,
+    "van-swipe-item": SwipeItem,
+    "van-loading": Loading,
+    "van-goods-action": GoodsAction,
+    "van-goods-action-icon": GoodsActionIcon,
+    "van-goods-action-button": GoodsActionButton,
+    "van-empty": Empty,
+    "van-divider": Divider,
+    "van-icon": Icon,
+    "van-tag": Tag,
+    "van-count-down": CountDown,
+    "van-button": Button,
+    "m-process": Process,
+    "m-bidding-list": BiddingList,
   },
   data() {
     return {
       goodsDetail: {},
       current: 0,
       swipersLength: 0,
-      collect: false
-    }
+      collect: false,
+    };
   },
   methods: {
     _initialization() {
-      this._queryGoodsDetail()
+      this._queryGoodsDetail();
     },
     async _queryGoodsDetail() {
-      const id = this.$route.params.id
-      const { data } = await GoodsApi.getDetail({ id })
-      this._normalizePrice(data.sku.list)
-      this.goodsDetail = data
-      this.swipersLength = data.swipers.length
+      const id = this.$route.params.id;
+      const { data } = await GoodsApi.getDetail({ id });
+      this._normalizePrice(data.sku.list);
+      this.goodsDetail = data;
+      this.swipersLength = data.swipers.length;
     },
     _normalizePrice(list) {
       list.forEach((el) => {
         if (el.price) {
-          el.price = parseFloat(el.price) * 100
+          el.price = parseFloat(el.price) * 100;
         }
-      })
+      });
     },
     onCustomerChat() {
       this.$router.push({
-        name: 'CustomerChat',
+        name: "CustomerChat",
         params: {
-          id: this.goodsDetail?.shop_id
+          id: this.goodsDetail?.shop_id,
         },
         query: {
-          shopName: this.goodsDetail?.shop_name ?? '未知店铺'
-        }
-      })
+          shopName: this.goodsDetail?.shop_name ?? "未知店铺",
+        },
+      });
     },
     handleCollect() {
-      this.collect = !this.collect
+      this.collect = !this.collect;
     },
     onClickBack() {
-      this.$router.back()
+      this.$router.back();
     },
     swipeChange(index) {
-      this.current = index
+      this.current = index;
     },
-    handleBidding() {}
+    handleBidding() {},
   },
   mounted() {
-    this._initialization()
-  }
-}
+    this._initialization();
+  },
+};
 </script>
 <style lang="less" scoped>
 @import '~@assets/less/theme';
@@ -260,6 +266,7 @@ export default {
           color: @title-color;
         }
         .desc {
+          margin-top: 1rem;
           display: flex;
           line-height: 1.6;
           font-size: @less-font-size;
@@ -276,7 +283,7 @@ export default {
         }
       }
       .collect {
-        flex: 0 0 2rem;
+        flex: 0 0 2.5rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
