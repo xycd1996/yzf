@@ -8,13 +8,13 @@
         <li class="item" v-for="article in articleList" :key="article.id">
           <div class="container">
             <div class="coverPath">
-              <van-image height="160" width="100%" fit="cover" :src="article.coverPath" lazy-load />
+              <van-image height="160" width="100%" fit="cover" :src="article.image" lazy-load />
             </div>
             <div class="info">
               <div class="title">{{ article.title }}</div>
-              <div v-if="article.merchant" class="merchant">
-                <img class="logo" :src="article.merchant.logo" />
-                <div class="span">{{ article.merchant.name }}</div>
+              <div class="merchant">
+                <img class="logo" :src="article.authorHeadImage" />
+                <div class="span">{{ article.authorName }}</div>
               </div>
             </div>
           </div>
@@ -53,12 +53,21 @@ export default {
   },
   methods: {
     async onLoad() {
-      this.loading = true
       const { data } = await Api.getList({ cate_id: this.active, page: this.page, pagesize: this.pageSize })
       this.articleList = data.data
       this.loading = false
       if (data.data.length < this.pageSize) {
         this.finished = true
+      }
+    },
+  },
+  watch: {
+    active: function(val, oldVal) {
+      if (val !== oldVal) {
+        console.log('111')
+        this.finished = false
+        this.loading = true
+        this.onLoad()
       }
     },
   },
