@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <van-grid column-num="5">
+    <van-grid :border="false" column-num="5">
       <van-grid-item v-for="(cate, index) in category" :text="cate.name" :icon="cate.icon" :key="index" />
     </van-grid>
   </div>

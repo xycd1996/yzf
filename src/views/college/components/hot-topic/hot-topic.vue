@@ -38,7 +38,7 @@ export default {
 <style lang="less" scoped>
 .hot-topic {
   margin: 8px;
-  background: #fff;
+  background: #f1f2f3;
   border-radius: 10px;
   .top {
     padding: 16px 16px 4px;
@@ -51,6 +51,17 @@ export default {
       font-weight: normal;
       font-size: 14px;
       color: #888;
+    }
+  }
+  .list {
+    ::v-deep {
+      .van-grid-item__content {
+        background: #f1f2f3;
+      }
+      .van-icon__image {
+        border-radius: 50%;
+        object-fit: cover;
+      }
     }
   }
 }

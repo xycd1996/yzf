@@ -64,7 +64,6 @@ export default {
   watch: {
     active: function(val, oldVal) {
       if (val !== oldVal) {
-        console.log('111')
         this.finished = false
         this.loading = true
         this.onLoad()
@@ -89,6 +88,8 @@ export default {
         border-radius: 6px;
         overflow: hidden;
         background: #fff;
+        border: 1px solid #eee;
+        box-shadow: 2px 2px 10px #ddd;
         .info {
           padding: 4px;
           .title {

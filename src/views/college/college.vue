@@ -38,7 +38,6 @@ export default {
   },
   mounted() {
     this.getCategory()
-    this.getCollegeList()
     this.getBanner()
     this.getTabs()
     this.getHotTopic()
@@ -47,10 +46,6 @@ export default {
     async getCategory() {
       const { data } = await Api.getCategory()
       this.category = data
-    },
-    async getCollegeList() {
-      const { data } = await Api.getCollege()
-      console.log(data)
     },
     async getBanner() {
       const { data } = await Api.getBanner()
