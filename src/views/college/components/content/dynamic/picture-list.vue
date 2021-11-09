@@ -60,7 +60,7 @@ export default {
   .list {
     display: flex;
     flex-wrap: wrap;
-    padding: 4px 8px;
+    padding: 0 8px;
     .item {
       box-sizing: border-box;
       padding: 4px;

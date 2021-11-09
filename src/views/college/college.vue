@@ -1,18 +1,20 @@
 <template>
-  <div class="college">
-    <my-banner objectFit="cover" :bannerList="bannerList" />
-    <div class="search">
-      <van-search v-model="searchVal" placeholder="请输入搜索关键词" />
+  <van-pull-refresh success-text="刷新成功" v-model="refreshing" @refresh="onRefresh">
+    <div class="college">
+      <my-banner objectFit="cover" :bannerList="bannerList" />
+      <div class="search">
+        <van-search v-model="searchVal" placeholder="请输入搜索关键词" />
+      </div>
+      <my-category :category="category" />
+      <my-hot-topic :topics="topics" />
+      <my-content v-if="tabList.length" :tabList="tabList" />
     </div>
-    <my-category :category="category" />
-    <my-hot-topic :topics="topics" />
-    <my-content v-if="tabList.length" :tabList="tabList" />
-  </div>
+  </van-pull-refresh>
 </template>
 
 <script>
 import Banner from '@components/banner/banner'
-import { Search } from 'vant'
+import { PullRefresh, Search } from 'vant'
 import Category from './components/category/category'
 import HotTopic from './components/hot-topic/hot-topic'
 import Content from './components/content/content'
@@ -26,6 +28,7 @@ export default {
     'my-category': Category,
     'my-hot-topic': HotTopic,
     'my-content': Content,
+    'van-pull-refresh': PullRefresh,
   },
   data() {
     return {
@@ -34,6 +37,7 @@ export default {
       category: [],
       topics: [],
       tabList: [],
+      refreshing: false,
     }
   },
   mounted() {
@@ -43,6 +47,11 @@ export default {
     this.getHotTopic()
   },
   methods: {
+    async onRefresh() {
+      this.tabList = []
+      await Promise.all([this.getCategory(), this.getHotTopic(), this.getBanner(), this.getTabs()])
+      this.refreshing = false
+    },
     async getCategory() {
       const { data } = await Api.getCategory()
       this.category = data
