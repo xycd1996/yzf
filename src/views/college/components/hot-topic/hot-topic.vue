@@ -62,6 +62,12 @@ export default {
         border-radius: 50%;
         object-fit: cover;
       }
+      .van-grid-item__text {
+        white-space: nowrap;
+        max-width: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 }
