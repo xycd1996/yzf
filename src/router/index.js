@@ -19,8 +19,6 @@ const Shop = () => import('@views/shop/shop')
 const Search = () => import('@views/search/search')
 const Settlement = () => import('@views/order-settlement/order-settlement')
 const CustomerChat = () => import('@views/customer-chat/customer-chat')
-
-// 核销管理后台页面
 const Address = () => import('@views/address/address')
 const AddressEdit = () => import('@views/address/address-edit/address-edit')
 
