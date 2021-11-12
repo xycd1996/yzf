@@ -7,6 +7,7 @@
     <div class="list">
       <van-grid :icon-size="44" :border="false" clickable :column-num="5">
         <van-grid-item
+          @click="onClick(topic.id)"
           v-for="(topic, index) in topics"
           :text="topic.name"
           :key="index"
@@ -30,6 +31,13 @@ export default {
     topics: {
       type: Array,
       default: () => [],
+    },
+  },
+  methods: {
+    onClick(id) {
+      WebViewJavascriptBridge.callHandler('open_theme', {
+        topicid: id,
+      })
     },
   },
 }
