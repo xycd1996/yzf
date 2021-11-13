@@ -2,14 +2,18 @@
   <div class="user-list">
     <van-list finished-text="没有更多了" v-model="loading" :finished="finished" @load="onLoad">
       <div class="container" v-for="item in list" :key="item.userid">
-        <div v-if="item.videos && item.videos.length" class="left">
+        <div v-if="item.videos" class="left">
           <div
             v-for="(video, index) in sliceVideoImages(item.videos)"
             :key="index"
             @click="openVideo(item.userid, index)"
             :class="`video-item video-item-${index + 1}`"
           >
-            <van-image width="100%" height="100%" lazy-load fit="cover" :src="imageHost + video.photo_index" />
+            <van-image width="100%" height="100%" lazy-load fit="cover" :src="imageHost + video.photo_index">
+              <template #error>
+                <van-image fit="cover" width="60" :src="require('@assets/img/avatar_error.png')" />
+              </template>
+            </van-image>
           </div>
         </div>
         <div class="right">
@@ -71,10 +75,11 @@ export default {
       openUserHomePage(userId)
     },
     sliceVideoImages(images) {
-      if (!images.length) {
-        return []
+      const ret = slice(images, 0, 3)
+      if (ret.length < 3) {
+        return ret.concat(Array(3 - ret.length).fill(''))
       }
-      return slice(images, 0, 3)
+      return ret
     },
     onPreview(img) {
       ImagePreview({
