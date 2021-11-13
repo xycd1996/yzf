@@ -1,17 +1,15 @@
 <template>
-  <page-loading :loading="pageLoading">
-    <van-pull-refresh success-text="刷新成功" v-model="refreshing" @refresh="onRefresh">
-      <div class="college">
-        <my-banner objectFit="cover" :bannerList="bannerList" />
-        <div class="search">
-          <van-search v-model="searchVal" placeholder="请输入搜索关键词" />
-        </div>
-        <my-category :category="category" />
-        <my-hot-topic :topics="topics" />
-        <my-content v-if="tabList.length" :tabList="tabList" />
+  <van-pull-refresh success-text="刷新成功" v-model="refreshing" @refresh="onRefresh">
+    <div class="college">
+      <my-banner objectFit="cover" :bannerList="bannerList" />
+      <div class="search">
+        <van-search v-model="searchVal" placeholder="请输入搜索关键词" />
       </div>
-    </van-pull-refresh>
-  </page-loading>
+      <my-category :category="category" />
+      <my-hot-topic :topics="topics" />
+      <my-content v-if="tabList.length" :tabList="tabList" />
+    </div>
+  </van-pull-refresh>
 </template>
 
 <script>
@@ -21,7 +19,6 @@ import Category from './components/category/category'
 import HotTopic from './components/hot-topic/hot-topic'
 import Content from './components/content/content'
 import Api from './api'
-import PageLoading from '@/components/page-loading/page-loading.vue'
 
 export default {
   name: 'College',
@@ -31,8 +28,7 @@ export default {
     'my-category': Category,
     'my-hot-topic': HotTopic,
     'my-content': Content,
-    'van-pull-refresh': PullRefresh,
-    'page-loading': PageLoading
+    'van-pull-refresh': PullRefresh
   },
   data() {
     return {
@@ -41,13 +37,11 @@ export default {
       category: [],
       topics: [],
       tabList: [],
-      refreshing: false,
-      pageLoading: true
+      refreshing: false
     }
   },
-  async mounted() {
-    await Promise.all([this.getCategory(), this.getBanner(), this.getTabs(), this.getHotTopic()])
-    this.pageLoading = false
+  mounted() {
+    Promise.all([this.getCategory(), this.getBanner(), this.getTabs(), this.getHotTopic()])
   },
   methods: {
     async onRefresh() {

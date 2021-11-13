@@ -34,40 +34,40 @@ const routes = [
       {
         path: '/',
         name: 'Home',
-        component: Home,
+        component: Home
       },
       {
         path: '/category',
         name: 'Category',
-        component: Category,
+        component: Category
       },
 
       {
         path: '/order',
         name: 'Order',
-        component: Order,
+        component: Order
       },
       {
         path: '/cart',
         name: 'Cart',
-        component: Cart,
-      },
-    ],
+        component: Cart
+      }
+    ]
   },
   {
     path: '/chat/:id',
     name: 'CustomerChat',
-    component: CustomerChat,
+    component: CustomerChat
   },
   {
     path: '/orderDetail/:id',
     name: 'OrderDetail',
-    component: OrderDetail,
+    component: OrderDetail
   },
   {
     path: '/all/:type?',
     name: 'All',
-    component: All,
+    component: All
   },
   {
     path: '/goods',
@@ -77,39 +77,39 @@ const routes = [
       {
         path: 'general/:id',
         name: 'GeneralMerchandise',
-        component: GeneralMerchandise,
+        component: GeneralMerchandise
       },
       {
         path: 'secondhand/:id',
         name: 'SecondhandGoods',
-        component: SecondhandGoods,
+        component: SecondhandGoods
       },
       {
         path: 'bidding/:id',
         name: 'Bidding',
-        component: Bidding,
+        component: Bidding
       },
       {
         path: 'offline/:id',
         name: 'OfflineGoods',
-        component: OfflineGoods,
-      },
-    ],
+        component: OfflineGoods
+      }
+    ]
   },
   {
     path: '/shop/:id',
     name: 'Shop',
-    component: Shop,
+    component: Shop
   },
   {
     path: '/search',
     name: 'Search',
-    component: Search,
+    component: Search
   },
   {
     path: '/settlement/:id',
     name: 'Settlement',
-    component: Settlement,
+    component: Settlement
   },
   {
     path: '/address',
@@ -119,16 +119,16 @@ const routes = [
       {
         path: 'edit/:id?',
         name: 'AddressEdit',
-        component: AddressEdit,
-      },
-    ],
+        component: AddressEdit
+      }
+    ]
   },
   ...AdminRoutes,
   ...CollegeRoutes,
   {
     path: '*',
-    redirect: '/',
-  },
+    redirect: '/'
+  }
 ]
 
 const router = new VueRouter({
@@ -138,7 +138,7 @@ const router = new VueRouter({
       return savedPosition
     }
     return { x: 0, y: 0 }
-  },
+  }
 })
 
 router.beforeEach((to, from, next) => {

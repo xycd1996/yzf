@@ -2,11 +2,10 @@ import { configure, instance } from '@kiter/axios'
 import FastClick from 'fastclick'
 import debounce from 'lodash/debounce'
 import { Lazyload, Notify, Toast } from 'vant'
-import VConsole from 'vconsole'
 import Vue from 'vue'
 import { setStatusBar, toLogin } from './utils/jsBridge'
 
-new VConsole()
+// new VConsole()
 
 const debounceLogin = debounce(() => {
   toLogin()
@@ -26,10 +25,10 @@ configure({
   onError: (err) => {
     Notify({
       type: 'danger',
-      message: err.msg,
+      message: err.msg
     })
     Toast.clear()
-  },
+  }
 })
 
 process.env.NODE_ENV === 'production' && setStatusBar(false)
@@ -40,5 +39,5 @@ FastClick.attach(document.body)
 Vue.config.productionTip = false
 
 Vue.use(Lazyload, {
-  lazyComponent: true,
+  lazyComponent: true
 })

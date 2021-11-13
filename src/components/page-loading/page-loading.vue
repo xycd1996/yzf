@@ -16,7 +16,10 @@ import { Loading } from 'vant'
 
 export default {
   props: {
-    loading: Boolean
+    loading: {
+      default: true,
+      type: Boolean
+    }
   },
   components: {
     'van-loading': Loading
