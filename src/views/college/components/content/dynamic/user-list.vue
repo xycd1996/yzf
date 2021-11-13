@@ -24,6 +24,7 @@
         </div>
         <div class="right">
           <van-image
+            @click="onClickUser"
             class="avatar"
             lazy-load
             round

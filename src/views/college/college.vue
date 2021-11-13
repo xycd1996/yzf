@@ -45,6 +45,9 @@ export default {
     this.getBanner()
     this.getTabs()
     this.getHotTopic()
+    WebViewJavascriptBridge.callHandler('get_location', {}, (pos) => {
+      console.log('pos: ', pos)
+    })
   },
   methods: {
     async onRefresh() {
