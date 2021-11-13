@@ -1,15 +1,17 @@
 <template>
-  <van-pull-refresh success-text="刷新成功" v-model="refreshing" @refresh="onRefresh">
-    <div class="college">
-      <my-banner objectFit="cover" :bannerList="bannerList" />
-      <div class="search">
-        <van-search v-model="searchVal" placeholder="请输入搜索关键词" />
+  <page-loading :loading="pageLoading">
+    <van-pull-refresh success-text="刷新成功" v-model="refreshing" @refresh="onRefresh">
+      <div class="college">
+        <my-banner objectFit="cover" :bannerList="bannerList" />
+        <div class="search">
+          <van-search v-model="searchVal" placeholder="请输入搜索关键词" />
+        </div>
+        <my-category :category="category" />
+        <my-hot-topic :topics="topics" />
+        <my-content v-if="tabList.length" :tabList="tabList" />
       </div>
-      <my-category :category="category" />
-      <my-hot-topic :topics="topics" />
-      <my-content v-if="tabList.length" :tabList="tabList" />
-    </div>
-  </van-pull-refresh>
+    </van-pull-refresh>
+  </page-loading>
 </template>
 
 <script>
@@ -19,6 +21,7 @@ import Category from './components/category/category'
 import HotTopic from './components/hot-topic/hot-topic'
 import Content from './components/content/content'
 import Api from './api'
+import PageLoading from '@/components/page-loading/page-loading.vue'
 
 export default {
   name: 'College',
@@ -28,7 +31,8 @@ export default {
     'my-category': Category,
     'my-hot-topic': HotTopic,
     'my-content': Content,
-    'van-pull-refresh': PullRefresh
+    'van-pull-refresh': PullRefresh,
+    'page-loading': PageLoading
   },
   data() {
     return {
@@ -37,14 +41,13 @@ export default {
       category: [],
       topics: [],
       tabList: [],
-      refreshing: false
+      refreshing: false,
+      pageLoading: true
     }
   },
-  mounted() {
-    this.getCategory()
-    this.getBanner()
-    this.getTabs()
-    this.getHotTopic()
+  async mounted() {
+    await Promise.all([this.getCategory(), this.getBanner(), this.getTabs(), this.getHotTopic()])
+    this.pageLoading = false
   },
   methods: {
     async onRefresh() {
