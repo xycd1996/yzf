@@ -1,27 +1,28 @@
+import lazyRouter from '@/utils/lazyRouter'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AdminRoutes from './administrator'
 import CollegeRoutes from './college'
 
 // 商城页面
-const PageView = () => import('@views/index')
-const Home = () => import('@views/home/home')
-const Category = () => import('@views/category/category')
-const All = () => import('@views/all/all')
-const Order = () => import('@views/order/order')
-const OrderDetail = () => import('@views/order-detail/order-detail')
-const Cart = () => import('@views/cart/cart')
-const GoodsDetail = () => import('@views/goods-detail/goods-detail')
-const GeneralMerchandise = () => import('@views/goods-detail/general-merchandise/general-merchandise')
-const SecondhandGoods = () => import('@views/goods-detail/secondhand-goods/secondhand-goods')
-const Bidding = () => import('@views/goods-detail/bidding/bidding')
-const OfflineGoods = () => import('@views/goods-detail/offline-goods/offline-goods')
-const Shop = () => import('@views/shop/shop')
-const Search = () => import('@views/search/search')
-const Settlement = () => import('@views/order-settlement/order-settlement')
-const CustomerChat = () => import('@views/customer-chat/customer-chat')
-const Address = () => import('@views/address/address')
-const AddressEdit = () => import('@views/address/address-edit/address-edit')
+const PageView = () => lazyRouter(import('@views/index'))
+const Home = () => lazyRouter(import('@views/home/home'))
+const Category = () => lazyRouter(import('@views/category/category'))
+const All = () => lazyRouter(import('@views/all/all'))
+const Order = () => lazyRouter(import('@views/order/order'))
+const OrderDetail = () => lazyRouter(import('@views/order-detail/order-detail'))
+const Cart = () => lazyRouter(import('@views/cart/cart'))
+const GoodsDetail = () => lazyRouter(import('@views/goods-detail/goods-detail'))
+const GeneralMerchandise = () => lazyRouter(import('@views/goods-detail/general-merchandise/general-merchandise'))
+const SecondhandGoods = () => lazyRouter(import('@views/goods-detail/secondhand-goods/secondhand-goods'))
+const Bidding = () => lazyRouter(import('@views/goods-detail/bidding/bidding'))
+const OfflineGoods = () => lazyRouter(import('@views/goods-detail/offline-goods/offline-goods'))
+const Shop = () => lazyRouter(import('@views/shop/shop'))
+const Search = () => lazyRouter(import('@views/search/search'))
+const Settlement = () => lazyRouter(import('@views/order-settlement/order-settlement'))
+const CustomerChat = () => lazyRouter(import('@views/customer-chat/customer-chat'))
+const Address = () => lazyRouter(import('@views/address/address'))
+const AddressEdit = () => lazyRouter(import('@views/address/address-edit/address-edit'))
 
 Vue.use(VueRouter)
 
