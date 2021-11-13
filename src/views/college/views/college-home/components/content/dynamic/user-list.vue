@@ -26,7 +26,11 @@
             height="50"
             fit="cover"
             :src="imageHost + item.headimg"
-          />
+          >
+            <template #error>
+              <van-image fit="cover" :src="require('@assets/img/avatar_error.png')" />
+            </template>
+          </van-image>
           <div class="userName">
             {{ item.nickname }}
           </div>
@@ -45,11 +49,11 @@ import slice from 'lodash/slice'
 
 export default {
   props: {
-    active: Number,
+    active: Number
   },
   components: {
     'van-list': List,
-    'van-image': Image,
+    'van-image': Image
   },
   data() {
     return {
@@ -58,7 +62,7 @@ export default {
       list: [],
       page: 1,
       pageSize: 20,
-      imageHost: '',
+      imageHost: ''
     }
   },
   methods: {
@@ -84,13 +88,13 @@ export default {
     onPreview(img) {
       ImagePreview({
         images: [img],
-        showIndex: false,
+        showIndex: false
       })
     },
     openVideo(userId, index) {
       openVideoList('/tsShop/addons.short_video_school/articleDetail', index, userId)
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -156,6 +160,11 @@ export default {
         margin-bottom: 8px;
         font-size: 14px;
         font-weight: 600;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
       }
       .follow {
         display: flex;

@@ -15,10 +15,10 @@
 <script>
 import Banner from '@components/banner/banner'
 import { PullRefresh, Search } from 'vant'
-import Category from '../../components/category/category'
-import HotTopic from '../../components/hot-topic/hot-topic'
-import Content from '../../components/content/content'
-import Api from '../../api'
+import Category from './components/category/category'
+import HotTopic from './components/hot-topic/hot-topic'
+import Content from './components/content/content'
+import Api from './api'
 
 export default {
   name: 'College',
