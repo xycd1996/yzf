@@ -1,10 +1,10 @@
-import PageLoading from '@components/page-loading/page-loading'
+import Loading from '@components/loading/loading'
 
 export default (AsyncView) => {
   const AsyncHandler = () => ({
     component: AsyncView,
-    loading: PageLoading,
-    error: PageLoading,
+    loading: Loading,
+    error: Loading,
     delay: 400,
     timeout: 5000
   })
