@@ -19,13 +19,7 @@
     <van-pull-refresh success-text="刷新成功" v-model="pullRefresh" @refresh="_onPullRefresh">
       <my-banner :bannerList="bannerList" />
       <van-grid :column-num="5" :border="false" center clickable>
-        <van-grid-item
-          :to="menu.url"
-          :icon="menu.icon"
-          v-for="(menu, index) in menus"
-          :text="menu.name"
-          :key="index"
-        />
+        <van-grid-item :to="menu.url" :icon="menu.icon" v-for="(menu, index) in menus" :text="menu.name" :key="index" />
       </van-grid>
       <transition name="van-fade">
         <van-list
@@ -48,6 +42,7 @@ import { Loading, PullRefresh, Grid, GridItem, NavBar, Icon, List } from 'vant'
 import HomeApi from '@api/home'
 import CateProductList from '@components/cate-product-list/cate-product-list'
 import Banner from '@components/banner/banner'
+import { closeWeb } from '@/utils/jsBridge'
 
 const PAGE_SIZE = 20
 
@@ -61,7 +56,7 @@ export default {
     'my-banner': Banner,
     'van-nav-bar': NavBar,
     'van-icon': Icon,
-    'van-list': List
+    'van-list': List,
   },
   data() {
     return {
@@ -71,7 +66,7 @@ export default {
       finished: false,
       bannerList: [],
       goodsList: [],
-      menus: []
+      menus: [],
     }
   },
   mounted() {
@@ -79,14 +74,14 @@ export default {
   },
   methods: {
     onClose() {
-      WebViewJavascriptBridge.callHandler('close_webview')
+      closeWeb()
     },
     onLoad() {
       this._queryProductList()
     },
     onClickSearch() {
       this.$router.push({
-        name: 'Search'
+        name: 'Search',
       })
     },
     _initialization() {
@@ -101,7 +96,7 @@ export default {
     async _queryProductList() {
       const { data } = await HomeApi.getProduct({
         page: this.page,
-        pagesize: PAGE_SIZE
+        pagesize: PAGE_SIZE,
       })
       this.page++
       this.loading = false
@@ -119,8 +114,8 @@ export default {
       await this._queryProductList()
       await this._queryMenus()
       this.pullRefresh = false
-    }
-  }
+    },
+  },
 }
 </script>
 

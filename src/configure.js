@@ -4,13 +4,12 @@ import debounce from 'lodash/debounce'
 import { Lazyload, Notify, Toast } from 'vant'
 import VConsole from 'vconsole'
 import Vue from 'vue'
+import { setStatusBar, toLogin } from './utils/jsBridge'
 
 new VConsole()
 
 const debounceLogin = debounce(() => {
-  WebViewJavascriptBridge.callHandler('intent_class', {
-    className: 'com.yishi.yszf.ui.login.LoginActivity',
-  })
+  toLogin()
 }, 500)
 
 configure({
@@ -33,10 +32,7 @@ configure({
   },
 })
 
-process.env.NODE_ENV === 'production' &&
-  WebViewJavascriptBridge.callHandler('set_topbar', {
-    show: false,
-  })
+process.env.NODE_ENV === 'production' && setStatusBar(false)
 
 instance.defaults.baseURL = 'http://58.42.4.33:20004'
 

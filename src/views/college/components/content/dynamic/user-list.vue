@@ -1,41 +1,32 @@
 <template>
   <div class="user-list">
     <van-list finished-text="没有更多了" v-model="loading" :finished="finished" @load="onLoad">
-      <div class="container" v-for="item in list" :key="item.id">
-        <div class="left">
-          <van-image
-            class="video-item video-item-1"
-            lazy-load
-            fit="cover"
-            src="https://qnm.hunliji.com/o_1fk2i58tc1a31851t8vpvfnppg.jpg"
-          />
-          <van-image
-            class="video-item video-item-2"
-            lazy-load
-            fit="cover"
-            src="https://qnm.hunliji.com/o_1fk2i58tc1ogqtf31a5hgg6dggh.jpg"
-          />
-          <van-image
-            class="video-item video-item-3"
-            lazy-load
-            fit="cover"
-            src="https://qnm.hunliji.com/o_1fk2i58tc11s513hh1tcgq15rjii.jpg"
-          />
+      <div class="container" v-for="item in list" :key="item.userid">
+        <div v-if="item.videos && item.videos.length" class="left">
+          <div
+            v-for="(video, index) in sliceVideoImages(item.videos)"
+            :key="index"
+            @click="openVideo(item.userid, index)"
+            :class="`video-item video-item-${index + 1}`"
+          >
+            <van-image width="100%" height="100%" lazy-load fit="cover" :src="imageHost + video.photo_index" />
+          </div>
         </div>
         <div class="right">
           <van-image
-            @click="onClickUser"
+            @click="onPreview(imageHost + item.headimg)"
             class="avatar"
             lazy-load
             round
             width="50"
             height="50"
-            src="https://qnm.hunliji.com/o_1fk2hhnb9kuvhgr9b611khjp9.jpg"
+            fit="cover"
+            :src="imageHost + item.headimg"
           />
-          <div @click="onClickUser" class="userName">
-            用户名
+          <div class="userName">
+            {{ item.nickname }}
           </div>
-          <button class="follow"><van-icon size="12px" name="plus" /> 关注</button>
+          <button @click="onClickUser(item.userid)" class="follow">访问主页</button>
         </div>
       </div>
     </van-list>
@@ -43,8 +34,10 @@
 </template>
 
 <script>
-import { Icon, Image, List } from 'vant'
+import { Image, ImagePreview, List } from 'vant'
 import Api from '../../../api'
+import { openUserHomePage, openVideoList } from '@/utils/jsBridge'
+import slice from 'lodash/slice'
 
 export default {
   props: {
@@ -53,7 +46,6 @@ export default {
   components: {
     'van-list': List,
     'van-image': Image,
-    'van-icon': Icon,
   },
   data() {
     return {
@@ -62,21 +54,36 @@ export default {
       list: [],
       page: 1,
       pageSize: 20,
+      imageHost: '',
     }
   },
   methods: {
     async onLoad() {
       const { data } = await Api.getList({ cate_id: this.active, page: this.page, pagesize: this.pageSize })
-      this.list = data.data
+      this.list = data.items
+      this.imageHost = data.imgHost
       this.loading = false
-      if (data.data.length < this.pageSize) {
+      if (data.items.length < this.pageSize) {
         this.finished = true
       }
     },
     onClickUser(userId) {
-      WebViewJavascriptBridge.callHandler('open_person_info', {
-        authod_id: 184073,
+      openUserHomePage(userId)
+    },
+    sliceVideoImages(images) {
+      if (!images.length) {
+        return []
+      }
+      return slice(images, 0, 3)
+    },
+    onPreview(img) {
+      ImagePreview({
+        images: [img],
+        showIndex: false,
       })
+    },
+    openVideo(userId, index) {
+      openVideoList('/tsShop/addons.short_video_school/articleDetail', index, userId)
     },
   },
 }
@@ -90,7 +97,7 @@ export default {
     margin-top: 48px;
     display: flex;
     align-items: center;
-    height: 160px;
+    height: 164px;
     &::after {
       content: '';
       display: block;
@@ -112,7 +119,7 @@ export default {
       border-radius: 10px;
       overflow: hidden;
       .video-item {
-        display: block;
+        display: flex;
       }
       .video-item-1 {
         grid-area: video-1;
@@ -124,6 +131,8 @@ export default {
         grid-area: video-3;
       }
       display: grid;
+      grid-auto-rows: 80px;
+      grid-auto-columns: 80px;
       grid-template-areas:
         'video-1 video-1 video-2'
         'video-1 video-1 video-3';

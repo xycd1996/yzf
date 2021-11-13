@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import adminRoutes from './administrator'
+import AdminRoutes from './administrator'
+import CollegeRoutes from './college'
 
 // 商城页面
 const PageView = () => import('@views/index')
@@ -21,9 +22,6 @@ const Settlement = () => import('@views/order-settlement/order-settlement')
 const CustomerChat = () => import('@views/customer-chat/customer-chat')
 const Address = () => import('@views/address/address')
 const AddressEdit = () => import('@views/address/address-edit/address-edit')
-
-// 学院页面
-const College = () => import('@views/college/college')
 
 Vue.use(VueRouter)
 
@@ -125,16 +123,12 @@ const routes = [
       },
     ],
   },
-  {
-    path: '/college',
-    name: 'College',
-    component: College,
-  },
+  ...AdminRoutes,
+  ...CollegeRoutes,
   {
     path: '*',
     redirect: '/',
   },
-  ...adminRoutes,
 ]
 
 const router = new VueRouter({

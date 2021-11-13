@@ -45,6 +45,7 @@
 <script>
 import { Dialog, Field, Icon, NavBar, Toast } from 'vant'
 import AdminApi from '@api/administrator'
+import { onScanCode } from '@/utils/jsBridge'
 
 export default {
   name: 'AdminCheckOff',
@@ -52,18 +53,18 @@ export default {
     'van-nav-bar': NavBar,
     'van-icon': Icon,
     'van-dialog': Dialog.Component,
-    'van-field': Field
+    'van-field': Field,
   },
   data() {
     return {
       checkInputShow: false,
-      checkInputValue: ''
+      checkInputValue: '',
     }
   },
   methods: {
     onClickLeft() {
       this.$router.push({
-        name: 'AdminShopList'
+        name: 'AdminShopList',
       })
     },
     onInputCheck() {
@@ -80,43 +81,37 @@ export default {
         return Toast.fail('无效核销码')
       }
       await AdminApi.checkDetail({
-        discount_no: this.checkInputValue
+        discount_no: this.checkInputValue,
       })
       this.$router.push({
         name: 'AdminFallback',
         params: {
-          code: this.checkInputValue
-        }
+          code: this.checkInputValue,
+        },
       })
     },
     async checkQRCode(code) {
       this.$router.push({
         name: 'AdminFallback',
         params: {
-          code: code
-        }
+          code: code,
+        },
       })
     },
     onQRCode() {
-      WebViewJavascriptBridge.callHandler(
-        'scan_and_result',
-        {
-          format: 'source'
-        },
-        (callback) => {
-          this.checkQRCode(callback)
-        }
-      )
+      onScanCode('source', (callback) => {
+        this.checkQRCode(callback)
+      })
     },
     onRecord() {
       this.$router.push({
         name: 'AdminCheckRecord',
         params: {
-          shopId: this.$route.params.shopId
-        }
+          shopId: this.$route.params.shopId,
+        },
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

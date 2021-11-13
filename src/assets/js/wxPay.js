@@ -1,8 +1,9 @@
-import { Toast } from "vant"
+import { onWechatPay } from '@/utils/jsBridge'
+import { Toast } from 'vant'
 
 export default (data) => {
   Toast.clear()
-  WebViewJavascriptBridge.callHandler('wechat_pay', {
+  onWechatPay('http://58.42.4.33:20004/hz_yzf_web/#/order', {
     appId: data.appid,
     partnerId: data.partnerid,
     prepayId: data.prepayid,
@@ -10,6 +11,5 @@ export default (data) => {
     nonceStr: data.noncestr,
     timeStamp: data.timestamp,
     sign: data.sign,
-    jumpUrl: 'http://58.42.4.33:20004/hz_yzf_web/#/order'
   })
 }

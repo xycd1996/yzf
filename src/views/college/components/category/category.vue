@@ -1,7 +1,13 @@
 <template>
   <div class="category">
     <van-grid :border="false" column-num="5">
-      <van-grid-item v-for="(cate, index) in category" :text="cate.name" :icon="cate.icon" :key="index" />
+      <van-grid-item
+        @click="onClick(cate.id)"
+        v-for="(cate, index) in category"
+        :text="cate.name"
+        :icon="cate.icon"
+        :key="index"
+      />
     </van-grid>
   </div>
 </template>
@@ -19,6 +25,13 @@ export default {
     category: {
       type: Array,
       default: () => [],
+    },
+  },
+  methods: {
+    onClick(id) {
+      this.$router.push({
+        path: `/college/category-page/${id}`,
+      })
     },
   },
 }

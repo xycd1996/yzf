@@ -20,6 +20,7 @@
 
 <script>
 import { Grid, GridItem } from 'vant'
+import { openTopic } from '@/utils/jsBridge'
 
 export default {
   name: 'CollegeHotTopic',
@@ -35,9 +36,7 @@ export default {
   },
   methods: {
     onClick(id) {
-      WebViewJavascriptBridge.callHandler('open_theme', {
-        topicid: id,
-      })
+      openTopic(id)
     },
   },
 }

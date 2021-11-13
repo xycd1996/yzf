@@ -45,9 +45,9 @@ export default {
   methods: {
     async onLoad() {
       const { data } = await Api.getList({ cate_id: this.active, page: this.page, pagesize: this.pageSize })
-      this.articleList = data.data
+      this.articleList = data.items
       this.loading = false
-      if (data.data.length < this.pageSize) {
+      if (data.items.length < this.pageSize) {
         this.finished = true
       }
     },
