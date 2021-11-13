@@ -1,3 +1,5 @@
 <template>
-  <router-view />
+  <keep-alive include="College">
+    <router-view />
+  </keep-alive>
 </template>

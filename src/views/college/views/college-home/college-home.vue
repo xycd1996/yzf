@@ -28,7 +28,7 @@ export default {
     'my-category': Category,
     'my-hot-topic': HotTopic,
     'my-content': Content,
-    'van-pull-refresh': PullRefresh,
+    'van-pull-refresh': PullRefresh
   },
   data() {
     return {
@@ -37,7 +37,7 @@ export default {
       category: [],
       topics: [],
       tabList: [],
-      refreshing: false,
+      refreshing: false
     }
   },
   mounted() {
@@ -67,8 +67,8 @@ export default {
     async getHotTopic() {
       const { data } = await Api.getHotTopic()
       this.topics = data
-    },
-  },
+    }
+  }
 }
 </script>
 

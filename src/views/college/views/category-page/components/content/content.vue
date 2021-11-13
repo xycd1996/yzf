@@ -6,13 +6,7 @@
       </li>
     </ul>
     <div class="list">
-      <div
-        v-for="(item, index) in [1, 2, 3, 3, 1, 2, 2, 1, 3, 3, 1, 2, 1, 3, 2, 1, 1, 3]"
-        :key="index"
-        :data-type="item"
-        class="item"
-        ref="itemRef"
-      >
+      <div v-for="(item, index) in list" :key="index" class="item" ref="itemRef">
         <picture-card v-if="item === 1" />
         <video-card v-if="item === 2" />
         <link-card v-if="item === 3" />
@@ -41,17 +35,24 @@ export default {
         { title: '平台相关新闻' },
         { title: '易视智富平台规则' },
         { title: '平台功能介绍' }
-      ]
+      ],
+      list: []
     }
   },
   mounted() {
-    this.waterFall()
+    this.list = [1, 2, 3, 3, 1, 2, 2, 1, 3, 3, 1, 2, 1, 3, 2, 1, 1, 3]
+    this.$nextTick(() => {
+      this.waterFall()
+    })
   },
   methods: {
     waterFall() {
       // 页面宽度
       const pageWidth = this.getClient().width
       const items = this.$refs.itemRef
+      if (!items?.length) {
+        return
+      }
       // 单个宽度
       const itemWidth = items[0].offsetWidth
       // 可排列数
