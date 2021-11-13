@@ -41,9 +41,6 @@ export default {
       return ListTypes
     },
   },
-  watch: {
-    active: function(val, oldVal) {},
-  },
 }
 </script>
 

@@ -31,7 +31,7 @@
             height="50"
             src="https://qnm.hunliji.com/o_1fk2hhnb9kuvhgr9b611khjp9.jpg"
           />
-          <div class="userName">
+          <div @click="onClickUser" class="userName">
             用户名
           </div>
           <button class="follow"><van-icon size="12px" name="plus" /> 关注</button>
@@ -71,6 +71,11 @@ export default {
       if (data.data.length < this.pageSize) {
         this.finished = true
       }
+    },
+    onClickUser(userId) {
+      WebViewJavascriptBridge.callHandler('open_person_info', {
+        authod_id: 184073,
+      })
     },
   },
 }
