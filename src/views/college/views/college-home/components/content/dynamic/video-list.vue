@@ -6,8 +6,8 @@
           <div class="bk" :style="`background-image: url(${imgHost + item.photo_index})`">
             <div class="info">
               <div class="video-info">
-                <div class="title">{{ item.text_title }}</div>
-                <div class="description">{{ item.text_description }}</div>
+                <div class="title">{{ item.nickName }}</div>
+                <div class="description">{{ item.text_title }}</div>
               </div>
               <van-image
                 class="avatar"
@@ -113,10 +113,6 @@ export default {
             .description {
               font-size: 12px;
               color: #f1f1f1;
-              display: -webkit-box;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 2;
-              overflow: hidden;
             }
           }
         }
