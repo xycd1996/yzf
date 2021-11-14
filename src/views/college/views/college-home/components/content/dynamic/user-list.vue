@@ -61,7 +61,7 @@ export default {
       finished: false,
       list: [],
       page: 1,
-      pageSize: 20,
+      pageSize: 10,
       imageHost: ''
     }
   },

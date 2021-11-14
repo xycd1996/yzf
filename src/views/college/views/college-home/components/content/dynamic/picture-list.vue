@@ -38,7 +38,7 @@ export default {
       loading: false,
       finished: false,
       page: 1,
-      pageSize: 20,
+      pageSize: 10,
       articleList: []
     }
   },
