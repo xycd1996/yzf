@@ -2,9 +2,9 @@
   <van-pull-refresh success-text="刷新成功" v-model="refreshing" @refresh="onRefresh">
     <div class="college">
       <my-banner objectFit="cover" :bannerList="bannerList" />
-      <div class="search">
+      <!-- <div class="search">
         <van-search v-model="searchVal" placeholder="请输入搜索关键词" />
-      </div>
+      </div> -->
       <my-category :category="category" />
       <my-hot-topic :topics="topics" />
       <my-content v-if="tabList.length" :tabList="tabList" />
