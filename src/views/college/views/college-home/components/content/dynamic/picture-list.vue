@@ -28,10 +28,10 @@ import Api from '../../../api'
 export default {
   components: {
     'van-list': List,
-    'van-image': Image,
+    'van-image': Image
   },
   props: {
-    active: Number,
+    active: Number
   },
   data() {
     return {
@@ -39,7 +39,7 @@ export default {
       finished: false,
       page: 1,
       pageSize: 20,
-      articleList: [],
+      articleList: []
     }
   },
   methods: {
@@ -47,11 +47,11 @@ export default {
       const { data } = await Api.getList({ cate_id: this.active, page: this.page, pagesize: this.pageSize })
       this.articleList = data.items
       this.loading = false
-      if (data.items.length < this.pageSize) {
+      if (data.items?.length < this.pageSize || !data.items?.length) {
         this.finished = true
       }
-    },
-  },
+    }
+  }
 }
 </script>
 

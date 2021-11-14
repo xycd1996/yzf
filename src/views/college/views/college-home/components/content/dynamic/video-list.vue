@@ -82,7 +82,7 @@ export default {
         height: 100%;
         background-repeat: no-repeat;
         background-position: center;
-        background-size: 100%;
+        background-size: auto 100%;
         border-radius: 6px;
         overflow: hidden;
         .info {
