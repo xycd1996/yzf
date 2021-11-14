@@ -2,7 +2,7 @@
   <div class="picture-list">
     <van-list finished-text="没有更多了" v-model="loading" :finished="finished" @load="onLoad">
       <ul class="list">
-        <li class="item" v-for="article in articleList" :key="article.id">
+        <li @click="onClick(article.id)" class="item" v-for="article in articleList" :key="article.id">
           <div class="container">
             <div class="coverPath">
               <van-image height="88" width="88" fit="cover" :src="article.image" lazy-load />
@@ -45,11 +45,16 @@ export default {
   methods: {
     async onLoad() {
       const { data } = await Api.getList({ cate_id: this.active, page: this.page, pagesize: this.pageSize })
-      this.articleList = data.items
+      this.articleList = this.articleList.concat(data.items)
+      this.page++
       this.loading = false
       if (data.items?.length < this.pageSize || !data.items?.length) {
         this.finished = true
       }
+    },
+    onClick(id) {
+      console.log('id: ', id)
+      this.$router.push(`/college/picture-detail/${id}`)
     }
   }
 }

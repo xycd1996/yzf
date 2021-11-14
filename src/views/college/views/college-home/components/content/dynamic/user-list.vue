@@ -68,8 +68,9 @@ export default {
   methods: {
     async onLoad() {
       const { data } = await Api.getList({ cate_id: this.active, page: this.page, pagesize: this.pageSize })
-      this.list = data.items
+      this.list = this.list.concat(data.items)
       this.imageHost = data.imgHost
+      this.page++
       this.loading = false
       if (data.items.length < this.pageSize) {
         this.finished = true

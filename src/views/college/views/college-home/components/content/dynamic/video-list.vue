@@ -55,9 +55,10 @@ export default {
     },
     async onLoad() {
       const { data } = await Api.getList({ cate_id: this.active, page: this.page, pagesize: this.pageSize })
-      this.list = data.items
-      this.imgHost = data.imgHost
       this.loading = false
+      this.list = this.list.concat(data.items)
+      this.page++
+      this.imgHost = data.imgHost
       if (data.items.length < this.pageSize) {
         this.finished = true
       }
@@ -70,6 +71,7 @@ export default {
 .video-list {
   .container {
     display: flex;
+    flex-wrap: wrap;
     padding: 0 5px;
     .item {
       flex: 0 0 50%;

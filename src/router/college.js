@@ -19,6 +19,12 @@ const CollegeRoutes = [
         path: 'category-page/:id?',
         name: 'CategoryPage',
         component: () => lazyRouter(import('@views/college/views/category-page/category-page'))
+      },
+      {
+        // 图文详情页
+        path: 'picture-detail/:id',
+        name: 'PictureDetail',
+        component: () => lazyRouter(import('@views/college/views/picture-detail/picture-detail'))
       }
     ]
   }
