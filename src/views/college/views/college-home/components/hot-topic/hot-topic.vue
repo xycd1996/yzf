@@ -2,7 +2,6 @@
   <div class="hot-topic">
     <div class="top">
       <div class="title">热门选题</div>
-      <div class="more">查看更多>></div>
     </div>
     <div class="list">
       <van-grid :icon-size="44" :border="false" clickable :column-num="5">
@@ -26,19 +25,19 @@ export default {
   name: 'CollegeHotTopic',
   components: {
     'van-grid': Grid,
-    'van-grid-item': GridItem,
+    'van-grid-item': GridItem
   },
   props: {
     topics: {
       type: Array,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
   methods: {
     onClick(id) {
       openTopic(id)
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -54,11 +53,6 @@ export default {
     align-items: center;
     font-size: 16px;
     font-weight: bold;
-    .more {
-      font-weight: normal;
-      font-size: 14px;
-      color: #888;
-    }
   }
   .list {
     ::v-deep {

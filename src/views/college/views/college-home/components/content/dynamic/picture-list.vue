@@ -5,7 +5,7 @@
         <li class="item" v-for="article in articleList" :key="article.id">
           <div class="container">
             <div class="coverPath">
-              <van-image height="160" width="100%" fit="cover" :src="article.image" lazy-load />
+              <van-image height="88" width="88" fit="cover" :src="article.image" lazy-load />
             </div>
             <div class="info">
               <div class="title">{{ article.title }}</div>
@@ -58,30 +58,36 @@ export default {
 <style lang="less" scoped>
 .picture-list {
   .list {
-    display: flex;
-    flex-wrap: wrap;
     padding: 0 8px;
     .item {
-      box-sizing: border-box;
       padding: 4px;
-      flex: 0 0 50%;
-      width: 50%;
       .container {
+        display: flex;
+        width: 100%;
         border-radius: 6px;
         overflow: hidden;
         background: #fff;
         border: 1px solid #eee;
         box-shadow: 2px 2px 10px #ddd;
+        .coverPath {
+          flex: 0 0 88px;
+          width: 88px;
+          height: 88px;
+          overflow: hidden;
+        }
         .info {
-          padding: 8px;
+          padding: 8px 10px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          flex: 1 1 auto;
           .title {
             font-size: 16px;
             font-weight: 500;
-            display: inline-block;
-            white-space: nowrap;
-            width: 100%;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
             overflow: hidden;
-            text-overflow: ellipsis;
           }
           .merchant {
             margin-top: 4px;
