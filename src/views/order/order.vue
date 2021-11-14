@@ -31,13 +31,7 @@
                 <ul class="shop-order">
                   <li v-for="item in order.lists" :key="item.id" class="items">
                     <div class="img">
-                      <van-image
-                        height="8rem"
-                        width="100%"
-                        fit="cover"
-                        lazy-load
-                        :src="item.product_photo"
-                      >
+                      <van-image height="8rem" width="100%" fit="cover" lazy-load :src="item.product_photo">
                         <template v-slot:loading>
                           <van-loading type="spinner" vertical size="20">加载中...</van-loading>
                         </template>
@@ -70,15 +64,9 @@
                     </div>
                   </div>
                   <div class="payment" v-if="!order.status">
+                    <van-button @click.stop="handleCancel(order.order_id)" text="取消" size="small" />
                     <van-button
-                      @click.stop="handleCancel(order.order_id)"
-                      text="取消"
-                      size="small"
-                    />
-                    <van-button
-                      @click.stop="
-                        handlePayment(order.pay_type, order.integral_total, order.order_id)
-                      "
+                      @click.stop="handlePayment(order.pay_type, order.integral_total, order.order_id)"
                       style="margin-left: 5px;"
                       type="danger"
                       text="付款"
@@ -105,21 +93,7 @@
 </template>
 
 <script>
-import {
-  Tabs,
-  Tab,
-  List,
-  Empty,
-  Panel,
-  Image,
-  Loading,
-  Button,
-  Popup,
-  Dialog,
-  CellGroup,
-  Cell,
-  Toast
-} from 'vant'
+import { Tabs, Tab, List, Empty, Panel, Image, Loading, Button, Popup, Dialog, CellGroup, Cell, Toast } from 'vant'
 import OrderApi from '@api/order'
 import { GOODS_TYPE, ORDER_STATUS } from '@constants'
 import { TABS } from './constants'

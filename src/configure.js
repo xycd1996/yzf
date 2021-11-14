@@ -16,7 +16,6 @@ configure({
     data['merch_id'] = 192
     data['uid'] = localStorage.getItem('uid')
     data['token'] = localStorage.getItem('token')
-    data['debug'] = true
     data['bodyType'] = 'formData'
     if (!data['uid'] || !data['token']) {
       debounceLogin()
@@ -28,6 +27,9 @@ configure({
       message: err.msg
     })
     Toast.clear()
+    if (err.code == 405) {
+      debounceLogin()
+    }
   }
 })
 
