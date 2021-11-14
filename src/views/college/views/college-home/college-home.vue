@@ -41,6 +41,7 @@ export default {
     }
   },
   mounted() {
+    document.title = '易视智富-学院'
     Promise.all([this.getCategory(), this.getBanner(), this.getTabs(), this.getHotTopic()])
   },
   methods: {
