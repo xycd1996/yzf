@@ -1,15 +1,15 @@
 <template>
   <div class="content">
     <ul class="cate">
-      <li class="cate-item" v-for="cate in cates" :key="cate.id">
+      <li @click="changeCate(cate.id)" class="cate-item" v-for="cate in cates" :key="cate.id">
         <van-button size="small" color="linear-gradient(to right, #ff6034, #ee0a24)">{{ cate.name }}</van-button>
       </li>
     </ul>
     <div class="list">
       <div v-for="(item, index) in list" :key="index" class="item" ref="itemRef">
-        <picture-card v-if="item === 1" />
-        <video-card v-if="item === 2" />
-        <link-card v-if="item === 3" />
+        <picture-card v-if="item.type === cardTypes.PICTURE_CARD" :detail="item" />
+        <video-card v-if="item.type === cardTypes.VIDEO_CARD" :detail="item" />
+        <link-card v-if="item.type === 2" />
       </div>
     </div>
   </div>
@@ -20,6 +20,8 @@ import { Button } from 'vant'
 import VideoCard from './dynamicCard/video-card.vue'
 import PictureCard from './dynamicCard/picture-card.vue'
 import LinkCard from './dynamicCard/link-card.vue'
+import Api from '../../api'
+import { CardTypes } from '../../../../constants'
 
 export default {
   props: {
@@ -36,14 +38,26 @@ export default {
   },
   data() {
     return {
-      list: []
+      list: [],
+      page: 1,
+      pageSize: 10,
+      loading: false,
+      finished: false,
+      imgHost: '',
+      topicId: this.$route.params.id
     }
   },
-  mounted() {
-    this.list = [1, 2, 3, 3, 1, 2, 2, 1, 3, 3, 1, 2, 1, 3, 2, 1, 1, 3]
+  async mounted() {
+    this.onScroll()
+    await this.getList()
     this.$nextTick(() => {
       this.waterFall()
     })
+  },
+  computed: {
+    cardTypes() {
+      return CardTypes
+    }
   },
   methods: {
     waterFall() {
@@ -85,6 +99,31 @@ export default {
         width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
         height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
       }
+    },
+    changeCate(cateId) {
+      this.page = 1
+      this.finished = false
+      this.list = []
+      this.topicId = cateId
+      this.getList()
+    },
+    async getList() {
+      if (this.finished) {
+        return
+      }
+      this.loading = true
+      const { data } = await Api.getTopicList({ topic_id: this.topicId, page: this.page, pagesize: this.pageSize })
+      this.imgHost = data.imgHost
+      this.list = this.list.concat(data.items)
+      this.page++
+      if (this.pageSize > data.items) {
+        this.finished = true
+      }
+    },
+    onScroll() {
+      window.addEventListener('scroll', (e) => {
+        console.log('e: ', e)
+      })
     }
   }
 }

@@ -7,12 +7,12 @@
           <van-icon size="2rem" :name="props.active ? 'shop' : 'shop-o'" />
         </template>
       </van-tabbar-item>
-      <van-tabbar-item to="/category">
+      <!-- <van-tabbar-item to="/category">
         <span>全部</span>
         <template #icon="props">
           <van-icon size="2rem" :name="props.active ? 'point-gift' : 'point-gift-o'" />
         </template>
-      </van-tabbar-item>
+      </van-tabbar-item> -->
       <van-tabbar-item to="/order">
         <span>订单</span>
         <template #icon="props">

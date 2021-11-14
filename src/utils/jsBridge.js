@@ -18,6 +18,12 @@ export const setStatusBar = (show) => {
 }
 
 /**
+ * @description 设置APP顶部添加状态栏高度
+ */
+
+export const setStatusMarginTop = () => WebViewJavascriptBridge.callHandler('add_top_margin')
+
+/**
  * @description 微信支付
  * @param jumpUrl String - 支付成功后跳转页面
  * @param wechatParams Object 微信支付参数
@@ -97,14 +103,14 @@ export const getLocation = (callback) => {
  * @description 播放APP视频列表
  */
 
-export const openVideoList = (router, position, userid) => {
+export const openVideoList = (router, position, currentPage, userid) => {
   const dispatchParams = JSON.stringify({
     userid
   })
-  console.log('dispatchParams: ', dispatchParams)
   WebViewJavascriptBridge.callHandler('play_video', {
     router,
     position,
+    currentPage,
     dispatchParams
   })
 }

@@ -1,19 +1,13 @@
 <template>
-  <div class="picture-card">
+  <div @click="onClick" class="picture-card">
     <div class="coverPath">
-      <van-image
-        height="220px"
-        width="100%"
-        fit="cover"
-        src="https://qnm.hunliji.com/o_1fkcv2e1f1kot1jhc120i1i6b1hh5e.jpeg"
-        lazy-load
-      />
+      <van-image height="220px" width="100%" fit="cover" :src="detail.image" lazy-load />
     </div>
     <div class="info">
-      <div class="title">文章标题标题标题标题</div>
+      <div class="title">{{ detail.title }}</div>
       <div class="merchant">
-        <img class="logo" src="https://qnm.hunliji.com/o_1fk2hhnb9kuvhgr9b611khjp9.jpg" />
-        <div class="span">作者名称</div>
+        <img class="logo" :src="detail.authorHeadImage" />
+        <div class="span">{{ detail.authorName }}</div>
       </div>
     </div>
   </div>
@@ -23,8 +17,19 @@
 import { Image } from 'vant'
 
 export default {
+  props: {
+    detail: {
+      type: Object,
+      default: () => {}
+    }
+  },
   components: {
     'van-image': Image
+  },
+  methods: {
+    onClick() {
+      this.$router.push(`/college/picture-detail/${this.detail.id}`)
+    }
   }
 }
 </script>

@@ -3,7 +3,7 @@ import FastClick from 'fastclick'
 import debounce from 'lodash/debounce'
 import { Lazyload, Notify, Toast } from 'vant'
 import Vue from 'vue'
-import { setStatusBar, toLogin } from './utils/jsBridge'
+import { setStatusBar, setStatusMarginTop, toLogin } from './utils/jsBridge'
 
 // new VConsole()
 
@@ -31,7 +31,10 @@ configure({
   }
 })
 
-process.env.NODE_ENV === 'production' && setStatusBar(false)
+if (process.env.NODE_ENV === 'production') {
+  setStatusBar(false)
+  setStatusMarginTop()
+}
 
 instance.defaults.baseURL = 'http://58.42.4.33:20004'
 

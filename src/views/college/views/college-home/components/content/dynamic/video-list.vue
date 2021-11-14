@@ -51,7 +51,11 @@ export default {
   },
   methods: {
     onClick(index) {
-      openVideoList(`/tsShop/addons.short_video_school/articleDetail/id/${this.active}`, index)
+      openVideoList(
+        `/tsShop/addons.short_video_school/articleDetail/id/${this.active}`,
+        index % this.pageSize,
+        this.page
+      )
     },
     async onLoad() {
       const { data } = await Api.getList({ cate_id: this.active, page: this.page, pagesize: this.pageSize })

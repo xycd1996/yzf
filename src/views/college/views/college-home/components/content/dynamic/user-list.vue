@@ -93,7 +93,7 @@ export default {
       })
     },
     openVideo(userId, index) {
-      openVideoList(`/tsShop/addons.short_video_school/articleDetail/id/${this.active}`, index, userId)
+      openVideoList(`/tsShop/addons.short_video_school/articleDetail/id/${this.active}`, index, 1, userId)
     }
   }
 }

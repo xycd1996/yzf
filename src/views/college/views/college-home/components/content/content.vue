@@ -15,7 +15,7 @@ import { Tab, Tabs } from 'vant'
 import PictureList from './dynamic/picture-list'
 import UserList from './dynamic/user-list'
 import VideoList from './dynamic/video-list'
-import { ListTypes } from '../../constants'
+import { ListTypes } from '../../../../constants'
 
 export default {
   components: {
@@ -23,24 +23,24 @@ export default {
     'van-tab': Tab,
     'picture-list': PictureList,
     'user-list': UserList,
-    'video-list': VideoList,
+    'video-list': VideoList
   },
   props: {
     tabList: {
       type: Array,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
   data() {
     return {
-      active: this.tabList[0].id,
+      active: this.tabList[0].id
     }
   },
   computed: {
     getTypeList() {
       return ListTypes
-    },
-  },
+    }
+  }
 }
 </script>
 
