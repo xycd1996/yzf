@@ -69,4 +69,8 @@ export default {
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.college {
+  min-height: 100vh;
+}
+</style>
