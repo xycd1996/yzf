@@ -1,11 +1,11 @@
 <template>
   <div class="header">
-    <div class="bk" />
+    <div class="bk" :style="`background-image: url(${backgroundImage})`" />
     <div @click="$router.back()" class="back">
       <van-icon name="arrow-left" size="20" color="#fff" />
     </div>
-    <div class="title">平台政策</div>
-    <div class="description">了解易视智富平台政策导向、规则、更好的创作，我是平台政策介绍。</div>
+    <div class="title">{{ title }}</div>
+    <div class="description">{{ description }}</div>
   </div>
 </template>
 
@@ -18,7 +18,8 @@ export default {
   },
   props: {
     title: String,
-    description: String
+    description: String,
+    backgroundImage: String
   }
 }
 </script>
@@ -37,9 +38,10 @@ export default {
     top: 0;
     width: 100%;
     height: 200px;
-    background-image: url('https://qnm.hunliji.com/o_1fkcv2e1f1kot1jhc120i1i6b1hh5e.jpeg');
-    background-size: 100% 200px;
+    background-size: 100%, 200px, cover;
     background-position: center;
+    background-repeat: no-repeat;
+    background-color: #ccc;
     z-index: -1;
   }
   .back {

@@ -1,8 +1,8 @@
 <template>
   <div class="content">
     <ul class="cate">
-      <li class="cate-item" v-for="(cate, index) in cates" :key="index">
-        <van-button size="small" color="linear-gradient(to right, #ff6034, #ee0a24)">{{ cate.title }}</van-button>
+      <li class="cate-item" v-for="cate in cates" :key="cate.id">
+        <van-button size="small" color="linear-gradient(to right, #ff6034, #ee0a24)">{{ cate.name }}</van-button>
       </li>
     </ul>
     <div class="list">
@@ -22,6 +22,12 @@ import PictureCard from './dynamicCard/picture-card.vue'
 import LinkCard from './dynamicCard/link-card.vue'
 
 export default {
+  props: {
+    cates: {
+      type: Array,
+      default: () => []
+    }
+  },
   components: {
     'van-button': Button,
     'video-card': VideoCard,
@@ -30,12 +36,6 @@ export default {
   },
   data() {
     return {
-      cates: [
-        { title: '政策推动文件' },
-        { title: '平台相关新闻' },
-        { title: '易视智富平台规则' },
-        { title: '平台功能介绍' }
-      ],
       list: []
     }
   },

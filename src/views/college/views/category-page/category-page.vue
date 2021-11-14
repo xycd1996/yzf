@@ -1,10 +1,10 @@
 <template>
   <div class="category-page">
-    <my-header />
+    <my-header :title="detail.name" :description="detail.description" :backgroundImage="detail.backgroud_image" />
     <div class="search">
       <van-search placeholder="请输入搜索关键词" v-model="searchVal" />
     </div>
-    <my-content />
+    <my-content :cates="topicCate" />
   </div>
 </template>
 
@@ -12,6 +12,7 @@
 import { Search } from 'vant'
 import Header from './components/header/header.vue'
 import Content from './components/content/content.vue'
+import Api from './api'
 
 export default {
   components: {
@@ -21,7 +22,25 @@ export default {
   },
   data() {
     return {
-      searchVal: ''
+      searchVal: '',
+      detail: {},
+      topicCate: []
+    }
+  },
+  mounted() {
+    this.getDetail()
+    this.getTopicCate()
+  },
+  methods: {
+    async getDetail() {
+      const id = this.$route.params.id
+      const { data } = await Api.getTopicDetail({ id })
+      this.detail = data
+    },
+    async getTopicCate() {
+      const id = this.$route.params.id
+      const { data } = await Api.getTopicCate({ pid: id })
+      this.topicCate = data
     }
   }
 }
