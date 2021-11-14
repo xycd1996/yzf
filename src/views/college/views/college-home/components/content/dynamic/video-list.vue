@@ -2,7 +2,7 @@
   <div class="video-list">
     <van-list finished-text="没有更多了" v-model="loading" :finished="finished" @load="onLoad">
       <ul class="container">
-        <li class="item" @click="onClick(index, item.userid)" v-for="(item, index) in list" :key="item.id_video">
+        <li class="item" @click="onClick(index)" v-for="(item, index) in list" :key="item.id_video">
           <div class="bk" :style="`background-image: url(${imgHost + item.photo_index})`">
             <div class="info">
               <div class="video-info">
@@ -50,8 +50,8 @@ export default {
     }
   },
   methods: {
-    onClick(index, userId) {
-      openVideoList(`/tsShop/addons.short_video_school/articleDetail/id/${this.active}`, index, userId)
+    onClick(index) {
+      openVideoList(`/tsShop/addons.short_video_school/articleDetail/id/${this.active}`, index)
     },
     async onLoad() {
       const { data } = await Api.getList({ cate_id: this.active, page: this.page, pagesize: this.pageSize })

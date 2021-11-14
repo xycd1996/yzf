@@ -3,7 +3,7 @@
  */
 export const toLogin = () => {
   WebViewJavascriptBridge.callHandler('intent_class', {
-    className: 'com.yishi.yszf.ui.login.LoginActivity',
+    className: 'com.yishi.yszf.ui.login.LoginActivity'
   })
 }
 
@@ -13,7 +13,7 @@ export const toLogin = () => {
  */
 export const setStatusBar = (show) => {
   WebViewJavascriptBridge.callHandler('set_topbar', {
-    show,
+    show
   })
 }
 
@@ -31,7 +31,7 @@ export const onWechatPay = (jumpUrl, { appid, partnerid, prepayid, packageName, 
     nonceStr: noncestr,
     timeStamp: timestamp,
     sign: sign,
-    jumpUrl: jumpUrl,
+    jumpUrl: jumpUrl
   })
 }
 
@@ -44,11 +44,11 @@ export const onScanCode = (format, cb) => {
   WebViewJavascriptBridge.callHandler(
     'scan_and_result',
     {
-      format,
+      format
     },
     (callback) => {
       cb(callback)
-    },
+    }
   )
 }
 
@@ -59,7 +59,7 @@ export const onScanCode = (format, cb) => {
 
 export const openUserHomePage = (authod_id) => {
   WebViewJavascriptBridge.callHandler('open_person_info', {
-    authod_id,
+    authod_id
   })
 }
 
@@ -70,7 +70,7 @@ export const openUserHomePage = (authod_id) => {
 
 export const openTopic = (topicId) => {
   WebViewJavascriptBridge.callHandler('open_theme', {
-    topicid: topicId,
+    topicid: topicId
   })
 }
 
@@ -98,9 +98,13 @@ export const getLocation = (callback) => {
  */
 
 export const openVideoList = (router, position, userid) => {
+  const dispatchParams = JSON.stringify({
+    userid
+  })
+  console.log('dispatchParams: ', dispatchParams)
   WebViewJavascriptBridge.callHandler('play_video', {
     router,
     position,
-    userid,
+    dispatchParams
   })
 }
