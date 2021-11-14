@@ -2,20 +2,21 @@
   <div class="video-list">
     <van-list finished-text="没有更多了" v-model="loading" :finished="finished" @load="onLoad">
       <ul class="container">
-        <li class="item" v-for="item in list" :key="item.id">
-          <div class="bk">
+        <li class="item" @click="onClick(index, item.userid)" v-for="(item, index) in list" :key="item.id_video">
+          <div class="bk" :style="`background-image: url(${imgHost + item.photo_index})`">
             <div class="info">
               <div class="video-info">
-                <div class="title">视频标题</div>
-                <div class="description">视频描述描述视频描述描述</div>
+                <div class="title">{{ item.text_title }}</div>
+                <div class="description">{{ item.text_description }}</div>
               </div>
               <van-image
                 class="avatar"
                 lazy-load
+                fit="cover"
                 round
-                width="50"
-                height="50"
-                src="https://qnm.hunliji.com/o_1fk2hhnb9kuvhgr9b611khjp9.jpg"
+                width="38"
+                height="38"
+                :src="imgHost + item.headimg"
               />
             </div>
           </div>
@@ -28,14 +29,15 @@
 <script>
 import { Image, List } from 'vant'
 import Api from '../../../api'
+import { openVideoList } from '@/utils/jsBridge'
 
 export default {
   props: {
-    active: Number,
+    active: Number
   },
   components: {
     'van-list': List,
-    'van-image': Image,
+    'van-image': Image
   },
   data() {
     return {
@@ -44,18 +46,23 @@ export default {
       list: [],
       page: 1,
       pageSize: 20,
+      imgHost: ''
     }
   },
   methods: {
+    onClick(index, userId) {
+      openVideoList('/addons.short_video_school/articleLists/type/2', index, userId)
+    },
     async onLoad() {
       const { data } = await Api.getList({ cate_id: this.active, page: this.page, pagesize: this.pageSize })
       this.list = data.items
+      this.imgHost = data.imgHost
       this.loading = false
       if (data.items.length < this.pageSize) {
         this.finished = true
       }
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -73,7 +80,6 @@ export default {
       .bk {
         position: relative;
         height: 100%;
-        background-image: url('https://qnm.hunliji.com/o_1fk2lnu1d1k9hf8s37m1ml611jne.webp');
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100%;
@@ -89,10 +95,11 @@ export default {
           width: 100%;
           background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.65));
           .avatar {
-            flex: 0 0 50px;
-            width: 50px;
+            flex: 0 0 38px;
+            width: 38px;
           }
           .video-info {
+            margin-right: 4px;
             flex: 1 1 auto;
             .title {
               font-size: 14px;
