@@ -32,7 +32,7 @@
       </div>
       <div class="info">
         <div class="avatar">
-          <van-image height="100%" width="100%" fit="cover" lazy-load :src="shopInfo.photo + shopInfo.logo">
+          <van-image height="100%" width="100%" fit="cover" lazy-load :src="shopInfo.imgHost + shopInfo.logo || ''">
             <template v-slot:loading>
               <van-loading type="spinner" vertical size="20">加载中...</van-loading>
             </template>
