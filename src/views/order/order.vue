@@ -135,6 +135,8 @@ export default {
     }
   },
   mounted() {
+    const defaultTab = this.$route.query.defaultTab
+    this.tabsActive = Number(defaultTab)
     this.init()
   },
   methods: {

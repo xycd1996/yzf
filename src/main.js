@@ -7,8 +7,8 @@ import router from './router'
 import store from './store'
 
 if (process.env.NODE_ENV !== 'production') {
-  localStorage.setItem('uid', '183721')
-  localStorage.setItem('token', '8c11f2813b12314e0dff776b1bd8348e1')
+  localStorage.setItem('uid', '183701')
+  localStorage.setItem('token', '72483dedff4e9ab9e9f3f751c66a87b5')
 }
 
 new Vue({

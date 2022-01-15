@@ -5,8 +5,8 @@
     <div v-if="Object.keys(goodsDetail).length" class="container">
       <div class="swipe">
         <van-swipe indicator-color="white" @change="swipeChange">
-          <van-swipe-item v-for="(img, index) in goodsDetail.swipers" :key="index">
-            <van-image width="100%" height="34rem" fit="cover" :src="goodsDetail.img_prefix + img">
+          <van-swipe-item v-for="(img, index) in goodsDetail.photos" :key="index">
+            <van-image width="100%" height="34rem" fit="cover" :src="img">
               <template v-slot:loading>
                 <van-loading type="spinner" vertical size="20">加载中...</van-loading>
               </template>
@@ -14,18 +14,18 @@
             </van-image>
           </van-swipe-item>
           <template #indicator>
-            <div class="custom-indicator">{{ current + 1 }}/{{ swipersLength }}</div>
+            <div class="custom-indicator">{{ current + 1 }}/{{ goodsDetail.photos.length || 0 }}</div>
           </template>
         </van-swipe>
         <div @click="onClickBack" class="back">
           <van-icon color="#fff" name="arrow-left" size="1.6rem" />
         </div>
       </div>
-      <div class="biddingInfo">
-        <div class="text">正在竞拍</div>
+      <div :class="`biddingInfo ${getCurrentStatusBk}`">
+        <div class="text">{{ getCurrentStatus }}</div>
         <div class="countdown">
           <span>距截拍：</span>
-          <van-count-down :time="12319339" format="DD 天 HH 时 mm 分 ss 秒" />
+          <van-count-down :time="goodsDetail.valid_end - goodsDetail.valid_begin" format="DD 天 HH 时 mm 分 ss 秒" />
         </div>
       </div>
       <div class="info">
@@ -34,32 +34,28 @@
           <div class="desc">
             <span class="desc-item">
               <van-tag plain type="danger">起拍</van-tag>
-              <span>积分：1300</span>
+              <span>￥{{ goodsDetail.price }}</span>
             </span>
             <span class="desc-item">
               <van-tag plain type="danger">加价</van-tag>
-              <span>积分：100</span>
+              <span>￥{{ goodsDetail.auction_step_price }}</span>
             </span>
             <span class="desc-item">
               <van-tag plain type="danger">保证金</van-tag>
-              <span>积分：100</span>
+              <span>￥{{ goodsDetail.auction_promise_price }}</span>
             </span>
           </div>
         </div>
         <div @click="handleCollect" class="collect">
-          <van-icon
-            :name="collect ? 'star' : 'star-o'"
-            size="2rem"
-            :color="collect ? 'gold' : 'black'"
-          />
-          <span>收藏</span>
+          <van-icon :name="collect ? 'star' : 'star-o'" size="2rem" :color="collect ? 'gold' : 'black'" />
+          <span>{{ collect ? '已收藏' : '收藏' }}</span>
         </div>
       </div>
       <m-process />
       <m-bidding-list />
       <div class="merchant">
         <div class="avatar">
-          <img :src="require('@assets/img/avatar_error.png')" />
+          <img :src="goodsDetail.shop_logo" />
         </div>
         <div class="merchant-info">
           <div class="name">{{ goodsDetail.shop_name }}</div>
@@ -69,12 +65,6 @@
                 <van-icon name="passed" color="red" size="1rem" />
               </span>
               <span>企业认证</span>
-            </li>
-            <li class="item">
-              <span>
-                <van-icon name="passed" color="red" size="1rem" />
-              </span>
-              <span>店铺保障</span>
             </li>
           </ul>
           <div class="description">
@@ -86,13 +76,24 @@
         <van-divider :hairline="false">货品详情</van-divider>
       </div>
       <div class="detail">
-        <div v-if="goodsDetail.ticket_detail" class="content" v-html="goodsDetail.ticket_detail"></div>
-        <van-empty v-if="!goodsDetail.ticket_detail" class="none" description="暂无商品详情" />
+        <div v-if="goodsDetail.content" class="content" v-html="goodsDetail.content"></div>
+        <van-empty v-if="!goodsDetail.content" class="none" description="暂无商品详情" />
       </div>
       <div class="bottom-action">
         <van-goods-action>
           <van-goods-action-icon @click="onCustomerChat" icon="chat-o" text="客服" />
-          <van-goods-action-button @click="handleBidding" type="danger" text="缴纳保证积分 1000分" />
+          <van-goods-action-button
+            v-if="goodsDetail.promiseOrder.pay_status !== 2"
+            @click="handleBidding"
+            type="danger"
+            :text="`缴纳保证金￥${goodsDetail.auction_promise_price}`"
+          />
+          <van-goods-action-button
+            v-if="goodsDetail.promiseOrder.pay_status === 1"
+            @click="handleBidding"
+            type="danger"
+            text="出价"
+          />
         </van-goods-action>
       </div>
     </div>
@@ -113,82 +114,82 @@ import {
   Icon,
   CountDown,
   Tag,
-  Button,
-} from "vant";
-import GoodsApi from "@api/goods";
-import Process from "./components/process/process";
-import BiddingList from "./components/bidding-list/bidding-list";
+  Button
+} from 'vant'
+import Api from './api'
+import Process from './components/process/process'
+import BiddingList from './components/bidding-list/bidding-list'
+import { STATUS_TEXT, STATUS_BK } from './constants'
 
 export default {
   components: {
-    "van-image": Image,
-    "van-swipe": Swipe,
-    "van-swipe-item": SwipeItem,
-    "van-loading": Loading,
-    "van-goods-action": GoodsAction,
-    "van-goods-action-icon": GoodsActionIcon,
-    "van-goods-action-button": GoodsActionButton,
-    "van-empty": Empty,
-    "van-divider": Divider,
-    "van-icon": Icon,
-    "van-tag": Tag,
-    "van-count-down": CountDown,
-    "van-button": Button,
-    "m-process": Process,
-    "m-bidding-list": BiddingList,
+    'van-image': Image,
+    'van-swipe': Swipe,
+    'van-swipe-item': SwipeItem,
+    'van-loading': Loading,
+    'van-goods-action': GoodsAction,
+    'van-goods-action-icon': GoodsActionIcon,
+    'van-goods-action-button': GoodsActionButton,
+    'van-empty': Empty,
+    'van-divider': Divider,
+    'van-icon': Icon,
+    'van-tag': Tag,
+    'van-count-down': CountDown,
+    'van-button': Button,
+    'm-process': Process,
+    'm-bidding-list': BiddingList
   },
   data() {
     return {
       goodsDetail: {},
       current: 0,
-      swipersLength: 0,
-      collect: false,
-    };
+      collect: false
+    }
+  },
+  computed: {
+    getCurrentStatus() {
+      return STATUS_TEXT[this.goodsDetail.auction_status]
+    },
+    getCurrentStatusBk() {
+      return STATUS_BK[this.goodsDetail.auction_status]
+    }
   },
   methods: {
     _initialization() {
-      this._queryGoodsDetail();
+      this._queryGoodsDetail()
     },
     async _queryGoodsDetail() {
-      const id = this.$route.params.id;
-      const { data } = await GoodsApi.getDetail({ id });
-      this._normalizePrice(data.sku.list);
-      this.goodsDetail = data;
-      this.swipersLength = data.swipers.length;
+      const id = this.$route.params.id
+      const { data } = await Api.getBiddingDetail({ id })
+      this.goodsDetail = data
     },
-    _normalizePrice(list) {
-      list.forEach((el) => {
-        if (el.price) {
-          el.price = parseFloat(el.price) * 100;
-        }
-      });
-    },
+
     onCustomerChat() {
       this.$router.push({
-        name: "CustomerChat",
+        name: 'CustomerChat',
         params: {
-          id: this.goodsDetail?.shop_id,
+          id: this.goodsDetail?.shop_id
         },
         query: {
-          shopName: this.goodsDetail?.shop_name ?? "未知店铺",
-        },
-      });
+          shopName: this.goodsDetail?.shop_name ?? '未知店铺'
+        }
+      })
     },
     handleCollect() {
-      this.collect = !this.collect;
+      this.collect = !this.collect
     },
     onClickBack() {
-      this.$router.back();
+      this.$router.back()
     },
     swipeChange(index) {
-      this.current = index;
+      this.current = index
     },
-    handleBidding() {},
+    handleBidding() {}
   },
   mounted() {
-    this._initialization();
-  },
-};
+    this._initialization()
+  }
+}
 </script>
 <style lang="less" scoped>
 @import '~@assets/less/theme';
@@ -239,7 +240,6 @@ export default {
       justify-content: space-between;
       align-items: center;
       height: 50px;
-      background: crimson;
       color: #fff;
       .text {
         font-size: @large-font-size;
@@ -253,6 +253,15 @@ export default {
           color: #fff;
         }
       }
+    }
+    .pending {
+      background: rgb(49, 198, 243);
+    }
+    .progress {
+      background: crimson;
+    }
+    .end {
+      background: #ccc;
     }
     .info {
       display: flex;
@@ -283,7 +292,7 @@ export default {
         }
       }
       .collect {
-        flex: 0 0 2.5rem;
+        flex: 0 0 auto;
         display: flex;
         flex-direction: column;
         justify-content: center;

@@ -1,23 +1,18 @@
 <template>
   <div class="bidding-list">
     <ul class="container">
-      <li v-for="item in [0, 1, 2, 3]" :key="item" class="item">
+      <li v-for="(item, index) in list" :key="item.id" class="item">
         <img class="avatar" src="https://qnm.hunliji.com/FmpGVkSsayZEy5T_oMVU0yfr7Cr6" />
         <div class="userInfo">
           <div class="top">
-            <span class="name">用户名</span>
-            <van-tag plain type="danger">领先</van-tag>
+            <span class="name">{{ item.title }}</span>
+            <van-tag v-if="!index" plain type="danger">领先</van-tag>
           </div>
           <div class="bottom">
             <div class="integral">
-              <span>积分：1200</span>
-              <span class="price">
-                ￥120
-              </span>
+              <span class="price">￥{{ item.price }}</span>
             </div>
-            <div class="date">
-              2020-12-20 18:20:30
-            </div>
+            <div class="date">{{ item.pay_time }}</div>
           </div>
         </div>
       </li>
@@ -31,10 +26,33 @@
 
 <script>
 import { Button, Tag } from 'vant'
+import Api from '../../api'
+
 export default {
   components: {
     'van-tag': Tag,
     'van-button': Button
+  },
+  data() {
+    return {
+      list: []
+    }
+  },
+  mounted() {
+    this._queryRecordList()
+    this.timer = setInterval(() => {
+      this._queryRecordList()
+    }, 5000)
+  },
+  destroyed() {
+    clearInterval(this.timer)
+  },
+  methods: {
+    async _queryRecordList() {
+      const id = this.$route.params.id
+      const { data } = await Api.getBiddingRecordList({ id })
+      this.list = data.data
+    }
   }
 }
 </script>
