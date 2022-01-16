@@ -12,7 +12,7 @@
         <van-icon @click="handleRefresh" name="replay" size="16" />
       </template>
     </van-nav-bar>
-    <div class="goodsInfo">
+    <div v-if="goodsInfo.id" class="goodsInfo">
       <div class="container">
         <div class="coverImage">
           <van-image
