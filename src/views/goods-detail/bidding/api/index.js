@@ -8,5 +8,7 @@ export default {
   /** 保证金订单 */
   createDeposit: Axios.post('/tsShop/goods.Auction/give_promise'),
   /** 出价 */
-  createNewPrice: Axios.post('/tsShop/goods.Auction/give_price')
+  createNewPrice: Axios.post('/tsShop/goods.Auction/give_price'),
+  /** 支付 */
+  pay: Axios.post('/tsShop/goods.Auction/pay')
 }

@@ -9,3 +9,9 @@ export const STATUS_BK = {
   '2': 'progress',
   '3': 'end'
 }
+
+// 订单支付状态
+export const PAY_STATUS = {
+  "1": "已支付",
+  "2": "未支付"
+}

@@ -14,7 +14,9 @@
             </van-image>
           </van-swipe-item>
           <template #indicator>
-            <div class="custom-indicator">{{ current + 1 }}/{{ goodsDetail.photos.length || 0 }}</div>
+            <div v-if="goodsDetail.photos" class="custom-indicator">
+              {{ current + 1 }}/{{ goodsDetail.photos.length || 0 }}
+            </div>
           </template>
         </van-swipe>
         <div @click="onClickBack" class="back">
@@ -23,9 +25,9 @@
       </div>
       <div :class="`biddingInfo ${getCurrentStatusBk}`">
         <div class="text">{{ getCurrentStatus }}</div>
-        <div class="countdown">
-          <span>距截拍：</span>
-          <van-count-down :time="goodsDetail.valid_end - goodsDetail.valid_begin" format="DD 天 HH 时 mm 分 ss 秒" />
+        <div v-if="biddingStatus !== 3" class="countdown">
+          <span>距{{ biddingStatus === 1 ? '开始' : '截止' }}：</span>
+          <van-count-down @finish="countDownFinish" :time="getCountDown()" format="DD 天 HH 时 mm 分 ss 秒" />
         </div>
       </div>
       <div class="info">
@@ -52,7 +54,7 @@
         </div>
       </div>
       <m-process />
-      <m-bidding-list />
+      <m-bidding-list ref="biddingList" />
       <div class="merchant">
         <div class="avatar">
           <img :src="goodsDetail.shop_logo" />
@@ -81,19 +83,29 @@
       </div>
       <div class="bottom-action">
         <van-goods-action>
+          <van-goods-action-icon color="#fe0200" icon="shop-o" @click="handleGoShop" text="店铺" />
           <van-goods-action-icon @click="onCustomerChat" icon="chat-o" text="客服" />
           <van-goods-action-button
-            v-if="goodsDetail.promiseOrder.pay_status !== 2"
-            @click="handleBidding"
+            v-if="!goodsDetail.promiseOrder || goodsDetail.promiseOrder.pay_status !== 1"
+            @click="handlePromise"
             type="danger"
             :text="`缴纳保证金￥${goodsDetail.auction_promise_price}`"
           />
           <van-goods-action-button
-            v-if="goodsDetail.promiseOrder.pay_status === 1"
-            @click="handleBidding"
+            v-if="goodsDetail.promiseOrder && goodsDetail.promiseOrder.pay_status === 1"
+            @click="bidShow = true"
             type="danger"
             text="出价"
           />
+          <van-dialog
+            confirm-button-text="确认出价"
+            @confirm="handleBidding"
+            showCancelButton
+            v-model="bidShow"
+            title="出价价格"
+          >
+            <center style="padding: 10px;"><van-stepper integer :step="100" button-size="28" v-model="price" /></center>
+          </van-dialog>
         </van-goods-action>
       </div>
     </div>
@@ -114,7 +126,11 @@ import {
   Icon,
   CountDown,
   Tag,
-  Button
+  Button,
+  Toast,
+  Notify,
+  Dialog,
+  Stepper
 } from 'vant'
 import Api from './api'
 import Process from './components/process/process'
@@ -136,27 +152,55 @@ export default {
     'van-tag': Tag,
     'van-count-down': CountDown,
     'van-button': Button,
+    'van-dialog': Dialog.Component,
+    'van-stepper': Stepper,
     'm-process': Process,
     'm-bidding-list': BiddingList
   },
   data() {
     return {
-      goodsDetail: {},
+      goodsDetail: {
+        valid_begin: 1642317000,
+        valid_end: 1642318000
+      },
       current: 0,
-      collect: false
+      collect: false,
+      /** 拍卖状态 */
+      biddingStatus: 1,
+      bidShow: false,
+      price: 0
     }
   },
   computed: {
     getCurrentStatus() {
-      return STATUS_TEXT[this.goodsDetail.auction_status]
+      return STATUS_TEXT[String(this.biddingStatus)]
     },
     getCurrentStatusBk() {
-      return STATUS_BK[this.goodsDetail.auction_status]
+      return STATUS_BK[String(this.biddingStatus)]
     }
   },
   methods: {
     _initialization() {
       this._queryGoodsDetail()
+    },
+    /** 倒计时结束 */
+    countDownFinish() {
+      this.getCountDown()
+    },
+    /** 计算倒计时 */
+    getCountDown() {
+      // 当前时间
+      const currentDate = parseInt(new Date().getTime() / 1000)
+      if (this.goodsDetail.valid_begin > currentDate) {
+        this.biddingStatus = 1
+        return (this.goodsDetail.valid_begin - currentDate) * 1000
+      } else if (this.goodsDetail.valid_begin <= currentDate && currentDate < this.goodsDetail.valid_end) {
+        this.biddingStatus = 2
+        return (this.goodsDetail.valid_end - currentDate) * 1000
+      } else {
+        this.biddingStatus = 3
+        return 0
+      }
     },
     async _queryGoodsDetail() {
       const id = this.$route.params.id
@@ -184,7 +228,48 @@ export default {
     swipeChange(index) {
       this.current = index
     },
-    handleBidding() {}
+    // 发起保证金订单
+    async handlePromise() {
+      const id = this.$route.params.id
+      Toast.loading({
+        message: '订单生成中...',
+        forbidClick: true,
+        loadingType: 'spinner'
+      })
+      const { data } = await Api.createDeposit({ id })
+      const orderId = data.orderId
+      await Api.pay({ id, orderId })
+      Toast.success({
+        message: '支付成功',
+        forbidClick: true,
+        type: 'success',
+        duration: 1500
+      })
+    },
+    // 出价
+    async handleBidding() {
+      const id = this.$route.params.id
+      Toast.loading({
+        message: '正在出价...',
+        forbidClick: true,
+        loadingType: 'spinner'
+      })
+      await Api.createNewPrice({ id, price: this.price })
+      this.$refs.biddingList._queryRecordList()
+      Toast.success({
+        message: '出价成功',
+        forbidClick: true,
+        type: 'success',
+        duration: 1500
+      })
+    },
+    handleGoShop() {
+      if (!this.goodsDetail.shop_id) {
+        Notify({ message: '店铺不存在，请联系客服处理', type: 'warning' })
+        return
+      }
+      this.$router.push({ path: `/shop/${this.goodsDetail.shop_id}` })
+    }
   },
   mounted() {
     this._initialization()
