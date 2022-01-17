@@ -36,11 +36,7 @@
           <div class="desc van-multi-ellipsis--l2">{{ goodsDetail.sub_title }}</div>
         </div>
         <div @click="handleCollect" class="collect">
-          <van-icon
-            :name="collect ? 'star' : 'star-o'"
-            size="2rem"
-            :color="collect ? 'gold' : 'black'"
-          />
+          <van-icon :name="collect ? 'star' : 'star-o'" size="2rem" :color="collect ? 'gold' : 'black'" />
           <span>好物收藏</span>
         </div>
       </div>
@@ -80,11 +76,7 @@
         <van-divider :hairline="false">货品详情</van-divider>
       </div>
       <div class="detail">
-        <div
-          v-if="goodsDetail.ticket_detail"
-          class="content"
-          v-html="goodsDetail.ticket_detail"
-        ></div>
+        <div v-if="goodsDetail.ticket_detail" class="content" v-html="goodsDetail.ticket_detail"></div>
         <van-empty v-if="!goodsDetail.ticket_detail" class="none" description="暂无商品详情" />
       </div>
       <div class="bottom-action">
@@ -187,7 +179,9 @@ export default {
         }
       })
     },
-    handleCollect() {
+    async handleCollect() {
+      const goodsId = this.$route.params.id
+      GoodsApi.collectGoods({ goods_id: goodsId })
       this.collect = !this.collect
     },
     onClickBack() {

@@ -7,6 +7,7 @@ import CollegeRoutes from './college'
 // 商城页面
 const PageView = () => lazyRouter(import('@views/index'))
 const Home = () => lazyRouter(import('@views/home/home'))
+const Collect = () => lazyRouter(import('@views/collect/collect'))
 const Category = () => lazyRouter(import('@views/category/category'))
 const All = () => lazyRouter(import('@views/all/all'))
 const Order = () => lazyRouter(import('@views/order/order'))
@@ -52,6 +53,11 @@ const routes = [
         path: '/cart',
         name: 'Cart',
         component: Cart
+      },
+      {
+        path: '/collect',
+        name: 'Collect',
+        component: Collect
       }
     ]
   },

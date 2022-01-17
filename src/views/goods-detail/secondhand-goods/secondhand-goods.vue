@@ -150,7 +150,11 @@ export default {
         }
       })
     },
-    handleCollect() {
+    async handleCollect() {
+      const goodsId = this.$route.params.id
+      await GoodsApi.collectGoods({
+        goods_id: goodsId
+      })
       this.collect = !this.collect
     },
     onClickBack() {

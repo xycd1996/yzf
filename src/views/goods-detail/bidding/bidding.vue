@@ -136,6 +136,7 @@ import Api from './api'
 import Process from './components/process/process'
 import BiddingList from './components/bidding-list/bidding-list'
 import { STATUS_TEXT, STATUS_BK } from './constants'
+import GoodsApi from '@api/goods'
 
 export default {
   components: {
@@ -219,7 +220,10 @@ export default {
         }
       })
     },
-    handleCollect() {
+    async handleCollect() {
+      const id = this.$route.params.id
+      const { data } = await GoodsApi.collectGoods({ goods_id: id })
+      console.log('data: ', data)
       this.collect = !this.collect
     },
     onClickBack() {
