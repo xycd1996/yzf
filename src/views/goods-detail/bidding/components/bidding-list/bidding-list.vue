@@ -88,7 +88,7 @@ export default {
     async _queryRecordList() {
       const id = this.$route.params.id
       const { data } = await Api.getBiddingRecordList({ id })
-      this.list = data.list
+      this.list = data.data
     },
     async onLoad() {
       this.allListLoading = true

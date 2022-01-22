@@ -95,7 +95,8 @@
             v-if="goodsDetail.promiseOrder && goodsDetail.promiseOrder.pay_status === 1"
             @click="bidShow = true"
             type="danger"
-            text="出价"
+            :text="biddingStatus === 2 ? '出价' : '竞拍结束'"
+            :disabled="biddingStatus !== 2"
           />
           <van-dialog
             confirm-button-text="确认出价"
