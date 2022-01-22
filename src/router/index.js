@@ -3,6 +3,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AdminRoutes from './administrator'
 import CollegeRoutes from './college'
+import FilmFactoryRoutes from './filmFactory'
 
 // 商城页面
 const PageView = () => lazyRouter(import('@views/index'))
@@ -132,6 +133,7 @@ const routes = [
   },
   ...AdminRoutes,
   ...CollegeRoutes,
+  ...FilmFactoryRoutes,
   {
     path: '*',
     redirect: '/'
