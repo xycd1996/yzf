@@ -21,7 +21,7 @@
         right-icon="scan"
         @click-right-icon="onScan"
       />
-      <a @click="$router.push('/joinFilmFactory/list')">查看已开通制片厂</a>
+      <a @click="$router.push('/join-film-factory/list')">查看已开通制片厂</a>
       <van-button type="danger" @click="joinFactory">加入制片厂</van-button>
       <span style="margin-top: 10px">点击【加入制片厂】即同意</span>
       <span style="color: blue">《易视智富制片厂管理规定》</span>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { Button, Field, Icon, NavBar, Toast } from 'vant'
+import { Button, Dialog, Field, Icon, NavBar, Toast } from 'vant'
 import { closeWeb, onScanCode } from '@/utils/jsBridge'
 import Api from '../api'
 export default {
@@ -60,6 +60,14 @@ export default {
       })
     },
     async joinFactory() {
+      if (this.isAuth != 1) {
+        Dialog.confirm({
+          title: '用户未认证，是否立即前往认证？',
+          showCancelButton: true,
+          confirmButtonText: '去认证'
+        })
+        return
+      }
       if (!this.code) {
         return Toast.fail('请输入邀请码')
       }
