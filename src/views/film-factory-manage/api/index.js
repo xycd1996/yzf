@@ -8,5 +8,7 @@ export default {
   // 移除制片厂用户
   removeAccount: retAxios.post('/tsShop/admin.video/removeUser'),
   // 获取视频列表
-  getVideoList: retAxios.post('/tsShop/admin.Video/videos')
+  getVideoList: retAxios.post('/tsShop/admin.Video/videos'),
+  // 用户统计数据
+  getUserStatics: retAxios.post('/tsShop/admin.Video/memberAnalyze')
 }

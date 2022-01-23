@@ -60,7 +60,7 @@ export default {
   },
   data() {
     return {
-      tabActive: 1
+      tabActive: 2
     }
   }
 }

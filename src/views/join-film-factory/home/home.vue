@@ -24,8 +24,8 @@
       <a @click="$router.push('/join-film-factory/list')">查看已开通制片厂</a>
       <van-button type="danger" @click="joinFactory">加入制片厂</van-button>
       <span style="margin-top: 10px">点击【加入制片厂】即同意</span>
-      <span style="color: blue">《易视智富制片厂管理规定》</span>
-      <span style="color: blue">《易视智富制片厂会员自律公约》</span>
+      <span @click="onManageRegulation" style="color: blue">《易视智富制片厂管理规定》</span>
+      <span @click="onConvention" style="color: blue">《易视智富制片厂会员自律公约》</span>
     </div>
   </div>
 </template>
@@ -60,6 +60,12 @@ export default {
       onScanCode('source', (code) => {
         this.code = code
       })
+    },
+    onManageRegulation() {
+      window.location.href = 'http://mall.yszfv.com:20004/tsShop/article/detail?id=8'
+    },
+    onConvention() {
+      window.location.href = 'http://mall.yszfv.com:20004/tsShop/article/detail?id=4'
     },
     async joinFactory() {
       if (this.isAuth != 1) {
