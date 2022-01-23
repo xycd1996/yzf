@@ -63,10 +63,10 @@ export default {
       if (!this.code) {
         return Toast.fail('请输入邀请码')
       }
-      await Api.joinFactory({
+      const { msg } = await await Api.joinFactory({
         invite_code: this.code
       })
-      Toast.success('入驻成功')
+      Toast.success(msg)
     },
     onClickStore() {
       window.location.href = 'http://58.42.4.33:20004/applyShop/#/'
