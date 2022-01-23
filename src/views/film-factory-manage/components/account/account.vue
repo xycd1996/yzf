@@ -34,14 +34,16 @@
         <div class="factory">制片厂：{{ userInfo.nickname }}</div>
         <div class="createTime">注册时间：{{ userInfo.address }}</div>
         <div class="address">注册地址：{{ formatDate(userInfo.reg_time) }}</div>
-        <van-button type="danger" style="margin-top: 20px" block @click="removeFactory">移出制片厂</van-button>
+        <van-button type="danger" style="margin-top: 20px" block @click="removeFactory(userInfo.userid)"
+          >移出制片厂</van-button
+        >
       </div>
     </van-popup>
   </div>
 </template>
 
 <script>
-import { Button, Dialog, List, Popup } from 'vant'
+import { Button, Dialog, List, Popup, Toast } from 'vant'
 import Api from '../../api'
 import { openUserHomePage } from '@/utils/jsBridge'
 import dayjs from 'dayjs'
@@ -90,11 +92,22 @@ export default {
       const { data } = await Api.getAccountDetail({ id_author: userId })
       this.userInfo = data.info
     },
-    removeFactory() {
+    removeFactory(userId) {
       Dialog.confirm({
         title: '确认是否移出？',
         showCancelButton: true
+      }).then(async () => {
+        await Api.removeAccount({ remove_userid: userId })
+        Toast.success('移除成功')
+        this.userShow = false
+        this.refreshList()
       })
+    },
+    refreshList() {
+      this.page = 1
+      this.finished = false
+      this.list = []
+      this.onLoad()
     },
     openUserHome(userid) {
       openUserHomePage(userid)
