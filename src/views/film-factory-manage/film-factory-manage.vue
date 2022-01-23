@@ -40,7 +40,7 @@
       <van-tab title="视频情况"><my-video /></van-tab>
       <van-tab title="制片厂会员数据"><my-total /></van-tab>
       <van-tab title="制片厂排行"><my-ranking /></van-tab>
-      <van-tab title="公告">公告</van-tab>
+      <!-- <van-tab title="公告">公告</van-tab> -->
     </van-tabs>
   </div>
 </template>
