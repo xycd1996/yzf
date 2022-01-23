@@ -1,45 +1,103 @@
 <template>
   <div class="account">
-    <ul class="wrapper">
-      <li class="item" v-for="item in list" :key="item.id">
-        <div class="avatar">
-          <img class="path" src="https://qnm.hunliji.com/o_1fq0hoev910ac16i219qt1q591v209.jpeg" />
-          <div class="level">L4</div>
-        </div>
-        <div class="user-info">
-          <div class="username">方丹</div>
-          <div class="work">
-            <span class="video-count">视频量：23</span>
-            <span class="point">积分：1.2万</span>
+    <van-list finished-text="已经到底了" v-model="loading" :finished="finished" @load="onLoad">
+      <ul class="wrapper">
+        <li class="item" v-for="item in list" :key="item.userid">
+          <div class="avatar">
+            <img class="path" :src="imgHost + item.headimg" />
+            <div class="level">L{{ item.level }}</div>
           </div>
-        </div>
-        <div class="action">
-          <van-button type="danger" size="mini">
-            查看资料
-          </van-button>
-          <van-button type="danger" size="mini">
-            个人主页
-          </van-button>
-        </div>
-      </li>
-    </ul>
+          <div class="user-info">
+            <div class="username">{{ item.nickname }}</div>
+          </div>
+          <div class="action">
+            <div style="margin-bottom: 6px;">
+              <van-button @click="getUserInfo(item.userid)" type="danger" size="mini">
+                查看资料
+              </van-button>
+            </div>
+            <div>
+              <van-button @click="openUserHome(item.userid)" type="danger" size="mini">
+                个人主页
+              </van-button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </van-list>
+    <van-popup round closeable position="bottom" style="height: 50%" v-model="userShow">
+      <div class="user-detail">
+        <div class="video">视频量：{{ userInfo.videos }}</div>
+        <div class="point">积分：{{ userInfo.integral }}</div>
+        <div class="username">姓名：{{ userInfo.real_name }}</div>
+        <div class="referee">推荐人：{{ userInfo.invite_user_name }}</div>
+        <div class="factory">制片厂：{{ userInfo.nickname }}</div>
+        <div class="createTime">注册时间：{{ userInfo.address }}</div>
+        <div class="address">注册地址：{{ formatDate(userInfo.reg_time) }}</div>
+        <van-button type="danger" style="margin-top: 20px" block @click="removeFactory">移出制片厂</van-button>
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
-import { Button } from 'vant'
+import { Button, Dialog, List, Popup } from 'vant'
+import Api from '../../api'
+import { openUserHomePage } from '@/utils/jsBridge'
+import dayjs from 'dayjs'
 
 export default {
   components: {
-    'van-button': Button
+    'van-button': Button,
+    'van-popup': Popup,
+    'van-list': List
   },
   data() {
     return {
-      list: [
-        {
-          id: 1
-        }
-      ]
+      list: [],
+      imgHost: '',
+      userShow: false,
+      loading: false,
+      finished: false,
+      page: 1,
+      pageSize: 20,
+      userInfo: {}
+    }
+  },
+  methods: {
+    formatDate(timestamp) {
+      return dayjs.unix(timestamp).format('YYYY-MM-DD HH:mm:ss')
+    },
+    async onLoad() {
+      if (this.finished) {
+        return
+      }
+      this.loading = true
+      const { data } = await Api.getAccountList({
+        page: this.page,
+        pagesize: this.pageSize
+      })
+      this.loading = false
+      this.list = this.list.concat(data.items)
+      this.page++
+      !this.imgHost && (this.imgHost = data.imgHost)
+      if (data.items.length < this.pageSize) {
+        this.finished = true
+      }
+    },
+    async getUserInfo(userId) {
+      this.userShow = true
+      const { data } = await Api.getAccountDetail({ id_author: userId })
+      this.userInfo = data.info
+    },
+    removeFactory() {
+      Dialog.confirm({
+        title: '确认是否移出？',
+        showCancelButton: true
+      })
+    },
+    openUserHome(userid) {
+      openUserHomePage(userid)
     }
   }
 }
@@ -50,7 +108,7 @@ export default {
   .wrapper {
     padding: 8px 10px;
     .item {
-      padding-bottom: 18px;
+      padding: 18px 0;
       display: flex;
       align-items: center;
       border-bottom: 1px solid #ccc;
@@ -60,8 +118,8 @@ export default {
         width: 58px;
         height: 58px;
         .path {
-          width: inherit;
-          height: initial;
+          width: 100%;
+          height: 100%;
           border-radius: 50%;
           border: 1px solid #ccc;
           object-fit: cover;
@@ -90,13 +148,6 @@ export default {
           color: #000;
           font-weight: 500;
         }
-        .work {
-          display: flex;
-          align-items: center;
-          .point {
-            margin-left: 10px;
-          }
-        }
       }
       .action {
         flex: 0 0 auto;
@@ -104,6 +155,11 @@ export default {
         flex-direction: column;
       }
     }
+  }
+  .user-detail {
+    padding: 40px 10px;
+    line-height: 24px;
+    font-size: 16px;
   }
 }
 </style>

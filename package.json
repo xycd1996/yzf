@@ -12,6 +12,7 @@
     "@kiter/area": "^1.0.3",
     "@kiter/axios": "^1.1.7",
     "core-js": "^3.15.2",
+    "dayjs": "1.10.7",
     "fastclick": "^1.0.6",
     "lodash": "4.17.21",
     "qrcode.vue": "1.7.0",

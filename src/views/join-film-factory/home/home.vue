@@ -22,7 +22,7 @@
         @click-right-icon="onScan"
       />
       <a @click="$router.push('/joinFilmFactory/list')">查看已开通制片厂</a>
-      <van-button type="danger">加入制片厂</van-button>
+      <van-button type="danger" @click="joinFactory">加入制片厂</van-button>
       <span style="margin-top: 10px">点击【加入制片厂】即同意</span>
       <span style="color: blue">《易视智富制片厂管理规定》</span>
       <span style="color: blue">《易视智富制片厂会员自律公约》</span>
@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import { Button, Field, Icon, NavBar } from 'vant'
+import { Button, Field, Icon, NavBar, Toast } from 'vant'
 import { closeWeb, onScanCode } from '@/utils/jsBridge'
-
+import Api from '../api'
 export default {
   components: {
     'van-nav-bar': NavBar,
@@ -43,8 +43,12 @@ export default {
   },
   data() {
     return {
-      code: ''
+      code: '',
+      isAuth: false // 是否已认证
     }
+  },
+  created() {
+    this.isAuth = this.$route.query.isAuth
   },
   methods: {
     onBack() {
@@ -54,6 +58,15 @@ export default {
       onScanCode('source', (code) => {
         this.code = code
       })
+    },
+    async joinFactory() {
+      if (!this.code) {
+        return Toast.fail('请输入邀请码')
+      }
+      await Api.joinFactory({
+        invite_code: this.code
+      })
+      Toast.success('入驻成功')
     },
     onClickStore() {
       window.location.href = 'http://58.42.4.33:20004/applyShop/#/'
