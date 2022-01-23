@@ -38,8 +38,8 @@
     <van-tabs v-model="tabActive">
       <van-tab title="会员情况"><my-account /></van-tab>
       <van-tab title="视频情况"><my-video /></van-tab>
-      <van-tab title="制片厂会员数据">12</van-tab>
-      <van-tab title="制片厂排行">排行</van-tab>
+      <van-tab title="制片厂会员数据"><my-total /></van-tab>
+      <van-tab title="制片厂排行"><my-ranking /></van-tab>
       <van-tab title="公告">公告</van-tab>
     </van-tabs>
   </div>
@@ -49,6 +49,8 @@
 import { Button, Tab, Tabs } from 'vant'
 import Account from './components/account/account.vue'
 import Video from './components/video/video.vue'
+import Total from './components/total/total.vue'
+import Ranking from './components/ranking/ranking.vue'
 
 export default {
   components: {
@@ -56,11 +58,13 @@ export default {
     'van-tabs': Tabs,
     'van-tab': Tab,
     'my-account': Account,
-    'my-video': Video
+    'my-video': Video,
+    'my-total': Total,
+    'my-ranking': Ranking
   },
   data() {
     return {
-      tabActive: 2
+      tabActive: 0
     }
   }
 }

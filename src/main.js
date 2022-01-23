@@ -1,13 +1,12 @@
 import '@assets/js/jsBride'
 import '@assets/less/layout.less'
-import VConsole from 'vconsole'
 import Vue from 'vue'
 import App from './App.vue'
 import './configure'
 import router from './router'
 import store from './store'
 
-new VConsole()
+// new VConsole()
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.setItem('uid', '1868779')
