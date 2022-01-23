@@ -14,8 +14,8 @@ const debounceLogin = debounce(() => {
 configure({
   beforeRequest: (data) => {
     data['merch_id'] = 192
-    data['uid'] = localStorage.getItem('uid')
-    data['token'] = localStorage.getItem('token')
+    data['uid'] = sessionStorage.getItem('uid')
+    data['token'] = sessionStorage.getItem('token')
     data['bodyType'] = 'formData'
     if (!data['uid'] || !data['token']) {
       debounceLogin()

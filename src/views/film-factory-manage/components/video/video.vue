@@ -2,7 +2,12 @@
   <div class="video">
     <van-list v-model="loading" :finished="finished" @load="onLoad" finished-text="已经到底了">
       <div class="item" v-for="item in list" :key="item.id">
-        1231323
+        <div class="bk">
+          <img src="" class="videoPath" />
+        </div>
+        <div class="info">
+          
+        </div>
       </div>
     </van-list>
   </div>
