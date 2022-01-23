@@ -153,8 +153,8 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const { token, uid } = to.query
   if (token && uid) {
-    sessionStorage.setItem('token', token)
-    sessionStorage.setItem('uid', uid)
+    localStorage.setItem('token', token)
+    localStorage.setItem('uid', uid)
   }
   next()
 })
