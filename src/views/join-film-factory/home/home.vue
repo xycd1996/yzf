@@ -34,6 +34,8 @@
 import { Button, Dialog, Field, Icon, NavBar, Toast } from 'vant'
 import { closeWeb, onScanCode } from '@/utils/jsBridge'
 import Api from '../api'
+import { toAuth } from '@/utils/jsBridge'
+
 export default {
   components: {
     'van-nav-bar': NavBar,
@@ -65,6 +67,8 @@ export default {
           title: '用户未认证，是否立即前往认证？',
           showCancelButton: true,
           confirmButtonText: '去认证'
+        }).then(() => {
+          toAuth()
         })
         return
       }

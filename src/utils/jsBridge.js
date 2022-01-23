@@ -8,6 +8,16 @@ export const toLogin = () => {
 }
 
 /**
+ * 
+ * @description 打开App认证页面
+ */
+export const toAuth = () => {
+  WebViewJavascriptBridge.callHandler('intent_class', {
+    className: 'com.yishi.yszf.ui.mine.activity.KycActivity'
+  })
+}
+
+/**
  * @description 设置APP顶部状态栏是否显示
  * @param show Boolean
  */
