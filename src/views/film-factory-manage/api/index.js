@@ -20,5 +20,7 @@ export default {
   // 获取公告详情
   getNoticeDetail: retAxios.post('/tsShop/announcement.api/detail'),
   // 发布公告
-  createPublish: retAxios.post('/tsShop/announcement.api/create')
+  createPublish: retAxios.post('/tsShop/announcement.api/create'),
+  // 编辑制片厂信息
+  editInfo: retAxios.post('/tsShop/admin.Video/editInfo')
 }

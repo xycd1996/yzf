@@ -1,6 +1,9 @@
 <template>
   <van-pull-refresh v-model="loading" @refresh="onRefresh">
     <div class="film-factory-manage">
+      <van-dialog showCancelButton @confirm="confirm" @cancel="cancel" v-model="editShow" title="编辑资料">
+        <van-field maxlength="10" v-model="name" placeholder="请输入" label="制片厂名称" />
+      </van-dialog>
       <div class="header">
         <div class="avatar">
           <img class="path" src="https://qnm.hunliji.com/o_1fq0bsicj1ri61c4u1m586nq1mqp9.png" />
@@ -8,7 +11,7 @@
         <div class="info">
           <div class="title">{{ info.type_identifier_name }}</div>
           <div class="action">
-            <van-button type="danger" size="small" class="edit">编辑制片厂资料</van-button>
+            <van-button type="danger" size="small" @click="editShow = true" class="edit">编辑制片厂资料</van-button>
             <van-button type="danger" size="small" @click="$router.push('publish')" class="publish"
               >发布公告</van-button
             >
@@ -56,7 +59,7 @@
 </template>
 
 <script>
-import { Button, Tab, Tabs, PullRefresh } from 'vant'
+import { Button, Tab, Tabs, PullRefresh, Dialog, Field, Toast } from 'vant'
 import Account from '../../components/account/account.vue'
 import Video from '../../components/video/video.vue'
 import Total from '../../components/total/total.vue'
@@ -74,7 +77,9 @@ export default {
     'my-total': Total,
     'my-ranking': Ranking,
     'my-announcement': Announcement,
-    'van-pull-refresh': PullRefresh
+    'van-pull-refresh': PullRefresh,
+    'van-dialog': Dialog.Component,
+    'van-field': Field
   },
   data() {
     return {
@@ -82,13 +87,24 @@ export default {
       loading: false,
       info: {
         zpcData: {}
-      }
+      },
+      editShow: false,
+      name: ''
     }
   },
   mounted() {
     this.getInfo()
   },
   methods: {
+    async confirm() {
+      await Api.editInfo({ type_identifier_name: this.name })
+      Toast.success('保存成功')
+      this.name = ''
+      this.getInfo()
+    },
+    cancel() {
+      this.name = ''
+    },
     async getInfo() {
       const { data } = await Api.getInfo()
       this.info = data
