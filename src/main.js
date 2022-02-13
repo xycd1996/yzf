@@ -9,8 +9,8 @@ import store from './store'
 // new VConsole()
 
 if (process.env.NODE_ENV !== 'production') {
-  localStorage.setItem('uid', '1868787')
-  localStorage.setItem('token', '627a62a103d023c297ba384fb174455b')
+  localStorage.setItem('uid', '1868784')
+  localStorage.setItem('token', 'f3a4d20dc24e67f2542468f338264096')
 }
 
 new Vue({

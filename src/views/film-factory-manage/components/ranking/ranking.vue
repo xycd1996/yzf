@@ -6,39 +6,39 @@
       <van-tab title="视频量排行" />
     </van-tabs>
     <div class="top">
-      <div class="second">
+      <div v-if="list[1]" class="second">
         <div class="info">
-          <van-image class="avatar" src="https://qnm.hunliji.com/o_1fk2hhnb9kuvhgr9b611khjp9.jpg" />
-          <div class="name">朱砂古筝只怕从</div>
+          <van-image class="avatar" :src="list[1].headimg" />
+          <div class="name">{{ list[1].nickname }}</div>
         </div>
         <div class="rank">
           <span class="level">2</span>
-          <span>98.1</span>
+          <span>{{ getCount(list[1]) }}</span>
         </div>
       </div>
-      <div class="first">
+      <div v-if="list[0]" class="first">
         <div class="info">
-          <van-image class="avatar" src="https://qnm.hunliji.com/o_1fk2hhnb9kuvhgr9b611khjp9.jpg" />
-          <div class="name">朱砂古筝只怕从</div>
+          <van-image class="avatar" :src="list[0].headimg" />
+          <div class="name">{{ list[0].nickname }}</div>
         </div>
         <div class="rank">
-          <span class="level">2</span>
-          <span>98.1</span>
+          <span class="level">1</span>
+          <span>{{ getCount(list[0]) }}</span>
         </div>
       </div>
-      <div class="third">
+      <div v-if="list[2]" class="third">
         <div class="info">
-          <van-image class="avatar" src="https://qnm.hunliji.com/o_1fk2hhnb9kuvhgr9b611khjp9.jpg" />
-          <div class="name">朱砂古筝只怕从</div>
+          <van-image class="avatar" :src="list[2].headimg" />
+          <div class="name">{{ list[2].nickname }}</div>
         </div>
         <div class="rank">
-          <span class="level">2</span>
-          <span>98.1</span>
+          <span class="level">3</span>
+          <span>{{ getCount(list[2]) }}</span>
         </div>
       </div>
     </div>
     <div class="list">
-      <van-cell v-for="(item, index) in list" :key="index" :title="item.nickname" :value="getCount(item)" />
+      <van-cell v-for="(item, index) in list.slice(3)" :key="index" :title="item.nickname" :value="getCount(item)" />
     </div>
   </div>
 </template>

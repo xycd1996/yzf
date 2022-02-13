@@ -5,7 +5,22 @@ import lazyRouter from '@/utils/lazyRouter'
 const FilmFactoryRoutes = [
   {
     path: '/film-factory-manage',
-    component: () => lazyRouter(import('../views/film-factory-manage/film-factory-manage'))
+    component: () => lazyRouter(import('../views/film-factory-manage/index')),
+    redirect: '/film-factory-manage/index',
+    children: [
+      {
+        path: 'index',
+        component: () => lazyRouter(import('../views/film-factory-manage/views/manage/manage'))
+      },
+      {
+        path: 'picture-detail/:id',
+        component: () => lazyRouter(import('../views/film-factory-manage/views/picture-detail/picture-detail'))
+      },
+      {
+        path: 'publish',
+        component: () => lazyRouter(import('../views/film-factory-manage/views/publish/publish'))
+      }
+    ]
   },
   {
     path: '/join-film-factory',
