@@ -1,12 +1,21 @@
 <template>
   <van-pull-refresh v-model="loading" @refresh="onRefresh">
     <div class="film-factory-manage">
+      <div @click="qrcodeShow = true" class="share">
+        <van-icon size="22" color="red" name="share" />
+      </div>
+      <van-dialog v-model="qrcodeShow" title="分享邀请码">
+        <div class="qrcode">
+          <qr-code size="160" :value="info.type_identifier"></qr-code>
+          <span>邀请码：{{ info.type_identifier }}</span>
+        </div>
+      </van-dialog>
       <van-dialog showCancelButton @confirm="confirm" @cancel="cancel" v-model="editShow" title="编辑资料">
         <van-field maxlength="10" v-model="name" placeholder="请输入" label="制片厂名称" />
       </van-dialog>
       <div class="header">
         <div class="avatar">
-          <img class="path" src="https://qnm.hunliji.com/o_1fq0bsicj1ri61c4u1m586nq1mqp9.png" />
+          <van-image class="path" :src="info.imgHost" />
         </div>
         <div class="info">
           <div class="title">{{ info.type_identifier_name }}</div>
@@ -44,8 +53,8 @@
           </div>
         </div>
       </div>
-      <div class="banner">
-        <img class="path" src="https://qnm.hunliji.com/o_1fq0bsicj1ri61c4u1m586nq1mqp9.png" />
+      <div v-if="info.ads" @click="window.href = info.ads.jumpUrl" class="banner">
+        <van-image cover class="path" :src="info.ads.images" />
       </div>
       <van-tabs v-if="!loading" :ellipsis="false" v-model="tabActive">
         <van-tab title="会员情况"><my-account /></van-tab>
@@ -59,12 +68,13 @@
 </template>
 
 <script>
-import { Button, Tab, Tabs, PullRefresh, Dialog, Field, Toast } from 'vant'
+import { Button, Tab, Tabs, PullRefresh, Dialog, Field, Toast, Icon, Image } from 'vant'
 import Account from '../../components/account/account.vue'
 import Video from '../../components/video/video.vue'
 import Total from '../../components/total/total.vue'
 import Ranking from '../../components/ranking/ranking.vue'
 import Announcement from '../../components/announcement/announcement.vue'
+import QRCode from 'qrcode.vue'
 import Api from '../../api'
 
 export default {
@@ -79,7 +89,10 @@ export default {
     'my-announcement': Announcement,
     'van-pull-refresh': PullRefresh,
     'van-dialog': Dialog.Component,
-    'van-field': Field
+    'van-field': Field,
+    'van-icon': Icon,
+    'qr-code': QRCode,
+    'van-image': Image
   },
   data() {
     return {
@@ -89,7 +102,8 @@ export default {
         zpcData: {}
       },
       editShow: false,
-      name: ''
+      name: '',
+      qrcodeShow: false
     }
   },
   mounted() {
@@ -120,6 +134,19 @@ export default {
 
 <style lang="less" scoped>
 .film-factory-manage {
+  position: relative;
+  .qrcode {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .share {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
   .header {
     padding: 10px 20px;
     display: flex;
