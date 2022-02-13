@@ -13,7 +13,7 @@
               >发布公告</van-button
             >
             <van-button type="danger" size="small" block class="tip"
-              >今日制片厂内新增短视频{{ info.zpcData.todayVideos }}条</van-button
+              >今日制片厂内新增短视频{{ info.zpcData.todayVideo }}条</van-button
             >
           </div>
         </div>
@@ -21,16 +21,20 @@
       <div class="statistics">
         <div class="wrapper">
           <div class="user">
-            <span>{{ info.zpcData.members }}/{{ info.zpcData.limit }}</span>
+            <span>{{ info.zpcData.nowMember }}/{{ info.zpcData.maxMember }}</span>
             <span>成员情况</span>
           </div>
           <div class="vip">
-            <span>{{ info.zpcData.apply }}</span>
+            <span>{{ info.zpcData.applyMember }}</span>
             <span>会员申请</span>
           </div>
           <div class="count-work">
-            <span>{{ info.zpcData.videos }}</span>
+            <span>{{ info.zpcData.totalVideo }}</span>
             <span>总作品</span>
+          </div>
+          <div class="pending">
+            <span>{{ info.zpcData.waitMember }}</span>
+            <span>待审核</span>
           </div>
           <div class="point-wallet">
             <span>积分钱包</span>
