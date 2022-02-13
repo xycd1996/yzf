@@ -8,7 +8,7 @@
         <div class="info">
           <div class="title">{{ info.type_identifier_name }}</div>
           <div class="action">
-            <van-button type="danger" size="small" class="edit">编辑制片厂管理</van-button>
+            <van-button type="danger" size="small" class="edit">编辑制片厂资料</van-button>
             <van-button type="danger" size="small" @click="$router.push('publish')" class="publish"
               >发布公告</van-button
             >
