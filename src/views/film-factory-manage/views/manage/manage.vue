@@ -134,6 +134,7 @@ export default {
 
 <style lang="less" scoped>
 .film-factory-manage {
+  min-height: 100vh;
   position: relative;
   .qrcode {
     padding: 10px 0;
